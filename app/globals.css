@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+*{
+  margin: 0;
+  padding:0;
+  box-sizing: border-box;
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -24,4 +30,54 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+#form-two input {
+  border-radius: 5px !important;
+ width: 100%;
+ border: none !important;
+ text-indent: 10px;
+ line-height: 2.25rem;
+}
+#form-three input{
+border-radius: 5px !important;
+ width: 50%;
+ border: none !important;
+ line-height: 2.25rem;
+}
+#form-three input[type = "text"] , #form-three input[type ="number"]{
+  text-indent: 10px;
+}
+
+input::placeholder{
+  font-size: small;
+}
+h5{
+  display: block;
+  color: red !important;
+  display: none;
+}
+
+input:invalid{
+  border:2px solid red;
+}
+input:invalid ~ h5{
+ display: block;
+} 
+#field-section span input:invalid + h5{
+  display: block;
+}
+input:not(:placeholder-shown):valid{
+ border:2px solid rgb(8, 255, 49);
+}
+/* #passportnumber{
+  width: 50%;
+  border: 5px solid red;
+} */
+
+li{
+  list-style-type: circle;
+  /* color: red; */
+}
+li::marker{
+  color: red;
 }
