@@ -275,7 +275,7 @@ const Step1 = ({ data, next, setUserId }) => {
 
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="email">Email : </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="email">Email : </label>
                             <Field name="email" type="email" />
                             {errors.email && touched.email ? (
                                 <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.email}</div>
@@ -283,7 +283,7 @@ const Step1 = ({ data, next, setUserId }) => {
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="password">Password : </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="password">Password : </label>
                             <div className="flex flex-row items-center">
                                 <Field name="password" type={showPassowrd1 ? 'text' : 'password'} />
                                 <button type='button' onClick={() => setShowPassword1((showPassowrd1) => !showPassowrd1)} className='bg-transparent border-none absolute right-10 z-10'>
@@ -296,7 +296,7 @@ const Step1 = ({ data, next, setUserId }) => {
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="confirm_password">Re-enter Password : </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="confirm_password">Re-enter Password : </label>
                             <div className="flex flex-row items-center">
                                 <Field name="confirm_password" type={showPassowrd2 ? 'text' : 'password'} />
                                 <button type='button' onClick={() => setShowPassword2((showPassowrd2) => !showPassowrd2)} className='bg-transparent border-none absolute right-10 z-10'>
@@ -375,7 +375,7 @@ const Step2 = ({ data, next }) => {
 
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="firstName">FirstName : </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="firstName">FirstName : </label>
                             <Field name="firstName" className="capitalize" />
                             {errors.firstName && touched.firstName ? (
                                 <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.firstName}</div>
@@ -383,7 +383,7 @@ const Step2 = ({ data, next }) => {
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="lastName">LastName : </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="lastName">LastName : </label>
                             <Field name="lastName" className="capitalize" />
                             {errors.lastName && touched.lastName ? (
                                 <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.lastName}</div>
@@ -391,13 +391,13 @@ const Step2 = ({ data, next }) => {
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="Username">Username : </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="Username">Username : </label>
                             <Field name="Username" type="text" className="capitalize" />
                             {errors.email && touched.email ? <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.email}</div> : null}
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="Phone">Telephone Number: </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="Phone">Telephone Number: </label>
                             <Field name="Phone" type='text' />
                             {errors.Phone && touched.Phone ? (
                                 <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.Phone}</div>
@@ -405,7 +405,7 @@ const Step2 = ({ data, next }) => {
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem]' for="address">Residential address: </label>
+                            <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="address">Residential address: </label>
                             <Field name="address" type="text" />
                             {errors.address && touched.address ? <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.address}</div> : null}
                         </div>
@@ -482,7 +482,7 @@ const Step3 = ({ data, next, prev }) => {
 
                         <div className=" flex flex-col gap-2 mb-3">
                             <div className="flex flex-col gap-2 justify-start">
-                                <label className='font-bold capitalize block mb-[0.25rem]' for="passportnumber">Passport Number : </label>
+                                <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="passportnumber">Passport Number : </label>
 
                                 <Field type="text" name="passportnumber" className='passportnumber' />
                                 {errors.passportnumber && touched.passportnumber ? (
@@ -490,7 +490,7 @@ const Step3 = ({ data, next, prev }) => {
                                 ) : null}
                             </div>
                             <div>
-                                <label className='font-bold capitalize block mb-[0.25rem]' for="image">Upload a clear image of your passport : </label>
+                                <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="image">Upload a clear image of your passport : </label>
 
                                 <Field
                                     type="file"
@@ -515,7 +515,7 @@ const Step3 = ({ data, next, prev }) => {
                                 ) : null}
                             </div>
                             <div>
-                                <label className='font-bold capitalize block mb-[0.25rem]' for="image2">Upload a clear image of your NIN slip : </label>
+                                <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="image2">Upload a clear image of your NIN slip : </label>
 
                                 <Field
                                     type="file"
@@ -604,8 +604,8 @@ const Step4 = ({ data, next }) => {
                             <h3 className='font-bold underline leading-tight'>Use of the Platform</h3>
                             <div className="flex flex-col gap-2 text-xs" >
                                 <span>
-                                    You may use our platform for any lawful purpose. However, you may
-                                    not use our platform for any purpose that is:
+                                    You may use our platform htmlFor any lawful purpose. However, you may
+                                    not use our platform htmlFor any purpose that is:
                                 </span>
                                 <ul>
                                     <li>Illegal</li>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
-import Link from 'next/link';
 import * as Yup from 'yup';
 import { auth } from '@/firebase/firebaseConfig'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { ToastContainer, toast } from 'react-toastify'; 
+import { findUserByEmail } from '@/utils/utility';
+import {sendPasswordResetEmail} from "firebase/auth";
+import { throwMessage } from '@/utils/utility';
+
 const SignupSchema = Yup.object().shape({
     email: Yup.string()
         .min(2, 'Too Short!')
@@ -13,24 +14,13 @@ const SignupSchema = Yup.object().shape({
 
 });
 
-const FogortpasswordEmail = () => {
+const FogortpasswordEmail = ({ user, prevStep, currentIndex, setCurrentIndex, isDisabled, setIsDisabled }) => {
+    console.log(user)
   return (
       <div id='form-two' className='max-w-xs w-full'>
-          <ToastContainer
-              position="top-right"
-              autoClose={1500}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable={false}
-              pauseOnHover
-              theme="colored"
-          />
           <div className="mb-3">
-              <span className='font-extrabold capitalize text-base mb-4'>
-                  Hi there,welcome to AfriTech! 👋
+              <span className='font-extrabold capitalize mb-4 text-white text-3xl mb-6'>
+                  Enter your E-mail to reset the password.
               </span>
           </div>
           <Formik
@@ -40,49 +30,42 @@ const FogortpasswordEmail = () => {
               }}
               validationSchema={SignupSchema}
               onSubmit={values => {
-                  console.log(values);
-                  signInWithEmailAndPassword(auth, values.email)
-                      .then((userCredential) => {
-                          console.log(userCredential)
-                          // Signed in 
-                          const userCredentials = userCredential.user;
-
-                          toast.success('Password reset email sent successfully', {
-                              position: "top-right",
-                              autoClose: 2000,
-                              hideProgressBar: false,
-                              closeOnClick: true,
-                              pauseOnHover: true,
-                              draggable: false,
-                              progress: undefined,
-                              theme: "colored",
-                          });
-                      })
-                      .catch((error) => {
-                          console.log(error.code)
-                          throwError(error.code)
-                      });
-
-
-
+              sendPasswordResetEmail(auth, values.email)
+              .then(() => {throwMessage('An Email was sent to reset your password')})
+              .catch((error) => {throwMessage(error.code)});
+              setIsDisabled(true)
+              setTimeout(() => {
+                  setCurrentIndex(currentIndex => 0)
+                  setIsDisabled(false)
+              }, 2000);
+              console.log(values.email)   
               }}
           >
               {({ errors, touched }) => (
 
                   <Form>
                       <div className="mb-3 ">
-                          <label className='font-bold capitalize block mb-[0.25rem]' for="email">Email : </label>
+                          <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="email">Email : </label>
                           <Field name="email" type="email" />
                           {errors.email && touched.email ? (
                               <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.email}</div>
                           ) : null}
                       </div>
 
+                         <div className="flex justify-between">
                           <button
-                              type="submit"
-                              className='font-bold capitalize bg-blue-500 text-xl text-white capitalize px-4 py-[0.55rem] rounded-lg relative float-right'>
-                              send
+                            //   onClick={() => prevStep()}
+                              type="button"
+                              className='font-bold  bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg relative float-right'>
+                              Back
                           </button>
+                          <button
+                            disabled={isDisabled}
+                              type="submit"
+                              className={`font-bold  bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg relative float-right ${isDisabled ? 'opacity-50' : 'opacity-100'}`}>
+                              Reset
+                          </button>
+                         </div>
                   </Form>
               )}
           </Formik>

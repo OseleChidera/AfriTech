@@ -62,7 +62,7 @@ const MultiStepForm = () => {
                         </div>
                     )}
 
-                    {/* Buttons for navigation */}
+                    {/* Buttons htmlFor navigation */}
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <button type="button" disabled={values.firstName === ''} onClick={() => console.log('Step 1')}>Next</button>
                         <button type="button" disabled={values.email === ''} onClick={() => console.log('Step 2')}>Next</button>

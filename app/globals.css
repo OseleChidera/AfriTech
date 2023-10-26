@@ -8,29 +8,7 @@
   padding:0;
   box-sizing: border-box;
 }
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
 #form-two input {
   border-radius: 5px !important;
  width: 100%;
@@ -69,15 +47,24 @@ input:invalid ~ h5{
 input:not(:placeholder-shown):valid{
  border:2px solid rgb(8, 255, 49);
 }
-/* #passportnumber{
-  width: 50%;
-  border: 5px solid red;
-} */
 
 li{
-  list-style-type: circle;
-  /* color: red; */
+   list-style-type:disc; 
 }
-li::marker{
-  color: red;
+
+.constant-spacing{
+  @apply p-4 px-5 mb-7
 }
+.constant-spacing-md{
+  @apply  px-10
+}
+.text-shadow{
+ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@layer utilities{
+  
+}
+.grayscale-image{
+     filter: grayscale(100%);
+  }

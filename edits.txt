@@ -61,7 +61,7 @@ const Signupstep = () => {
                   <Form>
 
                       <div className="mb-3">
-                          <label className='font-bold capitalize block mb-[0.25rem]' for="email">Email : </label>
+                          <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="email">Email : </label>
                           <Field name="email" type="email" />
                           {errors.email && touched.email ? (
                               <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.email}</div>
@@ -69,7 +69,7 @@ const Signupstep = () => {
                       </div>
 
                       <div className="mb-3">
-                          <label className='font-bold capitalize block mb-[0.25rem]' for="password">Password : </label>
+                          <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="password">Password : </label>
                           <div className="flex flex-row items-center">
                               <Field name="password" type={showPassowrd1 ? 'text' : 'password'} />
                               <button type='button' onClick={() => setShowPassword1((showPassowrd1) => !showPassowrd1)} className='bg-transparent border-none absolute right-10 z-10'>
@@ -82,7 +82,7 @@ const Signupstep = () => {
                       </div>
 
                       <div className="mb-3">
-                          <label className='font-bold capitalize block mb-[0.25rem]' for="confirm_password">Re-enter Password : </label>
+                          <label className='font-bold capitalize block mb-[0.25rem]' htmlFor="confirm_password">Re-enter Password : </label>
                           <div className="flex flex-row items-center">
                               <Field name="confirm_password" type={showPassowrd2 ? 'text' : 'password'} />
                               <button type='button' onClick={() => setShowPassword2((showPassowrd2) => !showPassowrd2)} className='bg-transparent border-none absolute right-10 z-10'>
