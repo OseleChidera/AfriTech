@@ -99,9 +99,13 @@ const page = () => {
                         Start your tech funding journey with us now and discover the power of seamless and effective financing solutions!
                     </p>
                 </div>
+                {/* <div className="flex flex-col gap-2 w-full  md:flex-row"  >
+                <Link href={`/signup`}><button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold w-full ">Sign Up</button></Link>
+                    <Link href={`/signin`}><button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full ">Sign In</button></Link>
+                </div> */}
                 <div className="flex flex-col gap-2 md:w-full md:flex-row "  >
                     <button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold flex-1">
-                        <Link href={`/signup`}>Sign In</Link>
+                        <Link href={`/signup`}>Sign Up</Link>
                     </button>
                     <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] flex-1">
                         <Link href={`/signin`}>Sign In</Link>

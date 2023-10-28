@@ -1,6 +1,6 @@
 'use client'
-import React, { useState, useContext } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState , useEffect} from 'react';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { auth } from '@/firebase/firebaseConfig'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
@@ -8,23 +8,32 @@ import { collection, addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { database, storage } from '@/firebase/firebaseConfig';
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
+import { step1ValidationSchema } from "../utils/schemaUtil"
+import { useSelector, useDispatch } from "react-redux";
+import { setUserData, removeUserData, setLoading, setUserObjData, incrementSignup, decrementSignup, incrementSignin, decrementSignin, fetchDataByUserId} from '../redux/user'
 
 const Step1 = ({ data, next, setUserId }) => {
     const [showPassowrd1, setShowPassword1] = useState(false)
     const [showPassowrd2, setShowPassword2] = useState(false)
+    const userId = useSelector((state) => state.user.value);
+    const dispatch = useDispatch();
 
     function createUserFirestoreEntry(userProfile) {
         const customDocRef = doc(database, 'Users', `${userProfile.reloadUserInfo.localId}`);
         setDoc(customDocRef, { email: values.email, password: values.password });
     }
+    useEffect(() => {
+        dispatch(fetchDataByUserId(userId));
+        console.log("useeffect user id " + userId)
+    }, [dispatch, userId]);
 
     const handleSubmit = (values) => {
         createUserWithEmailAndPassword(auth, values.email, values.password)
             .then((userCredential) => {
-                console.log(userCredential)
                 const userProfile = userCredential.user;
-                console.log(userProfile.reloadUserInfo.localId)
                 try {
+                    dispatch(setUserData(userProfile.uid))
+                    console.log("new user id" + userId)
                     sendEmailVerification(userProfile)
                     throwMessage('A verification email was sent to you follow the instructions')
                     console.log("second then" + userProfile)
@@ -36,7 +45,10 @@ const Step1 = ({ data, next, setUserId }) => {
                     next(values)
 
                 }
-                catch (error) { throwMessage(error.message) }
+                catch (error) { 
+                    console.log(error)
+                    throwMessage(error.message) 
+                }
 
 
 
@@ -48,25 +60,11 @@ const Step1 = ({ data, next, setUserId }) => {
             });
         console.log('user created successfuly')
     }
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .min(2, 'Too Short!')
-            .max(45, 'Too Long!')
-            .required('Required'),
-        password: Yup.string()
-            .min(8, 'Too Short!')
-            .max(12, 'Too Long!')
-            .required('Required'),
-        confirm_password: Yup.string()
-            .min(8, 'Too Short!')
-            .max(12, 'Too Long!')
-            .required('Required')
-            .oneOf([Yup.ref("password")], "Passwords must match"),
-    })
+   
     return (
         <Formik
             initialValues={data}
-            validationSchema={validationSchema}
+            validationSchema={step1ValidationSchema}
             async onSubmit={handleSubmit}
         >
             {({ errors, touched }) => (

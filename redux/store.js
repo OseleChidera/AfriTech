@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import formReducer from './updateUser'
+import userReducer from './user'
+import thunk from 'redux-thunk';
 
 export const store = configureStore({
     reducer: {
-        form: formReducer,
+        user: userReducer
     },
-});
+    middleware : [thunk]
+})

@@ -1,8 +1,9 @@
 'use client'
-import React, { useState, useContext } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
+import { step2ValidationSchema } from "../utils/schemaUtil"
 
 
 const Step2 = ({ data, next }) => {
@@ -10,33 +11,11 @@ const Step2 = ({ data, next }) => {
         console.table(values)
         next(values)
     }
-    const validationSchema = Yup.object().shape({
-        firstName: Yup.string()
-            .min(2, 'Too Short!')
-            .max(15, 'Too Long!')
-            .required('Required'),
-        lastName: Yup.string()
-            .min(2, 'Too Short!')
-            .max(15, 'Too Long!')
-            .required('Required'),
-        Username: Yup.string()
-            .min(2, 'Too Short!')
-            .max(10, 'Too Long!')
-            .required('Required'),
-        Phone: Yup.string()
-            .min(10, 'Too Short!')
-            .max(11, 'Too Long!')
-            .required('Required'),
-        address: Yup.string()
-            .min(10, 'Too Short!')
-            .max(60, 'Too Long!')
-            .required('Required'),
-
-    })
+    
     return (
         <Formik
             initialValues={data}
-            validationSchema={validationSchema}
+            validationSchema={step2ValidationSchema}
             onSubmit={handleSubmit}>
             {({ errors, touched, values }) => (
                 <Form>

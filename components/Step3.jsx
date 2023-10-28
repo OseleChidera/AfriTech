@@ -1,18 +1,22 @@
 import { useState, useContext } from "react";
-import { MyContext } from "@/utils/Datacontext";
-import { Formik, Form, Field, FormikStep, FormikStepper, FormikProvider } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+import { step3ValidationSchema  } from "../utils/schemaUtil"
+import { useSelector, useDispatch } from "react-redux";
+import { grantStorageAccess } from "../redux/user"
 
 const Step3 = ({ data, next, prev }) => {
-    const [hasPermission, setHasPermission] = useState(true);
+    // const [hasPermission, setHasPermission] = useState(true);
+    const hasPermission = useSelector((state) => state.user.hasStorageAccessPermission);
+    const dispatch = useDispatch();
     const requestPermission = async () => {
         // Request permission from the user to access storage
         if (!hasPermission) {
             if (window.confirm('To be able to upload your documents we would require access to your storage. Would you like to grant us access to your storage 😃 ?')) {
-                setHasPermission(true);
+                dispatch(grantStorageAccess(true))
             }
             else {
-                setHasPermission(false);
+                dispatch(grantStorageAccess(false))
+
             }
         }
 
@@ -23,31 +27,11 @@ const Step3 = ({ data, next, prev }) => {
         console.table(values)
         next(values)
     }
-    const validationSchema = Yup.object().shape({
-        passportnumber: Yup.string()
-            .min(2, 'Too Short!')
-            .max(8, 'Too Long!')
-            .required('Required'),
-        image: Yup.mixed()
-            .required('Image is required')
-            .test('fileSize', 'Image must be less than 2MB', (value) => value && value.size <= 2 * 1024 * 1024)
-            .test('fileType', 'Invalid file type. Only JPG and PNG are allowed.', (value) =>
-                value && (value.type === 'image/jpeg' || value.type === 'image/png')
-            ),
-        ninnumber: Yup.number()
-            .required('Required')
-            .test("length", "too long", (value) => value.toString().length === 6),
-        image2: Yup.mixed()
-            .required('Image is required')
-            .test('fileSize', 'Image must be less than 2MB', (value) => value && value.size <= 2 * 1024 * 1024)
-            .test('fileType', 'Invalid file type. Only JPG and PNG are allowed.', (value) =>
-                value && (value.type === 'image/jpeg' || value.type === 'image/png')
-            ),
-    })
+    
     return (
         <Formik
             initialValues={data}
-            validationSchema={validationSchema}
+            validationSchema={step3ValidationSchema}
             onSubmit={handleSubmit}
         >
             {({ errors, touched, setFieldValue, values }) => (

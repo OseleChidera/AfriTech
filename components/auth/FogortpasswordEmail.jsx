@@ -15,7 +15,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const FogortpasswordEmail = ({ user, prevStep, currentIndex, setCurrentIndex, isDisabled, setIsDisabled }) => {
-    console.log(user)
+    // console.log(user)
   return (
       <div id='form-two' className='max-w-xs w-full'>
           <div className="mb-3">
@@ -33,10 +33,10 @@ const FogortpasswordEmail = ({ user, prevStep, currentIndex, setCurrentIndex, is
               sendPasswordResetEmail(auth, values.email)
               .then(() => {throwMessage('An Email was sent to reset your password')})
               .catch((error) => {throwMessage(error.code)});
-              setIsDisabled(true)
+              setIsDisabled(isDisabled => true)
               setTimeout(() => {
                   setCurrentIndex(currentIndex => 0)
-                  setIsDisabled(false)
+                //   setIsDisabled(isDisabled => !isDisabled)
               }, 2000);
               console.log(values.email)   
               }}
@@ -54,7 +54,7 @@ const FogortpasswordEmail = ({ user, prevStep, currentIndex, setCurrentIndex, is
 
                          <div className="flex justify-between">
                           <button
-                            //   onClick={() => prevStep()}
+                              onClick={() => prevStep()}
                               type="button"
                               className='font-bold  bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg relative float-right'>
                               Back

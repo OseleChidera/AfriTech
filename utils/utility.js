@@ -10,6 +10,7 @@ import {
     signInWithPopup,
     GoogleAuthProvider,
 } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
 
 export function throwMessage(errorcode) {
     console.log('error', errorcode)
@@ -28,6 +29,7 @@ export function throwMessage(errorcode) {
                 onOpen: () => {
                     console.log('Toast opened redirecting to signup page');
                     // Perform actions after toast is displayed
+                    window.location.href = "/signup";
                 }
             });
             break; 
@@ -44,6 +46,7 @@ export function throwMessage(errorcode) {
                 onOpen: () => {
                     // console.log('Toast opened redirecting to signup page');
                     // Perform actions after toast is displayed
+                    window.location.href = "/signin";
                 }
             });
             break;
@@ -142,3 +145,4 @@ export function findUserByEmail(email) {
     })
     console.log(firebase.auth())
 }
+

@@ -31,10 +31,15 @@ import { getStorage } from "firebase/storage";
     };
 
     // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+let db;
 if (isSupported()) {
     const analytics = getAnalytics(app);
 }
+if (typeof window !== 'undefined') {
+    db = getFirestore(app);
+}
+
     // Initialize Firebase Authentication and get a reference to the service
     export const auth = getAuth(app);
     export const database = getFirestore(app);
