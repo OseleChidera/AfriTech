@@ -78,7 +78,7 @@ const Step4 = ({ data, next }) => {
                 />
                 <span className="text-sm text-white">
                   {" "}
-                  I {data.email} agree to the terms and conditions stated above
+                  I accept the terms and conditions stated above
                 </span>
               </div>
               {errors.agreeToTerms && errors.touvhed ? (
@@ -92,7 +92,7 @@ const Step4 = ({ data, next }) => {
               type="submit"
               className="font-bold  bg-white text-sm text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg  relative bottom-0"
             >
-              I Agree to the Terms and Conditions listed above
+             Submit
             </button>
           </div>
         </Form>

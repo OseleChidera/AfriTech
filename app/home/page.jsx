@@ -1,127 +1,125 @@
-import Image from 'next/image'
-import React from 'react'
-import illustration from '../../public/images/Cool Kids - High Tech.png'
-import illustration2 from '../../public/images/illustration.png'
-import phoneImg from '../../public/images/pexels-vlad-chețan-3121979.jpg'
-import atmImg from '../../public/images/pexels-luis-moya-14528919.jpg'
-import twitter from '../../public/icons/icons8-twitter-50.png'
-import instagram from '../../public/icons/icons8-instagram-50.png'
-import twitch from '../../public/icons/icons8-twitch-50.png'
-import localFont from 'next/font/local';
-import photo1 from "../../public/images/photo1.jpeg"
-import photo2 from "../../public/images/photo2.jpg"
-import photo3 from "../../public/images/photo3.jpg"
-import photo4 from "../../public/images/photo4.jpg"
-import Link from 'next/link'
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import homeIcon from "../../public/icons/home-inactive.svg";
+import homeIconAvtive from "../../public/icons/home-05-active.svg";
+import storeIcon from "../../public/icons/store-inactive.svg";
+import storeIconActive from "../../public/icons/store-active.svg";
+import userIcon from "../../public/icons/user-inactive.svg";
+import userIconActive from "../../public/icons/user-active.svg";
+import clipboardIcon from "../../public/icons/clipboard-inactive.svg";
+import clipboardIconActive from "../../public/icons/clipboard-active.svg";
+import User from "@/components/User";
+import MainHome from "@/components/MainHome";
+import Marketplace from "@/components/Marketplace";
+import BankList from "@/components/BankList";
+import { gsap, Power3 } from 'gsap';
+import { array } from "yup";
 
 const page = () => {
-    return (
-        <div className='flex flex-col border border-black  min-h-screen max-h-fit h-full  w-full '>
-            <div id='first' className="w-full h-fit flex flex-col gap-4 text-white p-24 px-5   md:items-center md:constant-spacing-md md:px-48">
-                <div className="border border-red-700 w-fit h-fit mx-auto">
-                    <Image src={illustration} width={250} objectFit='contain' className='max-w-md ' />
-                    {/* <Image src={illustration2} width={250} objectFit='contain' className='max-w-md ' /> */}
-                </div>
-                <h1 className="text-white max-w-md w-full text-5xl font-bold  md:mb-5 md:text-8xl md:text-center md:max-w-xl">
-                    Finance Your Tech Dreams!
-                </h1>
-                <div className="flex flex-col gap-2 md:w-full md:flex-row "  >
-                    <button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold flex-1">
-                        <Link href={`/signin`}>Get Started</Link>
-                    </button>
-                    <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] flex-1">Learn More</button>
-                </div>
-            </div>
-            <div id='second' className="flex flex-col  bg-[#0CEBAF] p-10 px-5 mb-7  md:px-48">
-                <span className="mb-8 text-white text-2xl font-semibold md:text-5xl">Welcome to</span>
-                <span className='text-5xl font-bold max-w-md text-[#FFAD08] text-shadow md:text-8xl md:max-w-3xl '>The Ultimate Tech Financing Platform</span>
-            </div>
-            <div id='third' className="flex flex-col  gap-14 constant-spacing p-4 md:px-48">
+  let mobileNav = useRef(null)
+  let pages = useRef(null)
+  let mainHomeRef = useRef(null)
+  let marketplaceRef = useRef(null)
+  let bankListRef = useRef(null)
+  let userRef = useRef(null)
+  const [pageIndex, setPageIndex] = useState(0)
+  const list = [< MainHome className="MainHome" ref={el => (mainHomeRef = el)} />, < Marketplace className="Marketplace" ref={el => (marketplaceRef = el)} />, < BankList className="BankList" ref={el => (bankListRef = el)} />, < User className="User" ref={el => (userRef = el)} />]
 
-                <div className="flex flex-col gap-4  w-full md:flex-row md:gap-32 md:items-center md:justify-between">
-                    <Image src={phoneImg} className='rounded-3xl w-full aspect-square grayscale-image object-cover md:flex-1 md:w-1/3' alt='mobile-phone' />
-                    <div className="flex flex-col w-full  break-normal gap-[0.85rem] text-white md:flex-1">
-                        <h1 className="font-bold text-[3rem] leading-[2.85rem] text-[#FFAD08] text-shadow  md:text-6xl">
-                            Supercharge Your Tech Funding Journey
-                        </h1>
-                        <p className={` text-lg md:text-xl `}>
-                            Our platform empowers tech entrepreneurs to secure funding efficiently and effectively, turning dreams into thriving businesses.
-                        </p>
-                    </div>
-                </div>
+   
+    // < MainHome className = "MainHome" ref = { el => (mainHomeRef = el)}/>
+    //   < Marketplace className = "Marketplace" ref = { el => (marketplaceRef = el)}/>
+    //     < BankList className = "BankList" ref = { el => (bankListRef = el)}/>
+    //       < User className = "User" ref = { el => (userRef = el)}/>
 
-                <div className="flex flex-col gap-4 md:flex-row-reverse md:gap-32 md:items-center md:justify-between">
-                    <Image src={atmImg} className='rounded-3xl w-full aspect-square grayscale-image object-cover md:flex-1 md:w-1/4 border border-red-700' />
-                    <div className="flex flex-col w-full object-contain break-normal gap-[0.85rem] text-white md:flex-1">
-                        <h1 className="font-bold text-[3rem] leading-[2.85rem] text-[#FFAD08] text-shadow  md:text-6xl">
-                            Customized Solutions to Kickstart Your Success
-                        </h1>
-                        <p className='text-lg md:text-xl'>
-                            We offer tailored financing strategies to boost your tech startup’s growth and achieve milestones with confidence.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div id="fourth" className='constant-spacing p-4 md:constant-spacing-md '>
-                <div id="title" className='text-center mb-10'>
-                    <h1 className=' text-[#FFAD08] font-bold text-[3rem] leading-[2.85rem] mb-3 text-shadow md:text-6xl'>Our Experts</h1>
-                    <span className='max-w-sm text-lg text-white font-semibold md:text-xl'>Meet our dedicated team of professionals ensuring your funding process</span>
-                </div>
-                <div className="flex flex-col items-center gap-8 md:flex-row">
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-full">
-                        <Image src={photo1} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
-                        <h1 className="font-semibold text-[2rem] leading-[2.55rem] mb-[0.1rem] text-white">Peter Larson</h1>
-                        <span className='font-regular text-lg text-white'>CEO</span>
-                    </div>
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-full">
-                        <Image src={photo2} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
-                        <h1 className="font-semibold text-[2rem] leading-[2.55rem] mb-[0.05rem]  text-white">Samantha Brown</h1>
-                        <span className='font-regular text-lg  text-white'>CFO</span>
-                    </div>
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-full">
-                        <Image src={photo4} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
-                        <h1 className="font-semibold text-[2rem] leading-[2.55rem] mb-[0.15rem]  text-white">Jonathan Hill</h1>
-                        <span className='font-regular text-lg text-white'>Operations Manager</span>
-                    </div>
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-full">
-                        <Image src={photo3} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
-                        <h1 className="font-semibold text-[2rem] leading-[2.85rem] mb-[0.15rem]  text-white">Jenny Smith</h1>
-                        <span className='font-regular text-lg  text-white'>Marketing Manager</span>
-                    </div>
-                </div>
-            </div>
-            <div id="fifth" className='flex flex-col gap-4 items-center text-center constant-spacing p-4 md:constant-spacing-md '>
-                <h1 className="font-bold text-[2.5rem] leading-[2.85rem] text-[#FFAD08] text-shadow md:text-6xl">
-                    Ready, Set, Fund!
-                </h1>
-                <div className="">
-                    <p className='max-w-xs w-full text-lg text-center text-white md:text-xl'>
-                        Start your tech funding journey with us now and discover the power of seamless and effective financing solutions!
-                    </p>
-                </div>
-                {/* <div className="flex flex-col gap-2 w-full  md:flex-row"  >
-                <Link href={`/signup`}><button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold w-full ">Sign Up</button></Link>
-                    <Link href={`/signin`}><button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full ">Sign In</button></Link>
-                </div> */}
-                <div className="flex flex-col gap-2 md:w-full md:flex-row "  >
-                    <button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold flex-1">
-                        <Link href={`/signup`}>Sign Up</Link>
-                    </button>
-                    <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] flex-1">
-                        <Link href={`/signin`}>Sign In</Link>
-                    </button>
-                </div>
-            </div>
-            <footer className=" bg-black text-white flex flex-col items-center text-center gap-6 p-4 mb-0 ">
-                <div id="socials" className='flex flex-row gap-5 w-fit '>
-                    <Image src={twitter} className='aspect-square' width={40} alt='social link twitter' />
-                    <Image src={instagram} className='aspect-square' width={40} alt='social link instagram' />
-                    <Image src={twitch} className='aspect-square' width={40} alt='social link twitch' />
-                </div>
-                <span className='max-w-xs w-full text-lg text-center'>All Rights Reserved, Tech Financing Platform, 2023</span>
-            </footer>
+  function pageSlider(index){
+    setPageIndex(index)
+    let buttons = document.querySelectorAll('.tab');
+    buttons.forEach(function (btn) {
+      btn.classList.remove('focused');
+    });
+
+    mobileNav.children[index].classList.add('focused');
+  };
+  useEffect(() => { pageSlider(pageIndex) },[])
+
+  return (
+      <div className="flex svh-minHeight  w-full flex-col items-center justify-center bg-[#005377] border py-4 px-5 border-1 border-red-800 gap-10">
+      {/* <div id="mobile-container" className="flex flex-col w-full svh-minHeight border-1 border-red-800 gap-3"> */}
+      <div id="display" className="w-full h-[75vh] flex rounded-2xl bg-red-700  relative  border border-red-700">
+          {
+            list[pageIndex]
+          }
         </div>
-    )
-}
 
-export default page
+      <div id="mobile-nav" className="flex w-full justify-between h-16 relative" ref={el => (mobileNav = el)}>
+        <button id="icon-div" className=" mobile-nav-icons tab focused"onClick={() => pageSlider(0)}>
+            <Image
+              src={homeIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={homeIconAvtive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+            <span className="text-white text-sm capitalize hidden">home</span>
+          </button>
+
+        <button id="icon-div" className=" mobile-nav-icons tab" onClick={() => pageSlider(1)}>
+            <Image
+              src={storeIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={storeIconActive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+            <span className="text-white text-sm capitalize hidden">
+              marketplace
+            </span>
+          </button>
+
+        <button id="icon-div" className=" mobile-nav-icons tab" onClick={() => pageSlider(2)}>
+            <Image
+              src={clipboardIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={clipboardIconActive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+            <span className="text-white text-sm capitalize hidden">List</span>
+          </button>
+        <button id="icon-div" className=" mobile-nav-icons tab" onClick={() => pageSlider(3)}>
+            <Image
+              src={userIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={userIconActive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+            <span className="text-white text-sm capitalize hidden">user</span>
+          </button>
+        </div>
+      </div>
+    // </div>
+  )
+};
+
+export default page;
