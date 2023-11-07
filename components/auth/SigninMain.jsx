@@ -12,21 +12,22 @@ import { SigninSchema } from '../../utils/schemaUtil'
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from "@/utils/utility";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, removeUserData, setLoading, fetchDataByUserId } from '../../redux/user'
+import { setUserIdData, removeUserData, setLoading, fetchDataByUserId } from '../../redux/user'
 
 
 
 
 const SigninMain = ({nextStep, isDisabled }) => {
 const userId = useSelector((state) => state.user.value);
+const userObj = useSelector((state) => state.user.valueObj);
+
 const dispatch = useDispatch();
 const [showPassword, setShowPassword] = useState(false);
 
 
-  useEffect(() => {
-    dispatch(fetchDataByUserId(userId));
-    console.log(userId)
-  }, [dispatch, userId]);
+  // useEffect(() => {
+  //   dispatch(fetchDataByUserId(userId, userObj));
+  // }, [dispatch, userId]);
 
   return (
     <>
@@ -42,7 +43,7 @@ const [showPassword, setShowPassword] = useState(false);
               password: !isDisabled ? "11111111" : "",
             }}
           validationSchema={SigninSchema}
-            onSubmit={(values) => {
+          onSubmit={(values) => {
               // same shape as initial values
               console.log(values);
               signInWithEmailAndPassword(auth, values.email, values.password)
@@ -50,7 +51,7 @@ const [showPassword, setShowPassword] = useState(false);
                   console.log(userCredential);
                   const userCredentials = userCredential.user;
                   //set value of the user 
-                  dispatch(setUserData(userCredentials.reloadUserInfo.localId))
+                  dispatch(setUserIdData(userCredentials.reloadUserInfo.localId))
                     console.log(userCredentials)
 
                   //Display notification to user
@@ -63,6 +64,13 @@ const [showPassword, setShowPassword] = useState(false);
                     draggable: false,
                     progress: undefined,
                     theme: "colored",
+                    onOpen: () => {
+                      console.log('Toast opened redirecting to home page');
+                      // Perform actions after toast is displayed
+                      
+                      window.location.href = "/home";
+                      console.log(userId)
+                    }
                   });
                 })
                 .catch((error) => {
@@ -81,7 +89,7 @@ const [showPassword, setShowPassword] = useState(false);
                   >
                     Email :{" "}
                   </label>
-                  <Field name="email" type="email" />
+                <Field name="email" type="email" placeholder="Enter your email" />
                   {errors.email && touched.email ? (
                     <div className="text-[0.7rem] text-red-600 font-semibold">
                       {errors.email}

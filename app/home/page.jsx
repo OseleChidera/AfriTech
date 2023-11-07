@@ -1,3 +1,6 @@
+
+
+'use client'
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import homeIcon from "../../public/icons/home-inactive.svg";
@@ -14,8 +17,12 @@ import Marketplace from "@/components/Marketplace";
 import BankList from "@/components/BankList";
 import { gsap, Power3 } from 'gsap';
 import { array } from "yup";
+import { useSelector, useDispatch } from "react-redux";
+
 
 const page = () => {
+  const userId = useSelector((state) => state.user.value);
+  const userObj = useSelector((state) => state.user.valueObj);
   let mobileNav = useRef(null)
   let pages = useRef(null)
   let mainHomeRef = useRef(null)
@@ -25,22 +32,23 @@ const page = () => {
   const [pageIndex, setPageIndex] = useState(0)
   const list = [< MainHome className="MainHome" ref={el => (mainHomeRef = el)} />, < Marketplace className="Marketplace" ref={el => (marketplaceRef = el)} />, < BankList className="BankList" ref={el => (bankListRef = el)} />, < User className="User" ref={el => (userRef = el)} />]
 
-   
-    // < MainHome className = "MainHome" ref = { el => (mainHomeRef = el)}/>
-    //   < Marketplace className = "Marketplace" ref = { el => (marketplaceRef = el)}/>
-    //     < BankList className = "BankList" ref = { el => (bankListRef = el)}/>
-    //       < User className = "User" ref = { el => (userRef = el)}/>
 
   function pageSlider(index){
     setPageIndex(index)
     let buttons = document.querySelectorAll('.tab');
     buttons.forEach(function (btn) {
       btn.classList.remove('focused');
+      btn.classList.remove('focused-md');
     });
 
     mobileNav.children[index].classList.add('focused');
+    mobileNav.children[index].classList.add('focused-md');
   };
-  useEffect(() => { pageSlider(pageIndex) },[])
+  useEffect(() => { 
+    pageSlider(pageIndex) 
+    // console.log('USER ID: ' + userId)
+    // console.log('USER Data: ')
+  },[])
 
   return (
       <div className="flex svh-minHeight  w-full flex-col items-center justify-center bg-[#005377] border py-4 px-5 border-1 border-red-800 gap-10">
@@ -51,8 +59,9 @@ const page = () => {
           }
         </div>
 
-      <div id="mobile-nav" className="flex w-full justify-between h-16 relative" ref={el => (mobileNav = el)}>
-        <button id="icon-div" className=" mobile-nav-icons tab focused"onClick={() => pageSlider(0)}>
+      {/* <div id="mobile-nav" className="flex w-full justify-between h-16 relative" ref={el => (mobileNav = el)}>
+        <div className="flex flex-col items-center gap-3 max-w-fit tab">
+        <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl  focused"onClick={() => pageSlider(0)}>
             <Image
               src={homeIcon}
               alt="home"
@@ -65,10 +74,11 @@ const page = () => {
               width={32}
               className="aspect-square active-image"
             />
-            <span className="text-white text-sm capitalize hidden">home</span>
           </button>
-
-        <button id="icon-div" className=" mobile-nav-icons tab" onClick={() => pageSlider(1)}>
+            <h2 className="text-white text-sm capitalize hidden font-bold md:block description">home</h2>
+      </div>
+        <div className="flex flex-col items-center gap-3 max-w-fit tab">
+        <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl focused" onClick={() => pageSlider(1)}>
             <Image
               src={storeIcon}
               alt="home"
@@ -81,12 +91,11 @@ const page = () => {
               width={32}
               className="aspect-square active-image"
             />
-            <span className="text-white text-sm capitalize hidden">
-              marketplace
-            </span>
           </button>
-
-        <button id="icon-div" className=" mobile-nav-icons tab" onClick={() => pageSlider(2)}>
+          <h2 className="text-white text-sm capitalize hidden font-bold md:block description">marketplace</h2>
+        </div>
+        <div className="flex flex-col items-center gap-3 max-w-fit tab">
+        <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl  focused" onClick={() => pageSlider(2)}>
             <Image
               src={clipboardIcon}
               alt="home"
@@ -99,9 +108,12 @@ const page = () => {
               width={32}
               className="aspect-square active-image"
             />
-            <span className="text-white text-sm capitalize hidden">List</span>
+
           </button>
-        <button id="icon-div" className=" mobile-nav-icons tab" onClick={() => pageSlider(3)}>
+          <h2 className="text-white text-sm capitalize hidden font-bold md:block description">Bank List</h2>
+        </div>
+        <div className="flex flex-col items-center gap-3 max-w-fit tab">
+        <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl focused" onClick={() => pageSlider(3)}>
             <Image
               src={userIcon}
               alt="home"
@@ -114,12 +126,87 @@ const page = () => {
               width={32}
               className="aspect-square active-image"
             />
-            <span className="text-white text-sm capitalize hidden">user</span>
+
           </button>
+            <h2 className="text-white text-sm capitalize hidden font-bold md:block description">user</h2>
+          </div>
+        </div> */}
+      <div id="mobile-nav" className="flex w-full h-16 relative " ref={el => (mobileNav = el)}>
+        <div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item ">
+          <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl  focused" onClick={() => pageSlider(0)}>
+            <Image
+              src={homeIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={homeIconAvtive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+          </button>
+          <h2 className="text-white text-sm capitalize hidden font-bold md:block description">home</h2>
         </div>
+        <div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item">
+          <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl focused" onClick={() => pageSlider(1)}>
+            <Image
+              src={storeIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={storeIconActive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+          </button>
+          <h2 className="text-white text-sm capitalize hidden font-bold md:block description">marketplace</h2>
+        </div>
+        <div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item">
+          <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl  focused" onClick={() => pageSlider(2)}>
+            <Image
+              src={clipboardIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={clipboardIconActive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+
+          </button>
+          <h2 className="text-white text-sm capitalize hidden font-bold md:block description">Bank List</h2>
+        </div>
+        <div className="flex flex-col items-center gap-3 h-fit tab flex-1  relative nav-item ">
+          <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl focused" onClick={() => pageSlider(3)}>
+            <Image
+              src={userIcon}
+              alt="home"
+              width={32}
+              className="aspect-square image"
+            />
+            <Image
+              src={userIconActive}
+              alt="home"
+              width={32}
+              className="aspect-square active-image"
+            />
+
+          </button>
+          <h2 className="text-white text-sm capitalize hidden font-bold md:block description">user</h2>
+        </div>
+      </div>
       </div>
     // </div>
   )
 };
 
 export default page;
+

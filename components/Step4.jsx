@@ -1,20 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Formik,
   Form,
   Field,
 } from "formik";
 import * as Yup from "yup";
+import { useSelector, useDispatch } from "react-redux";
 
 const Step4 = ({ data, next }) => {
+  const userId = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('STEP 4 USERID: ' + userId)
+  }, [dispatch, userId])
+
   const handleSubmit = (values) => {
     next(values, true);
+    
   };
   const validationSchema = Yup.object().shape({
     agreeToTerms: Yup.boolean().required(
       "You must accept the terms and conditions."
     ),
   });
+ 
   return (
     <Formik
       initialValues={data}

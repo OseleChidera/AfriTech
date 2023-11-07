@@ -10,9 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
 import { step1ValidationSchema } from "../utils/schemaUtil"
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, removeUserData, setLoading, setUserObjData, incrementSignup, decrementSignup, incrementSignin, decrementSignin, fetchDataByUserId} from '../redux/user'
+import { setUserIdData, removeUserData, setLoading, setUserObjData, incrementSignup, decrementSignup, incrementSignin, decrementSignin, fetchDataByUserId} from '../redux/user'
 
-const Step1 = ({ data, next, setUserId }) => {
+const Step1 = ({ data, next }) => {
     const [showPassowrd1, setShowPassword1] = useState(false)
     const [showPassowrd2, setShowPassword2] = useState(false)
     const userId = useSelector((state) => state.user.value);
@@ -22,28 +22,30 @@ const Step1 = ({ data, next, setUserId }) => {
         const customDocRef = doc(database, 'Users', `${userProfile.reloadUserInfo.localId}`);
         setDoc(customDocRef, { email: values.email, password: values.password });
     }
-    useEffect(() => {
-        dispatch(fetchDataByUserId(userId));
-        console.log("useeffect user id " + userId)
-    }, [dispatch, userId]);
-
+  
+useEffect(()=>{
+console.log('STEP 1 USERID: ' + userId)
+},[dispatch , userId])
     const handleSubmit = (values) => {
+        next(values)
         createUserWithEmailAndPassword(auth, values.email, values.password)
+        
             .then((userCredential) => {
                 const userProfile = userCredential.user;
                 try {
-                    dispatch(setUserData(userProfile.uid))
+                    
                     console.log("new user id" + userId)
                     sendEmailVerification(userProfile)
                     throwMessage('A verification email was sent to you follow the instructions')
                     console.log("second then" + userProfile)
                     const customDocRef = doc(database, 'Users', `${userProfile.reloadUserInfo.localId}`);
                     console.log(customDocRef)
-                    setDoc(customDocRef, { email: values.email, password: values.password });
-
-                    setUserId(userProfile.reloadUserInfo.localId)
-                    next(values)
-
+                    // setDoc(customDocRef, { email: values.email, password: values.password });
+                    setDoc(customDocRef, { email: values.email});
+                    // setData(prev => ({ ...prev, email: values.email }))
+                    // values.password = null
+                    console.log(userProfile.reloadUserInfo.localId)
+                    dispatch(setUserIdData(userProfile.uid))
                 }
                 catch (error) { 
                     console.log(error)
@@ -70,7 +72,7 @@ const Step1 = ({ data, next, setUserId }) => {
             {({ errors, touched }) => (
 
                 <Form className=''>
-                    <div id='form-two' className='max-w-xs border '>
+                    <div id='form-two' className='max-w-xs  '>
                         <div className="mb-3">
                             <span className='font-extrabold capitalize mb-4 text-white text-3xl'>
                                 Hi there,welcome to AfriTech! 👋

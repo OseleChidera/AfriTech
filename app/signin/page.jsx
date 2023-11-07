@@ -90,6 +90,12 @@ const SigninPage = (user) => {
           draggable: false,
           progress: undefined,
           theme: "colored",
+          onOpen: () => {
+            console.log('Toast opened redirecting to home page');
+            // Perform actions after toast is displayed
+            window.location.href = "/home";
+            console.log(userFormEntries , userId)
+          },
         });
       } catch (error) { console.log(error.message, error) }
 

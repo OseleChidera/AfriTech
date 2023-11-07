@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('../public/fonts/ClashDisplay-Variable.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  src: url('../public/fonts/Archivo-Variable.ttf') format('truetype');}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'ClashDisplay', sans-serif;
+}
+body {
+  font-family: 'Archivo', sans-serif;
+}
 
 *{
   margin: 0;
@@ -75,19 +89,61 @@ li{
   min-height: 100svh;
 }
 
-.tab {
-box-shadow: 0 1px 100px rgb(21, 21, 21 , 0.596); 
+.tab button{
+
+}
+.tab button{
+  box-shadow: 0 1px 100px rgb(21, 21, 21 , 0.596); 
 }
 .tab .active-image{
   display: none;
 }
-.focused{
+.nav-item:hover{
+  cursor: pointer;
+}
+.nav-item::before{
+  opacity: 0;
+  content: '';
+  position: absolute;
+  /* border: 10px solid white; */
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height:3px;
+  margin-bottom: 2px;
+  z-index: 0;
+  background-color: #FFAD08; 
+  /* clip-path: polygon(100% 0, 0% 100%, 100% 100%); */
+  transform: scaleX(0);
+  transform-origin: 0 100%;
+  transition: transform 1s ease;
+}
+.nav-item:hover.nav-item::before{
+  opacity: 1;
+  transform: unset;
+}
+.focused-md::before{
+  opacity: 1;
+  transform: unset;
+  content: '';
+  position: absolute;
+  /* border: 10px solid white; */
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height:3px;
+  border-radius:0  10px 10px 0;
+  z-index: 0;
+  background-color: rgb(255, 255, 255); 
+}
+
+.focused button{
   background-color: white;
 }
-.focused .active-image{
+.focused button .active-image{
   display: block;
 }
-.focused .image{
+.focused button .image{
   display: none;
 }
 
@@ -120,3 +176,48 @@ box-shadow: 0 1px 100px rgb(21, 21, 21 , 0.596);
     backdrop-filter: blur(10px); 
     background: black;
 } */
+
+@keyframes breathe {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Apply the animation to the element */
+.bank:hover{
+  animation: breathe 2s infinite alternate;
+}
+.bank:hover .days{
+display: block;
+ transition: display 3s ease-in;
+
+}
+.bank:hover .months{
+display: none;
+ transition: display 3s ease-out;
+}
+.box-shadow{
+   box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+}
+
+.user-setting-item input:disabled{
+  border: none;
+background: inherit;
+}
+.user-setting-item input:not(:disabled) , .user-setting-item input:not(:disabled):active{
+  text-indent: 3px;
+  border: none;
+  padding-bottom: 3px;
+  border-bottom: 2px solid black;
+background: inherit;
+}
+.hide-scrollbar::-webkit-scrollbar{
+display: none;
+}
+
