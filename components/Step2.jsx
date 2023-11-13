@@ -8,7 +8,6 @@ import { step2ValidationSchema } from "../utils/schemaUtil"
 
 const Step2 = ({ data, next }) => {
     const handleSubmit = (values) => {
-        console.table(values)
         next(values)
     }
     
@@ -21,10 +20,8 @@ const Step2 = ({ data, next }) => {
                 <Form>
                     <div id='form-two' className='max-w-xs w-full'>
                         <div className="mb-3">
-                            {/* <h1 className='font-bold text-6xl capitalize mb-3 text-shadow-md '>Sign Up</h1> */}
                             <span className='font-extrabold capitalize  mb-4 text-white text-xl'>
-                                {/* Welcome to the club! We're so glad to have you on board. To continue, please fill out the remaining fields. */}
-                                Welcome to the next stage dera! To continue, please fill out the remaining fields.
+                                Welcome to the next stage dera! To proceed, please fill out the remaining fields.
 
                             </span>
                         </div>
@@ -67,8 +64,6 @@ const Step2 = ({ data, next }) => {
                         </div>
                         {/* <div className="flex flex-row justify-between items-center"> */}
                         <div className="">
-                            {/* <button type="bbutton" onClick={() => prev(values)} className='flex items-center justify-center font-bold capitalize bg-blue-500 text-xl text-white capitalize p-2 rounded-sm relative float-right'
-                            >Prev</button> */}
                             <button type="submit" className='flex items-center justify-center font-bold capitalize bg-white text-xl text-[#005377] p-2 rounded-sm relative float-right'
                             >Next</button>
                         </div>

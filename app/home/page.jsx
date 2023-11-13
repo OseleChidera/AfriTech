@@ -22,7 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const page = () => {
   const userId = useSelector((state) => state.user.value);
-  const userObj = useSelector((state) => state.user.valueObj);
+  const userObj = useSelector((state) => state.user.data);
   let mobileNav = useRef(null)
   let pages = useRef(null)
   let mainHomeRef = useRef(null)
@@ -46,8 +46,7 @@ const page = () => {
   };
   useEffect(() => { 
     pageSlider(pageIndex) 
-    // console.log('USER ID: ' + userId)
-    // console.log('USER Data: ')
+    console.log('home: ' + userObj)
   },[])
 
   return (

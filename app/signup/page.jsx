@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { auth } from '@/firebase/firebaseConfig'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
-import { collection, addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, updateDoc , onSnapshot , getDoc } from "firebase/firestore";
 import { database, storage } from '@/firebase/firebaseConfig';
 import { MyContext } from '@/utils/Datacontext';
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,19 +15,24 @@ import Step2 from '../../components/Step2';
 import Step3 from '../../components/Step3';
 import Step4 from '../../components/Step4';
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, removeUserData, setLoading, setUserObjData, incrementSignup, decrementSignup, incrementSignin, decrementSignin, updateUserFormEntries, fetchDataByUserId } from '../../redux/user'
+import {setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, updateUserFormEntries, fetchDataByUserId } from '../../redux/user'
+import { userData , setUserData } from '@/redux/userData';
 import { useEffect } from 'react';
+import {fetchData, throwMessage} from '../../utils/utility'
 
 
 export default function Multistep () {
    
+
+   
     const pageindex = useSelector((state) => state.user.signupIndex);
     const userFormEntries = useSelector((state) => state.user.userFormEntries);
     const userId = useSelector((state) => state.user.value);
-    const userObj = useSelector((state) => state.user.valueObj);
-    const valueObj = useSelector((state) => state.user.valueObj);
+    const userDataVariable = useSelector(userData);
     const dispatch = useDispatch();
     const [data, setData] = useState(userFormEntries)
+  
+   
     
     async function uploadImage(image) {
         const imagePath = `${userId}/${image.name}`
@@ -54,28 +59,23 @@ export default function Multistep () {
                 newData.password = null;
                 console.log(image1Url)
                 console.log(image2Url)
-                dispatch(updateUserFormEntries(newData))
-                console.log('PAGE' + {userFormEntries})     
-                updateDoc(docRef, newData)
+                dispatch(updateUserFormEntries(newData))  
 
-                dispatch(fetchDataByUserId(userId,userObj));
-                toast.success('User SignUp complete', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: false,
-                    progress: undefined,
-                    theme: "colored",
-                    onOpen: () => {
-                        // window.location.href = "/home";
-                        console.log('Toast opened redirecting to signup page')
+                await updateDoc(docRef, newData)
+                try {
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        console.log('USER DATABASE INFO ', JSON.stringify(docSnap.data(), null, 2))
+                        dispatch(setUserData(docSnap.data()))
+                        console.log("userDataVariable: " + userDataVariable)
+
+                        throwMessage('User SignUp complete')
+                    } else {
+                        console.log('No such document!');
                     }
-                    
-                });
+                } catch (error) {throwMessage(error.message)}
                
-            } catch (error) { console.log( 'Api req error' ,error.message, error) }
+                } catch (error) { throwMessage(error.message) }
 
 
         }

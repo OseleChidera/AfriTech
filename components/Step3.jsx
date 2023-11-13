@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { grantStorageAccess } from "../redux/user"
 
 const Step3 = ({ data, next, prev }) => {
-    // const [hasPermission, setHasPermission] = useState(true);
     const hasPermission = useSelector((state) => state.user.hasStorageAccessPermission);
     const dispatch = useDispatch();
     const requestPermission = async () => {

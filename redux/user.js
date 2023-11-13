@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { database } from '../firebase/firebaseConfig'
-import { doc, getDoc } from "firebase/firestore";
-import { useSelector, useDispatch } from "react-redux";
 const formEntries = {
-    email: '',
+    email: 'oselechidwerwedeera590@gmail.com',
     firstName: '',
     lastName: '',
     Username: '',
@@ -20,7 +17,6 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         value: undefined,
-        valueObj:undefined,
         loading: false,
         signupIndex: 0,
         signinIndex: 0,
@@ -31,14 +27,8 @@ const userSlice = createSlice({
         setUserIdData: (state, action) => {
             state.value = action.payload
         },
-        removeUserData: (state, action) => {
+        removeUserIdData: (state, action) => {
             state.value = action.payload
-        },
-        setUserObjData: (state, action) => {
-            state.valueObj = action.payload
-        },
-        removeUserObjData: (state, action) => {
-            state.valueObj = action.payload
         },
         setLoading: (state, action) => {
             state.loading = action.payload
@@ -73,36 +63,7 @@ const userSlice = createSlice({
 
     }
 })
-export const { setUserIdData, removeUserData, setLoading, setUserObjData, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess } = userSlice.actions;
-
-export const fetchDataByUserId = (userId,userObj) => async (dispatch) => {
-
-    try {
-        dispatch(setLoading(true));
-        const docRef = doc(database, 'Users', userId);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            dispatch(setUserObjData(docSnap.data()));
-            console.log('USER DATABASE INFO ', docSnap.data())
-            console.log(typeof docSnap.data())
-            setTimeout(() => {
-                dispatch(setLoading(false));
-            }, 1000);
-            
-        } else {
-            console.log('No such document!');
-        }
-
-
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        dispatch(setLoading(false));
-    }
-
-
-};
-
+export const { setUserIdData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess } = userSlice.actions;
 export default userSlice.reducer;
 
 

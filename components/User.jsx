@@ -8,6 +8,7 @@ import security from "../public/icons/security.svg"
 import help from "../public/icons/help.svg"
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataByUserId } from '@/redux/user'
+import { userData } from '@/redux/userData'
 
 
 
@@ -40,18 +41,14 @@ const User = () => {
     const settings = [<Home setSettingIndex={setSettingIndex} />, <Other setSettingIndex={setSettingIndex} /> ]
   const userFormEntries = useSelector((state) => state.user.userFormEntries);
   const userId = useSelector((state) => state.user.value);
-  const valueObj = useSelector((state) => state.user.valueObj);
-
+  const userDataVariable = useSelector(userData);
   const dispatch = useDispatch();
-  console.log(userId)
-  console.log('valueObj ' + valueObj)
-  // { userObjectInfo.firstName + " " + userObjectInfo.lastName }
 
-  // useEffect(()=>{
-  //   console.log(valueObj + " valueObj user page")
-  // }, [valueObj ])
+  useEffect(()=>{
+    console.log(JSON.stringify(userDataVariable))
+    console.log(JSON.parse(userDataVariable))
+  }, [])
 
-  // console.log(valueObj + " valueObj user page")
   return (
       <div className='w-full h-full flex flex-col text-[#005377]  bg-white rounded-lg p-3 pt-5 relative border border-red-700 break-normal overflow-y-auto'>
         <div id="main-user" className='flex pb-4 border-b border-gray-700 items-center gap-5 mb-5 sticky top-0 cursor-pointer' onClick={() => { setSettingIndex(1)}}>
@@ -60,7 +57,10 @@ const User = () => {
                   <Image src={photo1} alt='user-photo' width={80} className='rounded-full aspect-square grayscale-image object-cover '   />
               </div>
               <div id="right" className='flex-1'>
-                  <h2 className='font-extrabold text-xl'>Osele Chidera</h2>
+          <h2 className='font-extrabold text-xl'>
+            {/* {userDataVariable.firstName + userDataVariable.lastName} */}
+            Osele Chidera
+          </h2>
                 <span className=''>Account details</span>
               </div>
               <div id="left" className='w-fit'>
@@ -142,12 +142,12 @@ const Setting = ({ title, value, index }) => {
   const [inputValue, setInputValue] = useState(value);
 
   function selectEditing(index) {
-    console.log(index)
+    // console.log(index)
 
     document.querySelectorAll('.user-setting-item').forEach((item)=>{
         item.querySelector('input').disabled = true;
     })
-      console.log(document.querySelectorAll('.user-setting-item')[index].querySelector('input'))
+      // console.log(document.querySelectorAll('.user-setting-item')[index].querySelector('input'))
       document.querySelectorAll('.user-setting-item')[index].querySelector('input').classList.add = 'input-active'
       document.querySelectorAll('.user-setting-item')[index].querySelector('input').disabled = false
   }

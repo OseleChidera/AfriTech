@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
 import { step1ValidationSchema } from "../utils/schemaUtil"
 import { useSelector, useDispatch } from "react-redux";
-import { setUserIdData, removeUserData, setLoading, setUserObjData, incrementSignup, decrementSignup, incrementSignin, decrementSignin, fetchDataByUserId} from '../redux/user'
+import { setUserIdData} from '../redux/user'
 
 const Step1 = ({ data, next }) => {
     const [showPassowrd1, setShowPassword1] = useState(false)
@@ -22,45 +22,30 @@ const Step1 = ({ data, next }) => {
         const customDocRef = doc(database, 'Users', `${userProfile.reloadUserInfo.localId}`);
         setDoc(customDocRef, { email: values.email, password: values.password });
     }
-  
-useEffect(()=>{
-console.log('STEP 1 USERID: ' + userId)
-},[dispatch , userId])
+
     const handleSubmit = (values) => {
         next(values)
         createUserWithEmailAndPassword(auth, values.email, values.password)
-        
             .then((userCredential) => {
                 const userProfile = userCredential.user;
                 try {
-                    
                     console.log("new user id" + userId)
                     sendEmailVerification(userProfile)
                     throwMessage('A verification email was sent to you follow the instructions')
-                    console.log("second then" + userProfile)
                     const customDocRef = doc(database, 'Users', `${userProfile.reloadUserInfo.localId}`);
-                    console.log(customDocRef)
-                    // setDoc(customDocRef, { email: values.email, password: values.password });
                     setDoc(customDocRef, { email: values.email});
-                    // setData(prev => ({ ...prev, email: values.email }))
-                    // values.password = null
-                    console.log(userProfile.reloadUserInfo.localId)
                     dispatch(setUserIdData(userProfile.uid))
                 }
                 catch (error) { 
                     console.log(error)
                     throwMessage(error.message) 
                 }
-
-
-
             })
             .catch((error) => {
                 const errorCode = error.code;
                 throwMessage(errorCode)
                 console.log(errorCode)
             });
-        console.log('user created successfuly')
     }
    
     return (

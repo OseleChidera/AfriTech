@@ -61,7 +61,7 @@ const MainHome = () => {
   return (
     <div className='w-full h-full overflow-y-auto  text-[#005377]  bg-white rounded-lg pt-5 relative border border-red-700 break-normal box-shadowBottom'>
       <div className="text-xl font-bold text-right w-fit border border-red-700 ml-5 mb-4 md:ml-11">Currently financed items:</div>
-      <div className="flex  flex-col w-full  border gap-3 relative " ref={el => (ItemlistlistRef = el)}>
+      <div className="flex overflow-y-auto flex-col w-full  border gap-3 relative " ref={el => (ItemlistlistRef = el)}>
       <FinancedItem id={0} showFinanceDetails={showFinanceDetails} />
       <FinancedItem id={1} showFinanceDetails={showFinanceDetails} />
       <FinancedItem id={2} showFinanceDetails={showFinanceDetails} />

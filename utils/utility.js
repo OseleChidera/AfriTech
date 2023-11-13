@@ -11,6 +11,9 @@ import {
     GoogleAuthProvider,
 } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
+import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
+import { database, storage } from '@/firebase/firebaseConfig';
+
 
 export function throwMessage(errorcode) {
     console.log('error', errorcode)
@@ -86,6 +89,18 @@ export function throwMessage(errorcode) {
                 theme: "colored",
             });
             break;
+        case 'Error fetching data':
+            toast.error('Error fetching data', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            break;
         case 'A verification email was sent to you follow the instructions':
             toast.success('Check your Email for the verification link.', {
                 position: "top-right",
@@ -99,6 +114,22 @@ export function throwMessage(errorcode) {
                 onOpen: () => {
                     // console.log('Toast opened redirecting to signup page');
                     // Perform actions after toast is displayed
+                }
+            });
+            break;
+        case 'User SignUp complete':
+            toast.success('User SignUp complete.', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                onOpen: () => {
+                    window.location.href = "/home";
+                    console.log('Toast opened redirecting to signup page')
                 }
             });
             break;
@@ -145,4 +176,20 @@ export function findUserByEmail(email) {
     })
     console.log(firebase.auth())
 }
+
+export const fetchData = async (docRef) => {
+    const dispatch = useDispatch()
+    try {
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log('USER DATABASE INFO ', JSON.stringify(docSnap.data(), null, 2))
+            dispatch(setUserData(JSON.stringify(docSnap.data(), null, 2)))
+            console.log("userDataVariable: " + userDataVariable)
+        } else {
+            console.log('No such document!');
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
 

@@ -8,17 +8,9 @@ import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 
 const Step4 = ({ data, next }) => {
-  const userId = useSelector((state) => state.user.value);
+  // const userId = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log('STEP 4 USERID: ' + userId)
-  }, [dispatch, userId])
-
-  const handleSubmit = (values) => {
-    next(values, true);
-    
-  };
+  const handleSubmit = (values) => {next(values, true)}
   const validationSchema = Yup.object().shape({
     agreeToTerms: Yup.boolean().required(
       "You must accept the terms and conditions."
@@ -33,7 +25,7 @@ const Step4 = ({ data, next }) => {
     >
       {({ errors, touched, values, handleChange, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-3 max-w-xs w-full  md:max-w-xl border  text-white">
+            <div className="flex flex-col gap-3 max-w-xs w-full  md:max-w-xl text-white">
             <h1 className="font-bold text-4xl capitalize mb-1 text-shadow">
               Legal Terms and Conditions
             </h1>
