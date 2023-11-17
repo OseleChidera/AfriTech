@@ -61,7 +61,7 @@ const User = () => {
             {/* {userDataVariable.firstName + userDataVariable.lastName} */}
             Osele Chidera
           </h2>
-                <span className=''>Account details</span>
+          {settingIndex == 1 ? <span className=''>Edit account details</span> : <span className=''>Account details</span>}
               </div>
               <div id="left" className='w-fit'>
           {settingIndex === 0 &&  (<Image src={arrowRight} alt='user-photo' width={35} className='aspect-square' />)}
@@ -160,7 +160,7 @@ const Setting = ({ title, value, index }) => {
           <input
             value={inputValue}
             onChange={(e) => setValue(e.target.value)}
-                      className="w-1/2 border border-black input-regular"
+            className="w-3/4 border border-black input-regular md:w-1/2"
             disabled={true}
           />
         </div>

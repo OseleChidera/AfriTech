@@ -35,10 +35,15 @@ export default function Multistep () {
    
     
     async function uploadImage(image) {
-        const imagePath = `${userId}/${image.name}`
-        const storageRef = ref(storage, imagePath);
-        const snapshot = await uploadBytes(storageRef, image);
-        return getDownloadURL(storageRef);
+     try {
+         const imagePath = `${userId}/${image.name}`
+         const storageRef = ref(storage, imagePath);
+         await uploadBytes(storageRef, image);
+         return getDownloadURL(storageRef);
+     } catch (error) {
+        console.log('image couldnt upload')
+         throwMessage('image couldnt upload')
+     }
     }
 
     const steps = [
@@ -52,8 +57,8 @@ export default function Multistep () {
         const docRef = doc(database, "Users", userId);
         if (newData.agreeToTerms) {
             try {
-                const [image1Url, image2Url] = await Promise.all([uploadImage(newData.image),uploadImage(newData.image2)])
-                newData.image = image1Url
+                const [image1Url, image2Url] = await Promise.all([uploadImage(newData.profilePicture),uploadImage(newData.image2)])
+                newData.profilePicture = image1Url
                 newData.image2 = image2Url
                 newData.confirm_password = null;
                 newData.password = null;

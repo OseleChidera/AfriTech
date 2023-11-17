@@ -6,10 +6,10 @@ const formEntries = {
     Username: '',
     Phone: '',
     address: '',
-    passportnumber: '',
+    bvnnumber: '',
     ninnumber: '',
     agreeToTerms: false,
-    image: undefined,
+    profilePicture: undefined,
     image2: undefined,
 }
 

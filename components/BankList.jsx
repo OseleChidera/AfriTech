@@ -45,7 +45,7 @@ const BankList = () => {
   }
   
   return (
-    <div className='w-full h-full overflow-y-auto  text-[#005377]  bg-white rounded-lg pt-5 relative border border-red-700 break-normal box-shadowBottom'>
+    <div className='w-full h-full overflow-y-auto  text-[#005377]  bg-white rounded-lg pt-5 relative border border-red-700 break-normal box-shadowBottom hide-scrollbar'>
       <div className="text-xl font-bold text-right w-fit border border-red-700  mb-4">User BVN : <span className='font-light'>9000000000</span></div>
       <div className="flex  flex-col w-full  border gap-3 relative " ref={el => (banklistRef = el)}>
         <Bank id={0} showBankDetails={showBankDetails}/>

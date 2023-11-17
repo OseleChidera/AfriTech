@@ -135,11 +135,11 @@ export const step2ValidationSchema = Yup.object().shape({
 
 })
 export const step3ValidationSchema = Yup.object().shape({
-    passportnumber: Yup.string()
-        .min(2, 'Too Short!')
-        .max(8, 'Too Long!')
+    bvnnumber: Yup.string()
+        .min(10, 'Too Short!')
+        .max(60, 'Too Long!')
         .required('Required'),
-    image: Yup.mixed()
+    profilePicture: Yup.mixed()
         .required('Image is required')
         .test('fileSize', 'Image must be less than 2MB', (value) => value && value.size <= 2 * 1024 * 1024)
         .test('fileType', 'Invalid file type. Only JPG and PNG are allowed.', (value) =>
@@ -154,4 +154,6 @@ export const step3ValidationSchema = Yup.object().shape({
         .test('fileType', 'Invalid file type. Only JPG and PNG are allowed.', (value) =>
             value && (value.type === 'image/jpeg' || value.type === 'image/png')
         ),
+    genderOptions: Yup.string().required('Please select an option'),
+    sectorOption: Yup.string().required('Please select an option'),
 })

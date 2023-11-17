@@ -1,16 +1,16 @@
 import Image from 'next/image'
 import React from 'react'
-import illustration from '../../../public/images/Server-bro.svg'
-import phoneImg from '../../../public/images/pexels-vlad-chețan-3121979.jpg'
-import atmImg from '../../../public/images/pexels-luis-moya-14528919.jpg'
-import twitter from '../../../public/icons/icons8-twitter-50.png'
-import instagram from '../../../public/icons/icons8-instagram-50.png'
-import twitch from '../../../public/icons/icons8-twitch-50.png'
+import illustration from '../public/images/Server-bro.svg'
+import phoneImg from '../public/images/pexels-vlad-chețan-3121979.jpg'
+import atmImg from '../public/images/pexels-luis-moya-14528919.jpg'
+import twitter from '../public/icons/icons8-twitter-50.png'
+import instagram from '../public/icons/icons8-instagram-50.png'
+import twitch from '../public/icons/icons8-twitch-50.png'
 import localFont from 'next/font/local';
-import photo1 from "../../../public/images/photo1.jpeg"
-import photo2 from "../../../public/images/photo2.jpg"
-import photo3 from "../../../public/images/photo3.jpg"
-import photo4 from "../../../public/images/photo4.jpg"
+import photo1 from "../public/images/photo1.jpeg"
+import photo2 from "../public/images/photo2.jpg"
+import photo3 from "../public/images/photo3.jpg"
+import photo4 from "../public/images/photo4.jpg"
 import Link from 'next/link'
 
 const page = () => {
@@ -18,7 +18,7 @@ const page = () => {
         <div className='flex flex-col border border-black  min-h-screen max-h-fit h-full  w-full '>
             <div id='first' className="w-full h-fit flex flex-col gap-4 text-white p-24 px-5   md:items-center md:constant-spacing-md md:px-48">
                 <div className="w-fit h-fit mx-auto">
-                    <Image src={illustration}  objectFit='contain' className='max-w-md ' />
+                    <Image src={illustration} objectFit='contain' className='mx-auto max-w-sm border border-red-500 md:max-w-md' />
                     {/* <Image src={illustration2} width={250} objectFit='contain' className='max-w-md ' /> */}
                 </div>
                 <h1 className="text-white max-w-md w-full text-5xl font-bold  md:mb-5 md:text-8xl md:text-center md:max-w-xl">
@@ -73,22 +73,22 @@ const page = () => {
                     <span className='max-w-sm text-lg text-white font-semibold md:text-xl'>Meet our dedicated team of professionals ensuring your funding process</span>
                 </div>
                 <div className="flex flex-col items-center gap-8 md:flex-row">
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-1/2 ">
+                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square w-full max-w-full md:w-1/2 ">
                         <Image src={photo1} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
                         <h1 className="font-semibold text-[2rem] leading-[2.55rem] mb-[0.1rem] text-white">Peter Larson</h1>
                         <span className='font-regular text-lg text-white'>CEO</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-1/2 ">
+                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square w-full max-w-full md:w-1/2 ">
                         <Image src={photo2} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
                         <h1 className="font-semibold text-[2rem] leading-[2.55rem] mb-[0.05rem]  text-white">Samantha Brown</h1>
                         <span className='font-regular text-lg  text-white'>CFO</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-1/2">
+                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square w-full max-w-full md:w-1/2">
                         <Image src={photo4} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
                         <h1 className="font-semibold text-[2rem] leading-[2.55rem] mb-[0.15rem]  text-white">Jonathan Hill</h1>
                         <span className='font-regular text-lg text-white'>Operations Manager</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square max-w-full w-1/2">
+                    <div className="flex flex-col items-center justify-center bg-white bg-opacity-10 rounded-2xl aspect-square w-full max-w-full md:w-1/2">
                         <Image src={photo3} width={120} className='rounded-full aspect-square grayscale-image object-cover  mb-1' alt='mobile-phone ' />
                         <h1 className="font-semibold text-[2rem] leading-[2.85rem] mb-[0.15rem]  text-white">Jenny Smith</h1>
                         <span className='font-regular text-lg  text-white'>Marketing Manager</span>
@@ -110,14 +110,14 @@ const page = () => {
                 </div> */}
                 <div className="flex flex-col gap-2 w-4/5 md:w-full md:flex-row "  >
                     <Link href={`/signup`} className='flex-1'>
-                    <button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold w-full">
-                        Sign Up
-                    </button>
+                        <button className="rounded-xl bg-[#F1A208] border-none p-[0.65rem] text-xl font-semibold w-full">
+                            Sign Up
+                        </button>
                     </Link>
                     <Link href={`/signin`} className='flex-1'>
-                    <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full">
-                        Sign In
-                    </button>
+                        <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full">
+                            Sign In
+                        </button>
                     </Link>
                 </div>
             </div>
