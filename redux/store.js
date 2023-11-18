@@ -9,6 +9,6 @@ export const store = configureStore({
         // form: formReducer,
         fogortPasswordCounter  : fogortPasswordCounterReducer,
         user: userReducer,
-        userData: userDataReducer
+        // userData: userDataReducer
     },
 });

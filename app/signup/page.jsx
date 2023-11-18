@@ -15,8 +15,7 @@ import Step2 from '../../components/Step2';
 import Step3 from '../../components/Step3';
 import Step4 from '../../components/Step4';
 import { useSelector, useDispatch } from "react-redux";
-import {setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, updateUserFormEntries, fetchDataByUserId } from '../../redux/user'
-import { userData , setUserData } from '@/redux/userData';
+import { setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, updateUserFormEntries, fetchDataByUserId, userData, setUserData } from '../../redux/user'
 import { useEffect } from 'react';
 import {fetchData, throwMessage} from '../../utils/utility'
 
@@ -28,7 +27,7 @@ export default function Multistep () {
     const pageindex = useSelector((state) => state.user.signupIndex);
     const userFormEntries = useSelector((state) => state.user.userFormEntries);
     const userId = useSelector((state) => state.user.value);
-    const userDataVariable = useSelector(userData);
+    const userDataVariable = useSelector((state) => state.user.userData);
     const dispatch = useDispatch();
     const [data, setData] = useState(userFormEntries)
   
@@ -62,6 +61,7 @@ export default function Multistep () {
                 newData.image2 = image2Url
                 newData.confirm_password = null;
                 newData.password = null;
+                newData.dateOfBirth = newData.dateOfBirth.getTime()
                 console.log(image1Url)
                 console.log(image2Url)
                 dispatch(updateUserFormEntries(newData))  

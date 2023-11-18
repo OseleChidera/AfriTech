@@ -128,7 +128,7 @@ export function throwMessage(errorcode) {
                 progress: undefined,
                 theme: "colored",
                 onOpen: () => {
-                    window.location.href = "/home";
+                    // window.location.href = "/home";
                     console.log('Toast opened redirecting to signup page')
                 }
             });
@@ -193,3 +193,18 @@ export const fetchData = async (docRef) => {
     }
 };
 
+
+
+// const calculateAge = (selectedDate) => {
+//     const today = new Date();
+//     const birthDate = new Date(selectedDate);
+
+//     let age = today.getFullYear() - birthDate.getFullYear();
+//     const monthDiff = today.getMonth() - birthDate.getMonth();
+
+//     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+//         age--;
+//     }
+
+//     console.log('User age:', age);
+// };

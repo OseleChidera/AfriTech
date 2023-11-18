@@ -32,7 +32,7 @@ body {
 }
 #form-three input{
 border-radius: 5px !important;
- width: 50%;
+ width: 100%;
  border: none !important;
  line-height: 2.25rem;
 }
@@ -296,4 +296,16 @@ display: none;
 }
 .details-btn-right:hover{
  animation: changeDetailsBtnColor 1.05s ease-in-out;
+}
+.react-datepicker__input-container{
+  /* border: 1px solid white; */
+  width: 50%;
+}
+/* #form-three input[type = "text"]{
+  width: 100%;
+} */
+
+option{
+  padding: 13px;
+
 }

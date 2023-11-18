@@ -135,6 +135,27 @@ export const step2ValidationSchema = Yup.object().shape({
 
 })
 export const step3ValidationSchema = Yup.object().shape({
+    dateOfBirth: Yup.date()
+        .required('Date is required')
+        .test('valid-date', 'Cant be the current date', function (value) {
+            const currentDate = new Date();
+            const userDate = new Date(value);
+
+            // Check if the date is not today's date and user is at least 18 years old
+            return (
+                currentDate.toDateString() !== userDate.toDateString() 
+            );
+        })
+        .test('valid-date2', 'Below 18 years of age', function (value) {
+            const currentDate = new Date();
+            const userDate = new Date(value);
+
+            // Check if the date is not today's date and user is at least 18 years old
+            return (
+                currentDate.getFullYear() - userDate.getFullYear() > 18
+            );
+        }),
+
     bvnnumber: Yup.string()
         .min(10, 'Too Short!')
         .max(60, 'Too Long!')

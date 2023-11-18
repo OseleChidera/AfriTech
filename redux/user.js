@@ -11,6 +11,7 @@ const formEntries = {
     agreeToTerms: false,
     profilePicture: undefined,
     image2: undefined,
+    dateOfBirth: null,
 }
 
 const userSlice = createSlice({
@@ -22,6 +23,8 @@ const userSlice = createSlice({
         signinIndex: 0,
         userFormEntries: formEntries,
         hasStorageAccessPermission: true,
+        userAge: null,
+        userData: null
     },
     reducers: {
         setUserIdData: (state, action) => {
@@ -59,11 +62,18 @@ const userSlice = createSlice({
         },
         grantStorageAccess: (state, action) => {
             state.hasStorageAccessPermission = action.payload
+        },
+         setUserData: (state, action) => {
+            console.log("ACTION PAYLOAD:" + action.payload)
+            state.userData = action.payload
+        },
+        removeUserData: (state, action) => {
+            state.userData = action.payload
         }
-
     }
 })
-export const { setUserIdData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess } = userSlice.actions;
+export const { setUserIdData, setUserData , removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess } = userSlice.actions;
+// export const userData = (state) => state.user.userData;
 export default userSlice.reducer;
 
 

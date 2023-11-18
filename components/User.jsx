@@ -41,7 +41,7 @@ const User = () => {
     const settings = [<Home setSettingIndex={setSettingIndex} />, <Other setSettingIndex={setSettingIndex} /> ]
   const userFormEntries = useSelector((state) => state.user.userFormEntries);
   const userId = useSelector((state) => state.user.value);
-  const userDataVariable = useSelector(userData);
+  const userDataVariable = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
 
   useEffect(()=>{

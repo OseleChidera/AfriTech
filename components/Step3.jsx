@@ -3,7 +3,8 @@ import { Formik, Form, Field } from 'formik';
 import { step3ValidationSchema  } from "../utils/schemaUtil"
 import { useSelector, useDispatch } from "react-redux";
 import { grantStorageAccess } from "../redux/user"
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 const Step3 = ({ data, next, prev }) => {
     const hasPermission = useSelector((state) => state.user.hasStorageAccessPermission);
     const dispatch = useDispatch();
@@ -51,22 +52,86 @@ const Step3 = ({ data, next, prev }) => {
                     <div id='form-three' className='max-w-xs '>
                         <div className="mb-3">
                             <span className='font-extrabold capitalize  mb-4 text-white text-xl'>
-                                Were almost there. ne last step ....
+                                Were almost there. One last step ....
                             </span>
                         </div>
-                        <div className="mb-3">
-                            <div className="flex flex-row justify-between items-center mb-1">
-                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="bvnnumber">BVN Number : </label>
-                                <Field name="bvnnumber" type='text' />
+                        <div className=" flex flex-col gap-2 mb-3 ">
+                            <DatePicker
+                                name="dateOfBirth"
+                                selected={values.dateOfBirth}
+                                onChange={(date) => setFieldValue('dateOfBirth', date)}
+                                dateFormat="MM/dd/yyyy"
+                                showYearDropdown
+                                placeholderText="Select date of birth"
+                                className="w-1/2"
+                            />
+                            {errors.dateOfBirth && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.dateOfBirth}</span>}
+                        </div>
+                        <div className="flex gap-2 ">
+                            <div className="  text-[0.65rem] font-bold w-full flex flex-col mb-3 ">
+                                <Field as="select" id="genderOptions" name="genderOptions" className="border p-2 rounded-md items-center">
+                                    <option value={values.gender} label="Select Your Gender" />
+                                    {genderOptions.map((option) => (
+                                        <option key={option.value} value={option.value} className="text-center">
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </Field>
+                                {errors.genderOptions && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.genderOptions}</span>}
                             </div>
-                            {errors.bvnnumber && touched.bvnnumber ? (
-                                <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.bvnnumber}</div>
-                            ) : null}
+                            <div className="  text-[0.65rem] font-bold w-full flex flex-col mb-3 ">
+                                <Field as="select" id="sectorOption" name="sectorOption" className="border p-2 rounded-md">
+                                    <option value={values.sector} label="Select Your Field" />
+                                    {sectorOption.map((option) => (
+                                        <option key={option.value} value={option.value} className="text-center">
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </Field>
+                                {errors.sectorOption && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.sectorOption}</span>}
+                            </div>
+                        </div>
+                       <div className="flex gap-2">
+                            <div className="mb-3">
+                                <div className="flex flex-row justify-between  mb-1">
+                                    <Field name="bvnnumber" type='text' placeholder="Enter Your BVN Number" />
+                                </div>
+                                {errors.bvnnumber && touched.bvnnumber ? (
+                                    <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.bvnnumber}</div>
+                                ) : null}
+                            </div>
+
+                            <div className="mb-3">
+                                <div className="flex flex-row justify-between mb-1">
+                                    <Field type="number" name="ninnumber" id='ninnumber' className='ninnumber' placeholder="Enter Your NIN Number" />
+                                </div>
+                                {errors.ninnumber && touched.ninnumber ? (
+                                    <div className='text-[0.7rem] text-red-600 font-semibold mb-0'>{errors.ninnumber}</div>
+                                ) : null}
+                            </div>
                        </div>
 
-                        <div className=" flex flex-col gap-2 mb-3">
+                        
+
+                        <div id="image" className=" flex flex-col  mb-3">
+                            <div className="flex flex-col">
+                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="image2">Image of your NIN slip : </label>
+                                    <Field
+                                    type="file"
+                                    name="image2"
+                                    accept="image/*"
+                                    disabled={!hasPermission}
+                                    value=""
+                                    onChange={(event) => {
+                                        setFieldValue('image2', event.currentTarget.files[0]);
+                                    }}
+                                />
+                            </div>
+                            {errors.image2 && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.image2}</span>}
+                        </div>
+                        <div id="image2" className=" flex flex-col mb-3">
                             <div>
-                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="profilePicture">Upload a clear Profile Profile Picture : </label>
+                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="profilePicture">Profile Picture : </label>
 
                                 <Field
                                     type="file"
@@ -78,60 +143,8 @@ const Step3 = ({ data, next, prev }) => {
                                         setFieldValue('profilePicture', event.currentTarget.files[0]);
                                     }}
                                 />
-                                {errors.profilePicture && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.profilePicture}</span>}
                             </div>
-                        </div>
-                        <div className=" flex flex-col gap-2 mb-3">
-                            <div className="flex flex-row justify-between items-center mb-1">
-                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="ninnumber">NIN Number : </label>
-                                 <Field type="number" name="ninnumber" id='ninnumber' className='ninnumber' />
-                            </div>
-                            {errors.ninnumber && touched.ninnumber ? (
-                                <div className='text-[0.7rem] text-red-600 font-semibold mb-0'>{errors.ninnumber}</div>
-                            ) : null}
-                            <div>
-                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="image2">Upload a clear image of your NIN slip : </label>
-
-                                <Field
-                                    type="file"
-                                    name="image2"
-                                    accept="image/*"
-                                    disabled={!hasPermission}
-                                    value=""
-                                    onChange={(event) => {
-                                        setFieldValue('image2', event.currentTarget.files[0]);
-                                    }}
-                                />
-                                {errors.image2 && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.image2}</span>}
-                            </div>
-                        </div>
-                        <div className="mb-3">
-                        <div className="">
-                                <label htmlFor="genderOptions" className='font-bold capitalize block mb-[0.25rem] text-white'>Select Your Gender :</label>
-                            <Field as="select" id="genderOptions" name="genderOptions">
-                                <option value={values.gender} label="Select an option" />
-                                    {genderOptions.map((option) => (
-                                    <option key={option.value} value={option.value} className="text-center">
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </Field>
-                        </div>
-                            {errors.genderOptions && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.genderOptions}</span>}
-                        </div>
-                        <div className="mb-3">
-                            <div className="">
-                                <label htmlFor="sectorOption" className='font-bold capitalize block mb-[0.25rem] text-white'>Select Your Occupation Field :</label>
-                                <Field as="select" id="sectorOption" name="sectorOption">
-                                    <option value={values.sector} label="Select an option" />
-                                    {sectorOption.map((option) => (
-                                        <option key={option.value} value={option.value} className="text-center">
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </Field>
-                            </div>
-                            {errors.sectorOption && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.sectorOption}</span>}
+                            {errors.profilePicture && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.profilePicture}</span>}
                         </div>
                         <div className="flex justify-between items-center">
                             <button type="bbutton" onClick={() => prev(values)} className='justify-center font-bold   bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg relative '
