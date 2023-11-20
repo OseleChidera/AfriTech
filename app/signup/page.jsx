@@ -32,7 +32,7 @@ export default function Multistep () {
     const [data, setData] = useState(userFormEntries)
   
    
-    
+    //upload the images from the form to a storage bucket  and get a urn to access said images
     async function uploadImage(image) {
      try {
          const imagePath = `${userId}/${image.name}`
@@ -40,6 +40,7 @@ export default function Multistep () {
          await uploadBytes(storageRef, image);
          return getDownloadURL(storageRef);
      } catch (error) {
+        console.log(error)
         console.log('image couldnt upload')
          throwMessage('image couldnt upload')
      }
@@ -72,15 +73,18 @@ export default function Multistep () {
                     if (docSnap.exists()) {
                         console.log('USER DATABASE INFO ', JSON.stringify(docSnap.data(), null, 2))
                         dispatch(setUserData(docSnap.data()))
-                        console.log("userDataVariable: " + userDataVariable)
+                        console.log("userDataVariable: " + JSON.stringify(userDataVariable, null, 2))
 
                         throwMessage('User SignUp complete')
                     } else {
                         console.log('No such document!');
                     }
-                } catch (error) {throwMessage(error.message)}
+                } catch (error) {console.log(error)
+                    throwMessage(error.message)}
                
-                } catch (error) { throwMessage(error.message) }
+            } catch (error) {
+                console.log(error)
+                    throwMessage(error.message) }
 
 
         }

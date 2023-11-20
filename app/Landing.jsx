@@ -18,7 +18,7 @@ const page = () => {
         <div className='flex flex-col border border-black  min-h-screen max-h-fit h-full  w-full '>
             <div id='first' className="w-full h-fit flex flex-col gap-4 text-white p-24 px-5   md:items-center md:constant-spacing-md md:px-48">
                 <div className="w-fit h-fit mx-auto">
-                    <Image src={illustration} objectFit='contain' className='mx-auto max-w-sm border border-red-500 md:max-w-md' />
+                    <Image src={illustration}  className='mx-auto max-w-sm border border-red-500 md:max-w-md' />
                     {/* <Image src={illustration2} width={250} objectFit='contain' className='max-w-md ' /> */}
                 </div>
                 <h1 className="text-white max-w-md w-full text-5xl font-bold  md:mb-5 md:text-8xl md:text-center md:max-w-xl">

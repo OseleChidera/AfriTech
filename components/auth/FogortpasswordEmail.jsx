@@ -32,7 +32,10 @@ const FogortpasswordEmail = ({ user, prevStep, currentIndex, setCurrentIndex, is
               onSubmit={values => {
               sendPasswordResetEmail(auth, values.email)
               .then(() => {throwMessage('An Email was sent to reset your password')})
-              .catch((error) => {throwMessage(error.code)});
+              .catch((error) => {
+                  console.log(error)
+                throwMessage(error.code)}
+                );
               setIsDisabled(isDisabled => true)
               setTimeout(() => {
                   setCurrentIndex(currentIndex => 0)

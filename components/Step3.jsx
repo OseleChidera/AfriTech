@@ -60,7 +60,7 @@ const Step3 = ({ data, next, prev }) => {
                                 name="dateOfBirth"
                                 selected={values.dateOfBirth}
                                 onChange={(date) => setFieldValue('dateOfBirth', date)}
-                                dateFormat="MM/dd/yyyy"
+                                dateFormat="dd/MM/yyyy"
                                 showYearDropdown
                                 placeholderText="Select date of birth"
                                 className="w-1/2"
@@ -121,10 +121,13 @@ const Step3 = ({ data, next, prev }) => {
                                     name="image2"
                                     accept="image/*"
                                     disabled={!hasPermission}
-                                    value=""
+                                    value={null}
                                     onChange={(event) => {
+                                        console.table(event.currentTarget.files[0])
                                         setFieldValue('image2', event.currentTarget.files[0]);
+                                    
                                     }}
+                                    className="text-white"
                                 />
                             </div>
                             {errors.image2 && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.image2}</span>}
@@ -138,10 +141,11 @@ const Step3 = ({ data, next, prev }) => {
                                     name="profilePicture"
                                     accept="image/*"
                                     disabled={!hasPermission}
-                                    value=""
+                                    value={null}
                                     onChange={(event) => {
                                         setFieldValue('profilePicture', event.currentTarget.files[0]);
                                     }}
+                                    className="text-white"
                                 />
                             </div>
                             {errors.profilePicture && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.profilePicture}</span>}

@@ -9,8 +9,8 @@ const formEntries = {
     bvnnumber: '',
     ninnumber: '',
     agreeToTerms: false,
-    profilePicture: undefined,
-    image2: undefined,
+    profilePicture: null,
+    image2: null,
     dateOfBirth: null,
 }
 
@@ -21,6 +21,7 @@ const userSlice = createSlice({
         loading: false,
         signupIndex: 0,
         signinIndex: 0,
+        homePageNavIndex: 0,
         userFormEntries: formEntries,
         hasStorageAccessPermission: true,
         userAge: null,
@@ -54,6 +55,9 @@ const userSlice = createSlice({
         decrementSignin: state => {
             state.signinIndex -= 1
         },
+        sethomePageNavIndex: (state, action) => {
+            state.homePageNavIndex = action.payload
+        },
         incrementSigninByAmmount: (state, action) => {
             state.signinIndex = action.payload
         },
@@ -72,7 +76,7 @@ const userSlice = createSlice({
         }
     }
 })
-export const { setUserIdData, setUserData , removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess } = userSlice.actions;
+export const { setUserIdData, setUserData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess, sethomePageNavIndex } = userSlice.actions;
 // export const userData = (state) => state.user.userData;
 export default userSlice.reducer;
 

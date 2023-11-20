@@ -62,13 +62,21 @@ const SigninPage = (user) => {
     dispatch(decrementSignin())
   }
 
+  //upload the images from the form to a storage bucket  and get a urn to access said images
   async function uploadImage(image) {
-    const imagePath = `${userId}/${image.name}`
-    const storageRef = ref(storage, imagePath);
-    const snapshot = await uploadBytes(storageRef, image);
-    return getDownloadURL(storageRef);
+    try {
+      const imagePath = `${userId}/${image.name}`
+      const storageRef = ref(storage, imagePath);
+      await uploadBytes(storageRef, image);
+      return getDownloadURL(storageRef);
+    } catch (error) {
+      console.log('image couldnt upload')
+      throwMessage('image couldnt upload')
+    }
   }
+ 
 
+  //Onsubmit function of the multistep form
   async function ApiReq(newData) {
     console.log('API REQUEST', userId, newData, newData.agreeToTerms)
     const docRef = doc(database, "Users", userId);
@@ -80,7 +88,9 @@ const SigninPage = (user) => {
         ])
         newData.image = image1Url
         newData.image2 = image2Url
+        //update the created firestore documeent with the user email
         updateDoc(docRef, newData)
+        //prompt the user
         toast.success('User SignUp complete', {
           position: "top-right",
           autoClose: 2000,

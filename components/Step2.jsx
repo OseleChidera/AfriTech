@@ -28,30 +28,31 @@ const Step2 = ({ data, next }) => {
 
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="firstName">FirstName : </label>
-                            <Field name="firstName" className="capitalize" />
-                            {errors.firstName && touched.firstName ? (
-                                <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.firstName}</div>
+                            <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="firstname">FirstName : </label>
+                            <Field name="firstname" className="capitalize" placeholder="Firstname Lastname"/>
+                            {errors.firstname && touched.firstname ? (
+                                <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.firstname}</div>
                             ) : null}
                         </div>
 
                         <div className="mb-3">
-                            <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="lastName">LastName : </label>
-                            <Field name="lastName" className="capitalize" />
-                            {errors.lastName && touched.lastName ? (
-                                <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.lastName}</div>
+                            <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="lastname">LastName : </label>
+                            <Field name="lastname" className="capitalize" placeholder="Lastname" />
+                            {errors.lastname && touched.lastname ? (
+                                <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.lastname}</div>
                             ) : null}
                         </div>
 
                         <div className="mb-3">
                             <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="Username">Username : </label>
-                            <Field name="Username" type="text" className="capitalize" />
+                            <Field name="Username" type="text" className="capitalize" placeholder="JohnDoe@e-mail.com" />
                             {errors.email && touched.email ? <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.email}</div> : null}
                         </div>
+                        
 
                         <div className="mb-3">
                             <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="Phone">Telephone Number: </label>
-                            <Field name="Phone" type='text' />
+                            <Field name="Phone" type='text' placeholder="09040500800" />
                             {errors.Phone && touched.Phone ? (
                                 <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.Phone}</div>
                             ) : null}
@@ -59,12 +60,12 @@ const Step2 = ({ data, next }) => {
 
                         <div className="mb-3">
                             <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="address">Residential address: </label>
-                            <Field name="address" type="text" />
+                            <Field name="address" type="text" placeholder="12, Anytown Anywhere Nigeria." />
                             {errors.address && touched.address ? <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.address}</div> : null}
                         </div>
                         {/* <div className="flex flex-row justify-between items-center"> */}
                         <div className="">
-                            <button type="submit" className='flex items-center justify-center font-bold capitalize bg-white text-xl text-[#005377] p-2 rounded-sm relative float-right'
+                            <button type="submit" className='justify-center font-bold   bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg relative float-right' 
                             >Next</button>
                         </div>
                         {/* </div> */}

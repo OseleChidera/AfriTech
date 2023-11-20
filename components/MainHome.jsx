@@ -4,59 +4,59 @@ import Image from 'next/image'
 import phone from '../public/images/pexels-luis-moya-14528919.jpg'
 import arrowRight from '../public/icons/arrow-right.svg'
 import FinancedItem from './Main Home/FinancedItem'
-import { gsap, Power3, TimelineLite, Power4 } from 'gsap';
+// import { gsap, Power3, TimelineLite, Power4 } from 'gsap/index';
 const MainHome = () => {
   let ItemlistlistRef = useRef(null)
-  const tl = gsap.timeline();
-  const durationTl = gsap.timeline();
+  // const tl = gsap.timeline();
+  // const durationTl = gsap.timeline();
   function showFinanceDetails(index) {
     let userItems = Array.from(ItemlistlistRef.children)
 
-    userItems.forEach((item) => {
-      tl.to(item, { duration: 0, boxShadow: 'none', height: 'auto', ease: Power3.easeIn })
+    // userItems.forEach((item) => {
+    //   tl.to(item, { duration: 0, boxShadow: 'none', height: 'auto', ease: Power3.easeIn })
         
-      gsap.to(item.querySelector('.arrow-img'),
-        {
-          duration: 0.5,
-          rotation: 0,
-          ease: Power3.easeOut,
-        }
-      )
+    //   gsap.to(item.querySelector('.arrow-img'),
+    //     {
+    //       duration: 0.5,
+    //       rotation: 0,
+    //       ease: Power3.easeOut,
+    //     }
+    //   )
 
-      gsap.to(item.querySelector('.bottom'),
-        {
-          duration: 0.5,
-          display: 'none',
-          ease: Power3.easeOut,
-        }
-      )
+    //   gsap.to(item.querySelector('.bottom'),
+    //     {
+    //       duration: 0.5,
+    //       display: 'none',
+    //       ease: Power3.easeOut,
+    //     }
+    //   )
 
-    })
+    // })
 
 
 
     
-    gsap.to(userItems[index],
-      {
-        duration: 0.5,
-        boxShadow: '1px 1px 10px black',
-        ease: Power3.easeOut,
-      }
-    )
-    gsap.to(userItems[index].querySelector('.arrow-img'),
-      {
-        duration: 0.5,
-        rotation: 90,
-        ease: Power3.easeOut,
-      }
-    )
-    gsap.to(userItems[index].querySelector('.bottom'),
-      {
-        duration: 0.5,
-        display: 'flex',
-        ease: Power3.easeOut,
-      }
-    )
+    // gsap.to(userItems[index],
+    //   {
+    //     duration: 0.5,
+    //     boxShadow: '1px 1px 10px black',
+    //     ease: Power3.easeOut,
+    //   }
+    // )
+    // gsap.to(userItems[index].querySelector('.arrow-img'),
+    //   {
+    //     duration: 0.5,
+    //     rotation: 90,
+    //     ease: Power3.easeOut,
+    //   }
+    // )
+    // gsap.to(userItems[index].querySelector('.bottom'),
+    //   {
+    //     duration: 0.5,
+    //     display: 'flex',
+    //     ease: Power3.easeOut,
+    //   }
+    // )
 
   }
   return (

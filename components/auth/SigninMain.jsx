@@ -39,7 +39,7 @@ const [showPassword, setShowPassword] = useState(false);
           </div>
           <Formik
             initialValues={{
-              email: "oselechidera560@gmail.com",
+            email: "oselechidwerwedeerkka590@gmail.com",
               password: !isDisabled ? "11111111" : "",
             }}
           validationSchema={SigninSchema}
@@ -53,7 +53,11 @@ const [showPassword, setShowPassword] = useState(false);
                   //set value of the user 
                   dispatch(setUserIdData(userCredentials.reloadUserInfo.localId))
                     console.log(userCredentials)
-
+       
+                  //save the user id in local storage on signin
+                  console.log("userId : " + userCredentials.reloadUserInfo.localId)
+                  console.log("typeof userId : " + typeof userCredentials.reloadUserInfo.localId)
+                  localStorage.setItem('afriTechUserID', JSON.stringify({ userID: userCredentials.reloadUserInfo.localId }))
                   //Display notification to user
                   toast.success("Login successful", {
                     position: "top-right",
@@ -69,7 +73,6 @@ const [showPassword, setShowPassword] = useState(false);
                       // Perform actions after toast is displayed
                       
                       window.location.href = "/home";
-                      console.log(userId)
                     }
                   });
                 })

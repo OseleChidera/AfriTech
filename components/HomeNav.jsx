@@ -9,11 +9,17 @@ import userIcon from "../public/icons/user-inactive.svg";
 import userIconActive from "../public/icons/user-active.svg";
 import clipboardIcon from "../public/icons/clipboard-inactive.svg";
 import clipboardIconActive from "../public/icons/clipboard-active.svg";
+import { sethomePageNavIndex } from "@/redux/user";
+import { useSelector, useDispatch } from "react-redux";
+
 
 const HomeNav = ({pageIndex,setPageIndex}) => {
+    const dispatch = useDispatch();
     let mobileNav = useRef(null)
+
     function pageSlider(index) {
-        setPageIndex(index)
+        dispatch(sethomePageNavIndex(index))
+
         let buttons = document.querySelectorAll('.tab');
         buttons.forEach(function (btn) {
             btn.classList.remove('focused');
