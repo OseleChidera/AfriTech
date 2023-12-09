@@ -22,6 +22,8 @@ import { setUserData } from "@/redux/user";
 import HomeNav from "@/components/HomeNav";
 import axios from 'axios';
 import ImageModal from "@/components/ImageModal";
+import useSWR from 'swr';
+
 
 const page = () => {
   const dispatch = useDispatch();
@@ -35,27 +37,30 @@ const page = () => {
   let bankListRef = useRef(null)
   let userRef = useRef(null)
   
-
-  const [user, setUser] = useState(null)
-
-
-
+  
+  
+  
+  const [fetchedData, setFetchedData] = useState(null)
 async function getUserData(){
   const storedUserData = localStorage.getItem('afriTechUserID');
-  
   const data = storedUserData ? JSON.parse(storedUserData) : null
   console.log(data)
+
   try {
     const response = await axios.get(`https://firestore.googleapis.com/v1/projects/afritech-b3227/databases/(default)/documents/Users/${data.userID}`);
+    setFetchedData(response)
+    console.log("response.data.fields" + JSON.stringify(response.data.fields, null, 2))
     dispatch(setUserData(response.data.fields))
-    console.log("axios fetch : " + JSON.stringify(userObject, null, 2) );
-
-    // setUser(response.data.fields)
+    console.log("use selectorrrrrrrrrrrrrrrrrrrrrrrr" + useSelector((state) => state.user.userData))
+    // console.log("axios fetch : " + JSON.stringify(userObject, null, 2) );
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 
 }
+
+
+
 
   // {
   //   "agreeToTerms": {
@@ -114,9 +119,8 @@ async function getUserData(){
   //   }
   // }
   useEffect(()=>{
- 
-    getUserData()
-  }, [ ])
+ getUserData()
+  },[])
 
   const list = [< MainHome className="MainHome" ref={el => (mainHomeRef = el)} />, < Marketplace className="Marketplace" ref={el => (marketplaceRef = el)} />, < BankList className="BankList" ref={el => (bankListRef = el)} />, < User className="User" ref={el => (userRef = el)} showImageModal={showImageModal}/>]
   const [showModal, setShowModal] = useState(false)

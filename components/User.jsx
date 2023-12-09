@@ -21,7 +21,7 @@ const User = ({ showImageModal }) => {
   const settings = [<SettingOption setSettingIndex={setSettingIndex} />, <UserProfileSetting setSettingIndex={setSettingIndex} /> ]
   const userFormEntries = useSelector((state) => state.user.userFormEntries);
   const userId = useSelector((state) => state.user.value);
-  const userObject = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
 
   return (
@@ -30,12 +30,12 @@ const User = ({ showImageModal }) => {
         <div id="main-user" className='flex pb-4 border-b border-gray-700 items-center gap-5 mb-5 sticky top-0 cursor-pointer' onClick={() => { setSettingIndex(1)}}>
             
         <div id="left" className='w-fit' onClick={() => showImageModal()}>
-          <Image src={`${userObject.profilePicture.stringValue}`} alt='user-photo' width={200} height={100} className='rounded-md aspect-video  object-scale-down' 
+          <Image src={`${userData.profilePicture.stringValue}`} alt='user-photo' width={200} height={100} className='rounded-md aspect-video  object-scale-down' 
             loading="lazy"  />
               </div>
               <div id="right" className='flex-1'>
           <h2 className='font-extrabold text-xl capitalize'>
-            {`${userObject.lastname.stringValue} ${userObject.firstname.stringValue}`}
+            {`${userData.lastName.stringValue} ${userData.firstName.stringValue}`}
           </h2>
           {settingIndex == 1 ? <span className=''>Edit account details</span> : <span className=''>Account details</span>}
               </div>

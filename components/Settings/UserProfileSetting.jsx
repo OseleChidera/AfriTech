@@ -3,25 +3,26 @@ import React, { useState, useEffect } from 'react'
 import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
 import { database } from '@/firebase/firebaseConfig'
 import { useSelector, useDispatch } from "react-redux";
+import { setUserData } from "@/redux/user";
 import UserProfileSettingInputs from './UserProfileSettingInputs';
 
 
 const UserProfileSetting = ({ setSettingIndex }) => {
-    const userObject = useSelector((state) => state.user.userData);
+    const userData = useSelector((state) => state.user.userData);
     const storedUserData = localStorage.getItem('afriTechUserID');
 
     const data = storedUserData ? JSON.parse(storedUserData) : null
 
     const [formEntries, setFormEntries] = useState({
-        Email: userObject.email.stringValue,
-        Firstname: userObject.firstname.stringValue,
-        Lastame: userObject.lastname.stringValue,
-        Username: userObject.Username.stringValue,
-        Phone_Number: userObject.Phone.stringValue,
-        Home_Address: userObject.address.stringValue,
-        BVN_Number: userObject.bvnnumber.stringValue,
-        Nin_Number: userObject.ninnumber.integerValue,
-        verified: userObject.agreeToTerms.booleanValue
+        Email: userData.email.stringValue,
+        Firstname: userData.firstName.stringValue,
+        Lastame: userData.lastName.stringValue,
+        Username: userData.Username.stringValue,
+        Phone_Number: userData.Phone.stringValue,
+        Home_Address: userData.address.stringValue,
+        BVN_Number: userData.bvnnumber.stringValue,
+        Nin_Number: userData.ninnumber.integerValue,
+        verified: userData.agreeToTerms.booleanValue
     })
 
 
@@ -45,24 +46,14 @@ const UserProfileSetting = ({ setSettingIndex }) => {
             console.log(error)
         }
     }
-    async function ApiReq() {
-        const docRef = doc(database, "Users", `${data.userID}`);
-        console.log(docRef)
-        try {
-            console.log(docRef)
-            await updateDoc(docRef, formEntries)
-            await updateDoc(docRef, { [fieldName]: newValue })
-            console.log(formEntries)
-            console.log('Document Update completed successfully')
-
-        } catch (error) {
-            console.log('Failed to updateDocument')
-            console.log(error)
-        }
-
-
-
-    }
+    // async function goBackToMainUserSetting(){
+    //     try {
+    //         await dispatch(setUserData(response.data.fields))
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    //     setSettingIndex(0)
+    // }
 
     return (
 

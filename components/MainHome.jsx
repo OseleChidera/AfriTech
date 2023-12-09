@@ -10,7 +10,7 @@ const MainHome = () => {
   // const tl = gsap.timeline();
   // const durationTl = gsap.timeline();
   function showFinanceDetails(index) {
-    let userItems = Array.from(ItemlistlistRef.children)
+    let userItems = Array.from(ItemlistlistRef.children);
 
     // userItems.forEach((item) => {
     //   tl.to(item, { duration: 0, boxShadow: 'none', height: 'auto', ease: Power3.easeIn })

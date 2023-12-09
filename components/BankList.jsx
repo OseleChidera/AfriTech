@@ -44,10 +44,12 @@ const BankList = () => {
     //   }
     // )
   }
-  const userObject = useSelector((state) => state.user.userData);
+  // const userData = JSON.stringify(useSelector((state) => state.user.userData), null, 2);
+  const userData = useSelector((state) => state.user.userData)
+  console.log(userData)
   return (
     <div className='w-full h-full overflow-y-auto  text-[#005377]  bg-white rounded-lg pt-5 relative border border-red-700 break-normal box-shadowBottom hide-scrollbar'>
-      <div className="text-xl font-bold text-right w-fit border border-red-700 ml-5 mb-4 md:ml-11">User BVN : {userObject.bvnnumber.stringValue}</div>
+      <div className="text-xl font-bold text-right w-fit border border-red-700 ml-5 mb-4 md:ml-11">User BVN : {userData.bvnnumber.stringValue}</div>
       <div className="flex  flex-col w-full  border gap-3 relative " ref={el => (banklistRef = el)}>
         <Bank id={0} showBankDetails={showBankDetails}/>
         <Bank id={1} showBankDetails={showBankDetails} />
