@@ -220,10 +220,12 @@ display: none;
 }
 
 .user-setting-item input:disabled{
+  field-sizing: content;
   border: none;
 background: inherit;
 }
 .user-setting-item input:not(:disabled) , .user-setting-item input:not(:disabled):active{
+  field-sizing: content;
   text-indent: 3px;
   border: none;
   padding-bottom: 3px;
@@ -343,3 +345,30 @@ animation: showModal 1s infinite alternate;
 .saveBtn{
   animation: breathe 2s infinite alternate;
 }
+
+@keyframes destructiveActionBreathe {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 2, 2, 0.833);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 2, 2, 0.133);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 2, 2, 0.833);
+  }
+}
+/* Apply the animation to the element */
+.destructiveAction:hover{
+  color: rgba(255, 2, 2, 0.833);
+  border: rgba(255, 2, 2, 0.833);
+  animation: destructiveActionBreathe 0.7s infinite alternate;
+}
+.destructiveAction:focus-visible{
+  color: rgba(255, 2, 2, 0.833);
+  border: rgba(255, 2, 2, 0.833);
+  animation: destructiveActionBreathe 0.7s infinite alternate;
+}
+#modal input{
+  border: 1px solid black;
+}
+

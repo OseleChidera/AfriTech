@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 const formEntries = {
-    email: 'oselechidwerwedeera590@gmail.com',
-    firstName: '',
-    lastName: '',
+    email: 'oselechideratest4@gmail.com',
+    password: '',
+    confirm_password: '',
+    firstname: '',
+    lastname: '',
     Username: '',
     Phone: '',
     address: '',
@@ -11,7 +13,7 @@ const formEntries = {
     agreeToTerms: false,
     profilePicture: null,
     image2: null,
-    dateOfBirth: null,
+    dateOfBirth: "",
 }
 
 const userSlice = createSlice({
@@ -25,7 +27,8 @@ const userSlice = createSlice({
         userFormEntries: formEntries,
         hasStorageAccessPermission: true,
         userAge: null,
-        userData: null
+        userData: null,
+        currentUserData: null
     },
     reducers: {
         setUserIdData: (state, action) => {
@@ -47,6 +50,7 @@ const userSlice = createSlice({
             state.signupIndex -= 1
         },
         incrementSignin: (state, action = false) => {
+            console.log("action.payload" + " " + action.payload)
             if (action.payload) {
                 return;
             }
@@ -54,6 +58,9 @@ const userSlice = createSlice({
         },
         decrementSignin: state => {
             state.signinIndex -= 1
+        },
+        incrementSigninToStartMultistep: (state) => {
+            state.signinIndex = 2
         },
         sethomePageNavIndex: (state, action) => {
             state.homePageNavIndex = action.payload
@@ -68,15 +75,20 @@ const userSlice = createSlice({
             state.hasStorageAccessPermission = action.payload
         },
          setUserData: (state, action) => {
-            console.log("ACTION PAYLOAD:" + action.payload)
+            // console.log("ACTION PAYLOAD:" + action.payload)
+            //  console.log("setUserData reducer function" + JSON.stringify(action.payload, null, 2))
             state.userData = action.payload
         },
         removeUserData: (state, action) => {
             state.userData = action.payload
-        }
+        },
+        setCurrentUserData: (state, action) => {
+            console.log("ACTION PAYLOAD:" + action.payload)
+            state.currentUserData = action.payload
+        },
     }
 })
-export const { setUserIdData, setUserData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess, sethomePageNavIndex } = userSlice.actions;
+export const { setUserIdData, setUserData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninToStartMultistep, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess, sethomePageNavIndex, setCurrentUserData } = userSlice.actions;
 // export const userData = (state) => state.user.userData;
 export default userSlice.reducer;
 

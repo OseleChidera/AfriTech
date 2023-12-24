@@ -10,12 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
 import { step1ValidationSchema } from "../utils/schemaUtil"
 import { useSelector, useDispatch } from "react-redux";
-import { setUserIdData} from '../redux/user'
+import { setUserIdData, setCurrentUserData } from '../redux/user'
 
 const Step1 = ({ data, next }) => {
     const [showPassowrd1, setShowPassword1] = useState(false)
     const [showPassowrd2, setShowPassword2] = useState(false)
-    const userId = useSelector((state) => state.user.value);
+    const reduxStoreUserId = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
 
     function createUserFirestoreEntry(userProfile) {
@@ -29,28 +29,28 @@ const Step1 = ({ data, next }) => {
     const handleSubmit = (values) => {
         next(values)
         createUserWithEmailAndPassword(auth, values.email, values.password)
+        // console.log("createUserWithEmailAndPassword" + JSON.stringify(auth, null, 2))
+        
             .then((userCredential) => {
+                console.log(userCredential)
                 const userProfile = userCredential.user;
-                try {
-                    console.log("new user id" + userId)
                     sendEmailVerification(userProfile)
                     throwMessage('A verification email was sent to you follow the instructions')
                     const customDocRef = doc(database, 'Users', `${userProfile.reloadUserInfo.localId}`);
                     setDoc(customDocRef, { email: values.email});
                     console.log('user id: ' + userProfile.uid)
                     dispatch(setUserIdData(userProfile.uid))
+                   
+
                     //save the user id in local storage on signup
-                    localStorage.setItem('afriTechUserID', JSON.stringify({ userID: `${userProfile.uid}` }))
-                }
-                catch (error) { 
-                    console.log(error)
-                    throwMessage(error.message) 
-                }
+                    localStorage.setItem('afriTechUserID', JSON.stringify(`${userProfile.uid}`))
+                console.log("auth.currentUser" + " " + JSON.stringify(auth.currentUser , null , 2))
+                    // dispatch(setCurrentUserData(auth.currentUser))
+                
             })
             .catch((error) => {
-                const errorCode = error.code;
-                throwMessage(errorCode)
-                console.log(errorCode)
+                throwMessage(error.message)
+                console.log(error.message)
             });
     }
    
@@ -85,7 +85,7 @@ const Step1 = ({ data, next }) => {
                             <div className=" flex flex-col relative">
                                 <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="password">Password : </label>
                                 <div className="flex flex-row items-center w-full">
-                                    <Field name="password" type={showPassowrd1 ? 'text' : 'password'} className="w-full" placeholder="*********" />
+                                    <Field name="password"   type={showPassowrd1 ? 'text' : 'password'} className="w-full" placeholder="*********" />
                                     <button type='button' onClick={() => setShowPassword1((showPassowrd1) => !showPassowrd1)} className='bg-transparent absolute right-3'>
                                         <img width="18" height="18" src="https://img.icons8.com/ios/50/show-password.png" alt="show-password" />
                                     </button>
@@ -101,7 +101,7 @@ const Step1 = ({ data, next }) => {
                             <div className=" flex flex-col relative">
                                 <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="confirm_password">Re-enter Password : </label>
                                 <div className="flex flex-row items-center w-full">
-                                    <Field name="confirm_password" type={showPassowrd2 ? 'text' : 'password'} className="w-full" placeholder="*********" />
+                                    <Field name="confirm_password"  type={showPassowrd2 ? 'text' : 'password'} className="w-full" placeholder="*********" />
                                     <button type='button' onClick={() => setShowPassword2((showPassowrd2) => !showPassowrd2)} className='bg-transparent absolute  right-3'>
                                         <img width="18" height="18" src="https://img.icons8.com/ios/50/show-password.png" alt="show-password" />
                                     </button>

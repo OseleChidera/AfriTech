@@ -10,7 +10,7 @@ const ImageModal = ({ url, closeImageModal }) => {
                   >Close</button>
               </div>
               <div className="max-w-[90%] max-h-[70%] w-full mx-auto border border-white">
-                  <Image src={url ? url : null} alt='popup-image' width={350} height={350} className='w-full h-full aspect-video  object-scale-down'/>
+          <Image src={url ? url : null} layout="fixed"  alt='popup-image' width={350} height={350} className='w-full h-full aspect-video  object-scale-down'/>
               </div>
         </div>
     </div>

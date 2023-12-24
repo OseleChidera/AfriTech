@@ -29,7 +29,7 @@ const Step2 = ({ data, next }) => {
 
                         <div className="mb-3">
                             <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="firstname">FirstName : </label>
-                            <Field name="firstname" className="capitalize" placeholder="Firstname Lastname"/>
+                            <Field name="firstname" className="capitalize" placeholder="Firstname"/>
                             {errors.firstname && touched.firstname ? (
                                 <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.firstname}</div>
                             ) : null}
@@ -45,8 +45,8 @@ const Step2 = ({ data, next }) => {
 
                         <div className="mb-3">
                             <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="Username">Username : </label>
-                            <Field name="Username" type="text" className="capitalize" placeholder="JohnDoe@e-mail.com" />
-                            {errors.email && touched.email ? <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.email}</div> : null}
+                            <Field name="Username" type="text" className="capitalize" placeholder="John" />
+                            {errors.Username && touched.Username ? <div className='text-[0.7rem] text-red-600 font-semibold'>{errors.Username}</div> : null}
                         </div>
                         
 

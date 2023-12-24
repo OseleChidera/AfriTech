@@ -12,22 +12,41 @@ import { SigninSchema } from '../../utils/schemaUtil'
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from "@/utils/utility";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserIdData, removeUserData, setLoading, fetchDataByUserId } from '../../redux/user'
-
+import { setUserIdData, removeUserData, setLoading, fetchDataByUserId, setCurrentUserData, incrementSigninToStartMultistep, incrementSignin } from '../../redux/user'
+import axios from 'axios';
 
 
 
 const SigninMain = ({nextStep, isDisabled }) => {
-const userId = useSelector((state) => state.user.value);
 const userObj = useSelector((state) => state.user.valueObj);
-
 const dispatch = useDispatch();
 const [showPassword, setShowPassword] = useState(false);
 
+  async function checkForUserData(userId, values) {
+    console.log(userId)
+    try {
+      const response = await axios.get(`https://firestore.googleapis.com/v1/projects/afritech-b3227/databases/(default)/documents/Users/${userId}`);
+      console.log(response)
+      if (response.data.fields.agreeToTerms === undefined && response.data.fields.ninnumber === undefined && response.data.fields.profilePicture === undefined){
+        dispatch(incrementSigninToStartMultistep())
+      }
+        else{
+          toast.success("Login successful home page", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+            onOpen: () => {
+           window.location.href = "/home";
+            }
+          });
+        }
+    } catch (error) {console.error('Error fetching data:', error)}}
 
-  // useEffect(() => {
-  //   dispatch(fetchDataByUserId(userId, userObj));
-  // }, [dispatch, userId]);
 
   return (
     <>
@@ -39,47 +58,23 @@ const [showPassword, setShowPassword] = useState(false);
           </div>
           <Formik
             initialValues={{
-            email: "oselechidwerwedeerkka590@gmail.com",
+            // email: "oselechidwerwedeerkka590@gmail.com",
+            email: "oselechideratest1@gmail.com",
               password: !isDisabled ? "11111111" : "",
             }}
           validationSchema={SigninSchema}
-          onSubmit={(values) => {
-              // same shape as initial values
-              console.log(values);
-              signInWithEmailAndPassword(auth, values.email, values.password)
+         async onSubmit={(values) => {
+            
+           signInWithEmailAndPassword(auth, values.email, values.password)
                 .then((userCredential) => {
                   console.log(userCredential);
-                  const userCredentials = userCredential.user;
-                  //set value of the user 
-                  dispatch(setUserIdData(userCredentials.reloadUserInfo.localId))
-                    console.log(userCredentials)
-       
-                  //save the user id in local storage on signin
-                  console.log("userId : " + userCredentials.reloadUserInfo.localId)
-                  console.log("typeof userId : " + typeof userCredentials.reloadUserInfo.localId)
-                  localStorage.setItem('afriTechUserID', JSON.stringify({ userID: userCredentials.reloadUserInfo.localId }))
-                  //Display notification to user
-                  toast.success("Login successful", {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: false,
-                    progress: undefined,
-                    theme: "colored",
-                    onOpen: () => {
-                      console.log('Toast opened redirecting to home page');
-                      // Perform actions after toast is displayed
-                      
-                      window.location.href = "/home";
-                    }
-                  });
+                  const uID = userCredential.user.reloadUserInfo.localId
+                  localStorage.setItem('afriTechUserID', JSON.stringify(`${uID}`))
+                  // dispatch(setUserIdData(uID))
+                  checkForUserData(uID, values); 
                 })
                 .catch((error) => {
-                  console.log(error)
-                  console.log(error.code);
-                  throwMessage(error.code);
+                  console.log(error.code ,  error.message);
                 });
             }}
           >

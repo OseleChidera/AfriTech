@@ -1,21 +1,27 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 
 
-const UserProfileSettingInputs = ({ SettingKey, title, value, index, handleInputChange }) => {
+const UserInfoUpdateComponent = ({ SettingKey, title, value, index, handleInputChange }) => {
     const [isEditing, setIsEditing] = useState(null);
     const [inputValue, setInputValue] = useState(value);
 
     function selectEditing(index) {
-        console.log("edit : " + SettingKey + " " + inputValue)
-        setIsEditing(true)
-        document.querySelectorAll('.user-setting-item').forEach((item) => {
-            item.querySelector('input').disabled = true;
-        })
-        // console.log(document.querySelectorAll('.user-setting-item')[index].querySelector('input'))
-        document.querySelectorAll('.user-setting-item')[index].querySelector('input').classList.add = 'input-active'
-        document.querySelectorAll('.user-setting-item')[index].querySelector('input').disabled = false
+        console.log("edit : " + SettingKey + " " + inputValue);
+        setIsEditing(true);
+
+        // Disable all inputs first
+        document.querySelectorAll('.user-setting-item input').forEach((input) => {
+            input.disabled = true;
+            input.classList.remove('input-active');
+        });
+
+        // Enable the specific input
+        const inputElement = document.querySelectorAll('.user-setting-item input')[index];
+        inputElement.disabled = false;
+        inputElement.classList.add('input-active');
     }
+
 
     function handleSave(SettingKey) {
         console.log("save : " + SettingKey + " " + inputValue)
@@ -32,7 +38,7 @@ const UserProfileSettingInputs = ({ SettingKey, title, value, index, handleInput
                     <input
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        className="w-1/2 border border-black "
+                        className="w-1/2 border border-black input"
                         disabled={true}
                     />
                 </div>
@@ -56,4 +62,4 @@ const UserProfileSettingInputs = ({ SettingKey, title, value, index, handleInput
     );
 }
 
-export default UserProfileSettingInputs
+export default UserInfoUpdateComponent

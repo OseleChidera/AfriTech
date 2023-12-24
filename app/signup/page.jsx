@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { auth } from '@/firebase/firebaseConfig'
+// import { auth } from '@/firebase/firebaseConfig'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { collection, addDoc, doc, setDoc, updateDoc , onSnapshot , getDoc } from "firebase/firestore";
 import { database, storage } from '@/firebase/firebaseConfig';
@@ -21,30 +21,47 @@ import {fetchData, throwMessage} from '../../utils/utility'
 
 
 export default function Multistep () {
-   
-
-   
     const pageindex = useSelector((state) => state.user.signupIndex);
     const userFormEntries = useSelector((state) => state.user.userFormEntries);
-    const userId = useSelector((state) => state.user.value);
+    const userIdFromLocalStorage = localStorage.getItem('afriTechUserID') ? JSON.parse(localStorage.getItem('afriTechUserID')) : null;
     const userDataVariable = useSelector((state) => state.user.userData);
     const dispatch = useDispatch();
     const [data, setData] = useState(userFormEntries)
   
-   
-    //upload the images from the form to a storage bucket  and get a urn to access said images
-    async function uploadImage(image) {
-     try {
-         const imagePath = `${userId}/${image.name}`
-         const storageRef = ref(storage, imagePath);
-         await uploadBytes(storageRef, image);
-         return getDownloadURL(storageRef);
-     } catch (error) {
-        console.log(error)
-        console.log('image couldnt upload')
-         throwMessage('image couldnt upload')
-     }
+
+    async function uploadNinImage(image) {
+        console.log("IMAGE ID INSIDE uploadProfilePicture"+""+image)
+        console.log("USER ID INSIDE uploadProfilePicture" + "" + userIdFromLocalStorage)
+
+        try {
+            const imagePath = `${userIdFromLocalStorage}/ninImage`
+            console.log(imagePath)
+            const storageRef = ref(storage, imagePath);
+            await uploadBytes(storageRef, image);
+            return getDownloadURL(storageRef);
+        } catch (error) {
+            console.log(error.message)
+            throwMessage('ninImage image couldnt upload')
+        }
     }
+
+    async function uploadProfilePicture(image) {
+        console.log("IMAGE ID INSIDE uploadProfilePicture" + "" + image)
+        console.log("USER ID INSIDE uploadProfilePicture" + "" + userIdFromLocalStorage)
+        try {
+            const imagePath = `${userIdFromLocalStorage}/profilePicture`
+            console.log(imagePath)
+            const storageRef = ref(storage, imagePath);
+            await uploadBytes(storageRef, image);
+            return getDownloadURL(storageRef);
+        } catch (error) {
+            console.log(error.message)
+            throwMessage('profilePicture image couldnt upload')
+        }
+    }
+
+
+
 
     const steps = [
         <Step1 data={data} next={handleNextStep}  setData={setData} />,
@@ -53,19 +70,24 @@ export default function Multistep () {
         <Step4 data={data} next={handleNextStep} prev={handlePrevStep} />]
 
     async function ApiReq(newData) {
+        console.log("RUNNING API REQ" + " " + newData.agreeToTerms)
 
-        const docRef = doc(database, "Users", userId);
+        const docRef = doc(database, "Users", `${userIdFromLocalStorage}`);
+        console.log("RUNNING API REQ")
         if (newData.agreeToTerms) {
             try {
-                const [image1Url, image2Url] = await Promise.all([uploadImage(newData.profilePicture),uploadImage(newData.image2)])
+                console.log("RUNNING TRY IN API REQ")
+
+                const [image1Url, image2Url] = await Promise.all([uploadProfilePicture(newData.profilePicture), uploadNinImage(newData.image2)])
                 newData.profilePicture = image1Url
                 newData.image2 = image2Url
-                newData.confirm_password = null;
-                newData.password = null;
+                delete newData.confirm_password;
+                delete newData.password;
                 newData.dateOfBirth = newData.dateOfBirth.getTime()
                 console.log(image1Url)
                 console.log(image2Url)
-                dispatch(updateUserFormEntries(newData))  
+                console.log(newData)
+                dispatch(updateUserFormEntries(JSON.stringify(newData , null, 2)))  
 
                 await updateDoc(docRef, newData)
                 try {
@@ -84,13 +106,14 @@ export default function Multistep () {
                
             } catch (error) {
                 console.log(error)
-                    throwMessage(error.message) }
+                throwMessage(error.message) }
 
 
         }
     }
     
     function handleNextStep(newData, final = false) {
+
         setData(prev => ({ ...prev, ...newData }))
         console.log(newData)
        

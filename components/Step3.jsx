@@ -125,6 +125,7 @@ const Step3 = ({ data, next, prev }) => {
                                     onChange={(event) => {
                                         console.table(event.currentTarget.files[0])
                                         setFieldValue('image2', event.currentTarget.files[0]);
+                                        
                                     
                                     }}
                                     className="text-white"

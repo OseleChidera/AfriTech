@@ -117,6 +117,56 @@ export function throwMessage(errorcode) {
                 }
             });
             break;
+        case 'Feedback-recorded':
+            toast.success('Your feedback has beeen recorded. We would contact you as soon as possible', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                onOpen: () => {
+                    // console.log('Toast opened redirecting to signup page');
+                    // Perform actions after toast is displayed
+                }
+            });
+            break;
+        case 'logout successful':
+            toast.success('User has been logged out successfully', {
+                position: "top-right",
+                autoClose: 700,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                onOpen: () => {
+                    // console.log('Toast opened redirecting to signup page');
+                    // Perform actions after toast is displayed
+                    window.location.href = "/signin";
+                }
+            });
+            break;
+            case 'password reset successful':
+            toast.success('password reset successful. Check your email for the link', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                onOpen: () => {
+                    // console.log('Toast opened redirecting to signup page');
+                    // Perform actions after toast is displayed
+                    window.location.href = "/signin";
+                }
+            });
+            break;
         case 'User SignUp complete':
             toast.success('User SignUp complete.', {
                 position: "top-right",
@@ -174,7 +224,7 @@ export function findUserByEmail(email) {
     }).catch((error) => {
         console.log(error)
     })
-    console.log(firebase.auth())
+    // console.log(firebase.auth())
 }
 
 export const fetchData = async (docRef) => {
@@ -208,3 +258,6 @@ export const fetchData = async (docRef) => {
 
 //     console.log('User age:', age);
 // };
+
+
+

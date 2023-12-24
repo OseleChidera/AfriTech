@@ -8,9 +8,10 @@ import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 
 const Step4 = ({ data, next }) => {
-  // const userId = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
-  const handleSubmit = (values) => {next(values, true)}
+  const handleSubmit = (values) => {
+    next(values, true)
+  }
   const validationSchema = Yup.object().shape({
     agreeToTerms: Yup.boolean().required(
       "You must accept the terms and conditions."
@@ -83,7 +84,7 @@ const Step4 = ({ data, next }) => {
                   I accept the terms and conditions stated above
                 </span>
               </div>
-              {errors.agreeToTerms && errors.touvhed ? (
+              {errors.agreeToTerms && errors.agreeToTerms ? (
                 <span className="text-[0.7rem] text-red-600 font-semibold">
                   {errors.agreeToTerms}
                 </span>

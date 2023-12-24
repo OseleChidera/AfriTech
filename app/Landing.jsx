@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import illustration from '../public/images/Server-bro.svg'
 import phoneImg from '../public/images/pexels-vlad-chețan-3121979.jpg'
 import atmImg from '../public/images/pexels-luis-moya-14528919.jpg'
@@ -12,8 +12,44 @@ import photo2 from "../public/images/photo2.jpg"
 import photo3 from "../public/images/photo3.jpg"
 import photo4 from "../public/images/photo4.jpg"
 import Link from 'next/link'
+import { useSelector, useDispatch } from "react-redux";
+import { setUserData } from "@/redux/user";
+import axios from 'axios';
+import { getAuth, updateEmail, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+
+
 
 const page = () => {
+    const dispatch = useDispatch();
+    const userObject = useSelector((state) => state.user.userData);
+    const userIdFromLocalStorage = localStorage.getItem('afriTechUserID') ? JSON.parse(localStorage.getItem('afriTechUserID')) : null;
+
+    async function getUserData() {
+        try {
+            const response = await axios.get(`https://firestore.googleapis.com/v1/projects/afritech-b3227/databases/(default)/documents/Users/${userIdFromLocalStorage}`);
+            dispatch(setUserData(response.data.fields))
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+        
+    }
+
+function checkIfUserIsloggedIn(){
+    const storedUserData = localStorage.getItem('afriTechUserID');
+    const data = storedUserData ? JSON.parse(storedUserData) : null;
+    if(data == null) {
+        window.open('/signin', '_blank');
+    }
+    else if(data !== null) {
+        window.open('/home', '_blank');
+    }
+}
+
+    // console.log('UserObjectTTTTTTTTTTT: ' + JSON.stringify(userObject, null, 2))
+
+    useEffect(()=>{
+        getUserData()
+    }, [userIdFromLocalStorage])
     return (
         <div className='flex flex-col border border-black  min-h-screen max-h-fit h-full  w-full '>
             <div id='first' className="w-full h-fit flex flex-col gap-4 text-white p-24 px-5   md:items-center md:constant-spacing-md md:px-48">
@@ -30,11 +66,11 @@ const page = () => {
                             Get Started
                         </button>
                     </Link>
-                    <Link href={`/signin`} className='flex-1'>
-                        <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full">
+                    {/* <Link  className='flex-1'> */}
+                    <button onClick={() => checkIfUserIsloggedIn()} className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full flex-1">
                             Resume
                         </button>
-                    </Link>
+                    {/* </Link> */}
                 </div>
             </div>
             <div id='second' className="flex flex-col  bg-[#0CEBAF] p-10 px-5 mb-7  md:px-48">
@@ -114,11 +150,11 @@ const page = () => {
                             Sign Up
                         </button>
                     </Link>
-                    <Link href={`/signin`} className='flex-1'>
-                        <button className="rounded-xl bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full">
+                    {/* <Link href={`/signin`} className='flex-1'> */}
+                        <button onClick={() => checkIfUserIsloggedIn()} className="rounded-xl flex-1 bg-white border-none p-[0.65rem] text-xl font-semibold text-[#F1A208] w-full">
                             Sign In
                         </button>
-                    </Link>
+                    {/* </Link> */}
                 </div>
             </div>
             <footer className=" bg-black text-white flex flex-col items-center text-center gap-6 p-4 mb-0 ">

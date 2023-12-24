@@ -122,7 +122,7 @@ export const step2ValidationSchema = Yup.object().shape({
         .required('Required'),
     Username: Yup.string()
         .min(2, 'Too Short!')
-        .max(10, 'Too Long!')
+        .max(20, 'Too Long!')
         .required('Required'),
     Phone: Yup.string()
         .min(10, 'Too Short!')
