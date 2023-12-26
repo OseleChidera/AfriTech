@@ -49,6 +49,9 @@ const userSlice = createSlice({
         decrementSignup: state => {
             state.signupIndex -= 1
         },
+        setSignupIndex: (state, action) => {
+            state.signupIndex = action.payload
+        },
         incrementSignin: (state, action = false) => {
             console.log("action.payload" + " " + action.payload)
             if (action.payload) {
@@ -76,7 +79,7 @@ const userSlice = createSlice({
         },
          setUserData: (state, action) => {
             // console.log("ACTION PAYLOAD:" + action.payload)
-            //  console.log("setUserData reducer function" + JSON.stringify(action.payload, null, 2))
+             console.log("setUserData reducer function" + JSON.stringify(action.payload, null, 2))
             state.userData = action.payload
         },
         removeUserData: (state, action) => {
@@ -88,7 +91,7 @@ const userSlice = createSlice({
         },
     }
 })
-export const { setUserIdData, setUserData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninToStartMultistep, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess, sethomePageNavIndex, setCurrentUserData } = userSlice.actions;
+export const { setUserIdData, setUserData, removeUserData, setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, incrementSigninToStartMultistep, incrementSigninByAmmount, updateUserFormEntries, grantStorageAccess, sethomePageNavIndex, setCurrentUserData, setSignupIndex } = userSlice.actions;
 // export const userData = (state) => state.user.userData;
 export default userSlice.reducer;
 

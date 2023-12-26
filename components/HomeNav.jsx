@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import homeIcon from "../public/icons/home-inactive.svg";
 import homeIconAvtive from "../public/icons/home-05-active.svg";
 import storeIcon from "../public/icons/store-inactive.svg";
@@ -11,9 +11,11 @@ import clipboardIcon from "../public/icons/clipboard-inactive.svg";
 import clipboardIconActive from "../public/icons/clipboard-active.svg";
 import { sethomePageNavIndex } from "@/redux/user";
 import { useSelector, useDispatch } from "react-redux";
+import { DataContext } from "@/utils/Context";
 
 
 const HomeNav = ({pageIndex,setPageIndex}) => {
+    const { user , userObject } =  useContext(DataContext)
     const dispatch = useDispatch();
     let mobileNav = useRef(null)
 
@@ -52,7 +54,8 @@ const HomeNav = ({pageIndex,setPageIndex}) => {
               </button>
               <h2 className="text-white text-sm capitalize hidden font-bold md:block description">home</h2>
           </div>
-          <div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item">
+          {userObject &&
+          (<div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item">
               <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl focused" onClick={() => pageSlider(1)}>
                   <Image
                       src={storeIcon}
@@ -68,8 +71,8 @@ const HomeNav = ({pageIndex,setPageIndex}) => {
                   />
               </button>
               <h2 className="text-white text-sm capitalize hidden font-bold md:block description">marketplace</h2>
-          </div>
-          <div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item">
+          </div>)}
+          {userObject && ( <div className="flex flex-col items-center gap-3 h-fit tab flex-1 relative nav-item">
               <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl  focused" onClick={() => pageSlider(2)}>
                   <Image
                       src={clipboardIcon}
@@ -86,8 +89,8 @@ const HomeNav = ({pageIndex,setPageIndex}) => {
 
               </button>
               <h2 className="text-white text-sm capitalize hidden font-bold md:block description">Bank List</h2>
-          </div>
-          <div className="flex flex-col items-center gap-3 h-fit tab flex-1  relative nav-item ">
+          </div>)}
+          {userObject && (<div className="flex flex-col items-center gap-3 h-fit tab flex-1  relative nav-item ">
               <button id="icon-div" className="flex flex-col items-center justify-center p-4 rounded-2xl shadow-2xl focused" onClick={() => pageSlider(3)}>
                   <Image
                       src={userIcon}
@@ -104,7 +107,7 @@ const HomeNav = ({pageIndex,setPageIndex}) => {
 
               </button>
               <h2 className="text-white text-sm capitalize hidden font-bold md:block description">user</h2>
-          </div>
+          </div>)}
       </div>
   )
 }

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React, { useState, useEffect, useContext } from 'react'
 import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
-import { database } from '@/firebase/firebaseConfig'
+import { database } from '@/firebaseConfig'
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData } from "@/redux/user";
 import UserInfoUpdateComponent from './UserInfoUpdateComponent';
@@ -9,15 +9,17 @@ import arrowRight from "../../public/icons/arrow-right.svg"
 import { DataContext } from '@/utils/Context';
 import { ToastContainer, toast } from "react-toastify";
 import { throwMessage } from "@/utils/utility";
+import { getAuth, sendEmailVerification } from "firebase/auth";
 
 
 const UserDetailsSetting = ({ setSettingIndex }) => {
+    
 
-    const { showProfilePictureUpdateModalFn, showChangeEmailModalFn } = useContext(DataContext)
+    const { showProfilePictureUpdateModalFn, showChangeEmailModalFn , user,showChangeNinSlipModalFn, closeChangeNinSlipModalFn} = useContext(DataContext)
     const userData = useSelector((state) => state.user.userData);
 
     const userIdFromLocalStorage = localStorage.getItem('afriTechUserID') ? JSON.parse(localStorage.getItem('afriTechUserID')) : null
-
+    console.log(userData.image2.stringValue)
     const [formEntries, setFormEntries] = useState({
         // Email: userData.email.stringValue,
         firstname: userData.firstname.stringValue,
@@ -27,9 +29,10 @@ const UserDetailsSetting = ({ setSettingIndex }) => {
         Home_Address: userData.address.stringValue,
         BVN_Number: userData.bvnnumber.stringValue,
         Nin_Number: userData.ninnumber.integerValue,
-        verified: userData.agreeToTerms.booleanValue
     })
+    const auth = getAuth();
 
+    const userInfo = auth.currentUser;
 
     async function handleInputChange(key, value) {
         setFormEntries((prevEntries) => ({
@@ -70,6 +73,24 @@ const UserDetailsSetting = ({ setSettingIndex }) => {
         }
     }
 
+
+    function resendUsserVerificationEmail(user){
+        if (user) {
+            // Send the verification email
+            sendEmailVerification(user)
+                .then(() => {
+                    // Email sent successfully
+                    console.log("Verification email sent successfully!");
+                })
+                .catch((error) => {
+                    // Handle errors
+                    console.error("Error sending verification email:", error);
+                });
+        } else {
+            // User is not signed in
+            console.error("User is not signed in.");
+        }
+    }
     return (
         <div className='border-10 border-red-700' >
 
@@ -92,11 +113,23 @@ const UserDetailsSetting = ({ setSettingIndex }) => {
                     })
                 }
                 <div className="flex justify-between items-center w-[95%] mx-auto p-2 py-4 box-shadow rounded-md user-setting-item bank"
-                    onClick={() => showProfilePictureUpdateModalFn()}
-                >
+                    onClick={() => showProfilePictureUpdateModalFn()}>
                     <span> Change profile picture</span>
                     <Image src={arrowRight} alt='right arrow' width={25} height={25}/>
                 </div>
+                {
+                    (typeof userData.image2.stringValue == "string" || !userData.image2.stringValue) && (<div className="flex justify-between items-center w-[95%] mx-auto p-2 py-4 box-shadow rounded-md user-setting-item bank" onClick={() => showChangeNinSlipModalFn()}>
+                        <span>Reupload a clear copy of your NIN slip</span>
+                        <Image src={arrowRight} alt='right arrow' width={25} height={25} />
+                    </div>)
+                }
+                {
+                    !user.emailVerified && (<div className="flex justify-between items-center w-[95%] mx-auto p-2 py-4 box-shadow rounded-md user-setting-item bank"
+                        onClick={() => resendUsserVerificationEmail(userData)}>
+                        <span> Resend email verification link</span>
+                        <Image src={arrowRight} alt='right arrow' width={25} height={25} />
+                    </div>)
+                }
     
             </main>
         </div>

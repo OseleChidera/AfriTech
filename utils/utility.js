@@ -1,4 +1,4 @@
-import { auth } from '@/firebase/firebaseConfig'
+import { auth } from '@/firebaseConfig'
 import { toast } from 'react-toastify'; 
 import {
     signInWithEmailAndPassword,
@@ -12,11 +12,11 @@ import {
 } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
-import { database, storage } from '@/firebase/firebaseConfig';
+import { database, storage } from '@/firebaseConfig';
 
 
 export function throwMessage(errorcode) {
-    console.log('error', errorcode)
+    console.log('utility error preview', errorcode)
     let errorCode;
     switch (errorcode) {
         case 'auth/user-not-found':
@@ -36,23 +36,7 @@ export function throwMessage(errorcode) {
                 }
             });
             break; 
-            case 'auth/email-already-in-use':
-            toast.error('This email is already in use', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined,
-                theme: "colored",
-                onOpen: () => {
-                    // console.log('Toast opened redirecting to signup page');
-                    // Perform actions after toast is displayed
-                    window.location.href = "/signin";
-                }
-            });
-            break;
+            
         case 'auth/invalid-login-credentials':
             toast.error('Invalid username or password', {
                 position: "top-right",
@@ -178,8 +162,8 @@ export function throwMessage(errorcode) {
                 progress: undefined,
                 theme: "colored",
                 onOpen: () => {
-                    // window.location.href = "/home";
-                    console.log('Toast opened redirecting to signup page')
+                    window.location.href = "/signin";
+                    console.log('Toast opened redirecting to signin page')
                 }
             });
             break;

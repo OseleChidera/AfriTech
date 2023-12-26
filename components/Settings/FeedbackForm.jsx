@@ -1,12 +1,14 @@
 import { current } from "@reduxjs/toolkit";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { setDoc, doc } from "firebase/firestore";
-import { database } from "@/firebase/firebaseConfig";
+import { database } from "@/firebaseConfig";
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
+import { DataContext } from "@/utils/Context";
 
-const FeedbackForm = ({ reduxStoreUserId, setSettingIndex }) => {
-  const [curentUserId, setCurrentUserId] = useState(reduxStoreUserId.userID)
+const FeedbackForm = ({ setSettingIndex }) => {
+  const {user} = useContext(DataContext)
+  const [curentUserId, setCurrentUserId] = useState(user.uid)
   const [sentUserFeedack, setSentUserFeedack] = useState(false);
     const [userFeedack, setUserFeed] = useState('')
 

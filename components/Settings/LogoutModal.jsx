@@ -1,19 +1,32 @@
 import React from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
+import { getAuth, signOut } from "firebase/auth";
 const LogoutModal = ({ closeLogoutModal }) => {
-    
-    function logoutUser(){
+    const auth = getAuth();
+   async function logoutUser(){
         console.log("YES")
-        const confirmationAlert = window.confirm("Are you really sure you want to logout?")
-        if (confirmationAlert) {
-            localStorage.removeItem('afriTechUserID')
-            closeLogoutModal()
-            throwMessage("logout successful")
-        }
-        else{
-            throwMessage('logout aborted')
-        }
+        
+            const confirmationAlert = window.confirm("Are you really sure you want to logout?")
+            if (confirmationAlert) {
+               await signOut(auth)
+                    .then(() => {
+                        console.log("User signed out successfully.");
+                        localStorage.removeItem('afriTechUserID')
+                        closeLogoutModal()
+                        throwMessage("logout successful")
+                        window.location.href = "/signin";
+                    })
+                    .catch((error) => {
+                        // An error happened.
+                        console.error("Error signing out:", error);
+                    });
+                
+                
+            }
+            else {
+                throwMessage('logout aborted')
+            }  
 
     }
   

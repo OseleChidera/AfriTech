@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { auth } from '@/firebase/firebaseConfig'
+import { auth } from '@/firebaseConfig'
 import { findUserByEmail } from '@/utils/utility';
 import {sendPasswordResetEmail} from "firebase/auth";
 import { throwMessage } from '@/utils/utility';

@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
-import { database, storage } from '@/firebase/firebaseConfig';
+import { database, storage } from '@/firebaseConfig';
 import { toast } from 'react-toastify';
 import { DataContext } from "@/utils/Context";
-import { auth, firestore } from '@/firebase/firebaseConfig'
+import { auth, firestore } from '@/firebaseConfig'
 import { getAuth, updateEmail,  sendEmailVerification } from "firebase/auth";
 
 

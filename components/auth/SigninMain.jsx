@@ -2,8 +2,8 @@
 import React, { useState , useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { auth } from "@/firebase/firebaseConfig";
-import { database } from '../../firebase/firebaseConfig';
+import { auth } from "@/firebaseConfig";
+import { database } from '../../firebaseConfig';
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -59,7 +59,8 @@ const [showPassword, setShowPassword] = useState(false);
           <Formik
             initialValues={{
             // email: "oselechidwerwedeerkka590@gmail.com",
-            email: "oselechideratest1@gmail.com",
+            // email: "oselechideratest1@gmail.com",
+            email: "deraemma8@gmail.com",
               password: !isDisabled ? "11111111" : "",
             }}
           validationSchema={SigninSchema}
@@ -69,11 +70,25 @@ const [showPassword, setShowPassword] = useState(false);
                 .then((userCredential) => {
                   console.log(userCredential);
                   const uID = userCredential.user.reloadUserInfo.localId
+                  console.log("uID" + " " + uID)
                   localStorage.setItem('afriTechUserID', JSON.stringify(`${uID}`))
-                  // dispatch(setUserIdData(uID))
+                  dispatch(setUserIdData(uID))
                   checkForUserData(uID, values); 
                 })
                 .catch((error) => {
+                  toast.error("auth/invalid-login-credential signup first", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    onOpen: () => {
+                       window.location.href = "/signup";
+                    }
+                  });
                   console.log(error.code ,  error.message);
                 });
             }}

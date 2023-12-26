@@ -5,23 +5,27 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
-import { database, storage } from '@/firebase/firebaseConfig';
+import { database, storage } from '@/firebaseConfig';
 import { toast } from 'react-toastify'; 
 import { DataContext } from "@/utils/Context";
+import { getAuth, sendEmailVerification } from "firebase/auth";
 
 
 const ChangeProfilePictureModal = () => {
-  const {setShowUpdateProfilePictureModal, closeProfilePictureUpdateModalFn } = useContext(DataContext)
+  const {closeProfilePictureUpdateModalFn,user } = useContext(DataContext)
   const [newProfilePicture, setNewProfilePicture] = useState(null);
   const hasPermission = useSelector((state) => state.user.hasStorageAccessPermission);
-  const reduxStoreUserId = useSelector((state) => state.user.value);
   const [disableUploadBtn , setDisableUploadBtn] = useState(false)
 
+  const auth = getAuth();
 
-  console.log("reduxStoreUserId" + " " + reduxStoreUserId)
+  // Get the currently signed-in user
+  const userRrR = auth.currentUser;
+  console.log("userRrR" + " " + JSON.stringify(userRrR , null, 2));
+  console.log("reduxStoreUserId" + " " + user.uid)
 
   async function uploadNewProfilePictureAndGetDownloadURL(newProfilePictureURL) {
-      const docRef = doc(database, "Users", reduxStoreUserId);
+      const docRef = doc(database, "Users", user.uid);
       try {
         
         await updateDoc(docRef, { profilePicture: newProfilePictureURL })
@@ -62,7 +66,7 @@ const ChangeProfilePictureModal = () => {
       return;
     }
 
-   const downloadurl = await updateProfilePicture(reduxStoreUserId, newProfilePicture);
+   const downloadurl = await updateProfilePicture(user.uid, newProfilePicture);
     setDisableUploadBtn(!disableUploadBtn)
   }
 
@@ -75,7 +79,7 @@ const ChangeProfilePictureModal = () => {
     >
       <div className="flex flex-col items-center gap-5 w-4/5 h-4/5 p-8 bg-white text-[#00537788] rounded-lg">
         <h1 className="text-4xl font-extrabold text-center">
-          Select another image from your media files?
+          Select another image from your media files
         </h1>
         <input
           type="file"

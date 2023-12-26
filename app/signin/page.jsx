@@ -1,5 +1,5 @@
 "use client";
-import React, { useState  } from "react";
+import React, { useState, useEffect} from "react";
 import FogortpasswordEmail from "../../components/auth/FogortpasswordEmail";
 import { ToastContainer, toast } from "react-toastify";
 import { throwMessage } from "@/utils/utility";
@@ -8,10 +8,13 @@ import Step2 from "../../components/Step2";
 import Step3 from "../../components/Step3";
 import Step4 from "../../components/Step4";
 import { doc, updateDoc } from "firebase/firestore";
-import { database, storage } from '@/firebase/firebaseConfig';
+import { database, storage } from '@/firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementSignin, decrementSignin, incrementSigninByAmmount, setCurrentUserData } from "../../redux/user"
+import { onAuthStateChanged } from 'firebase/auth';
+import { setupAuthObserver } from "@/firebaseAuth";
+
 
 const SigninPage = ({user}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,6 +54,28 @@ const SigninPage = ({user}) => {
 
   ];
 
+  useEffect(() => {
+    const authCallback = (user) => {
+      if (user) {
+        console.log('User is authenticated:', user);
+        // Perform actions for authenticated user
+      } else {
+        console.log('User is not authenticated.');
+        // Perform actions for unauthenticated user
+      }
+    };
+
+    // Set up the auth observer
+    setupAuthObserver(authCallback);
+
+    // Clean up the observer on component unmount
+    return () => {
+      // Clean up the observer when the component is unmounted
+      // This is important to avoid memory leaks
+      // You might want to store the observer cleanup function in a state variable
+      // and call it when the component is unmounted
+    };
+  }, []);
 
 
 
@@ -76,11 +101,11 @@ const SigninPage = ({user}) => {
           onOpen: () => {
             console.log('Toast opened redirecting to home page');
             // Perform actions after toast is displayed
-            window.location.href = "/signin";
+            // window.location.href = "/signin";
             console.log(userFormEntries, userIdFromLocalStorage)
           },
         });
-
+        
       } catch (error) {
         console.log(error.message)
       }

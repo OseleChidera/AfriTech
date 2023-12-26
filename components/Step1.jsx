@@ -2,15 +2,16 @@
 import React, { useState , useEffect} from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { auth } from '@/firebase/firebaseConfig'
+import { auth } from '@/firebaseConfig'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { collection, addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
-import { database, storage } from '@/firebase/firebaseConfig';
+import { database, storage } from '@/firebaseConfig';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { throwMessage } from '@/utils/utility';
 import { step1ValidationSchema } from "../utils/schemaUtil"
 import { useSelector, useDispatch } from "react-redux";
-import { setUserIdData, setCurrentUserData } from '../redux/user'
+import { setUserIdData, setCurrentUserData, setSignupIndex } from '../redux/user'
 
 const Step1 = ({ data, next }) => {
     const [showPassowrd1, setShowPassword1] = useState(false)
@@ -49,8 +50,26 @@ const Step1 = ({ data, next }) => {
                 
             })
             .catch((error) => {
-                throwMessage(error.message)
-                console.log(error.message)
+                if (error.code == 'auth/email-already-in-use') {
+                dispatch(setSignupIndex(0))
+                    // dispatch(setUserIdData(" "))
+                toast.error('This email is already in use', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                onOpen: () => {
+                    // console.log('Toast opened redirecting to signup page');
+                    // Perform actions after toast is displayed
+                    window.location.href = "/signin";
+                }
+            })
+                }
+                console.log(error.message, error.code)
             });
     }
    
