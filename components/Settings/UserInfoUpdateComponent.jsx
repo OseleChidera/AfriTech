@@ -24,9 +24,16 @@ const UserInfoUpdateComponent = ({ SettingKey, title, value, index, handleInputC
 
 
     function handleSave(SettingKey) {
-        console.log("save : " + SettingKey + " " + inputValue)
-        setIsEditing(false)
-        document.querySelectorAll('.user-setting-item')[index].querySelector('input').disabled = true
+        console.log("save : " + SettingKey + " " + inputValue);
+        setIsEditing(false);
+
+        // Disable all inputs using querySelectorAll
+        document.querySelectorAll('.user-setting-item input').forEach((input) => {
+            input.disabled = true;
+            input.classList.remove('input-active');
+        });
+
+        // Call your handleInputChange function
         handleInputChange(SettingKey, inputValue);
     }
 

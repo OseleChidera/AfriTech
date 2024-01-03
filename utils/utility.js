@@ -185,9 +185,9 @@ export function throwMessage(errorcode) {
             break;   
 
         default:
-            toast.error(`${errorcode}`, {
+            toast.info(`${errorcode}`, {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 2500,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

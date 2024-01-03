@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,8 @@ import { toast } from 'react-toastify';
 import { DataContext } from "@/utils/Context";
 import { auth, firestore } from '@/firebaseConfig'
 import { getAuth, updateEmail,  sendEmailVerification } from "firebase/auth";
+import { setupAuthObserver } from "@/firebaseAuth";
+import firebase from 'firebase/app';
 
 
 const ChangeCurrentUserEmail = () => {
@@ -21,64 +23,85 @@ const ChangeCurrentUserEmail = () => {
     const reduxStoreUserId = useSelector((state) => state.user.value);
     const [disableUploadBtn, setDisableUploadBtn] = useState(false)
 
-
-
+    // const auth = getAuth();
 
     async function changeUserEmail(userId, newEmail) {
-        // Update email in Firebase Authentication
-        // console.log(JSON.stringify(auth.currentUser,null , 2))
+        const userDocRef = doc(database, "Users", `${userId}`);
+        console.log(userId,newEmail,auth.currentUser.emailVerified)
         try {
+            // Check if the new email is verified
+            if (!auth.currentUser.emailVerified) {
+                throw new Error('New email is not verified.');
+            }
+
+            // Update the email in Firebase Authentication
             await updateEmail(auth.currentUser, newEmail);
-            toast.success('Email updated successfully in Firebase Authentication', {
-                position: "top-right",
-                autoClose: 2000,
+
+            // Update the email in Firestore
+            await updateDoc(userDocRef, { email: newEmail });
+
+            toast.success('Email updated successfully.', {
+                position: 'top-right',
+                autoClose: 2500,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: false,
                 progress: undefined,
-                theme: "colored",
-                onOpen: () => { closeChangeEmailModalFn() }
+                theme: 'colored',
+                onOpen: () => { closeChangeEmailModalFn(); },
             });
+             await sendEmailVerification(auth.currentUser);
+            await auth.signOut();
+            window.location.href = "/signin";
+            localStorage.removeItem('afriTechUserID')
+            throwMessage("logout successful")
         } catch (error) {
-            throwMessage('Error updating email. Ensure email has been verified and retry.')
-            if (error.code == "auth/operation-not-allowed" || error.code == "auth/operation-not-allowed") {
-                try {
-                    await sendEmailVerification(auth.currentUser);
-                    toast.success('Verification email sent successfully!. Check your inbox', {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: false,
-                        progress: undefined,
-                        theme: "colored",
-                        onOpen: () => {closeChangeEmailModalFn() }
-                    });
-                } catch (error) {
-                    console.error("Error sending verification email:", error);
-                }
-            }
-            console.log(error)
-        }
-
-        // Update email in Firestore document
-        const userDocRef = doc(database, "Users", `${userId}`);
-
-        try {
-            await updateDoc(userDocRef, { email: newEmail });
-            console.log('Email updated successfully in Firestore document');
-        } catch (error) {
-            throwMessage('Error updating email in Firestore document:', error.message)
-
-            // If updating email in Firestore fails, you may want to roll back the email update in Firebase Authentication.
-            // Handle this based on your use case.
-            throw error;
+            console.log(error, error.message, error.code);
+            await auth.signOut();
+            window.location.href = "/signin";
+            localStorage.removeItem('afriTechUserID')
+                toast.info('An email containing a verification lnk was sent to your email. Verify and signin again.', {
+                    position: 'top-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: 'colored',
+                });
+            await sendEmailVerification(auth.currentUser);
+        
         }
     }
 
 
+
+
+    useEffect(() => {
+        const authCallback = (user) => {
+            if (user) {
+                console.log('User is authenticated ChangeCurrentUserEmail:', user);
+                
+                // Perform actions for authenticated user
+            } else {
+                console.log('User is not authenticated ChangeCurrentUserEmail.');
+                // Perform actions for unauthenticated user
+            }
+        };
+
+        // Set up the auth observer
+        setupAuthObserver(authCallback);
+
+        // Clean up the observer on component unmount
+        return () => {
+            // Clean up the observer when the component is unmounted
+            // This is important to avoid memory leaks
+            // You might want to store the observer cleanup function in a state variable
+            // and call it when the component is unmounted
+        };
+    }, []);
 
     const emailModalValidationSchema = Yup.object().shape({
         newEmail: Yup.string()
@@ -90,13 +113,12 @@ const ChangeCurrentUserEmail = () => {
         <Formik
             initialValues={{email : ""}}
             validationSchema={emailModalValidationSchema}
-            async onSubmit={changeUserEmail}
-            
+            // async onSubmit={() => changeUserEmail(reduxStoreUserId, newEmail)}
         >
             {({ errors, touched }) => (
             <div id="modal"
                 className="flex flex-col justify-center items-center svh-minHeight  w-full   bg-[#00537788] border py-4 px-5 border-1 border-red-800 gap-10 z-20 pointer-events-auto absolute">
-            <Form className="flex flex-col items-center gap-5 w-4/5 h-4/5 p-8 bg-white text-[#00537788] rounded-lg">
+            <div className="flex flex-col items-center gap-5 w-4/5 h-4/5 p-8 bg-white text-[#00537788] rounded-lg">
                 <h1 className="text-4xl font-extrabold text-center">
                     Enter your new email.
                 </h1>
@@ -105,12 +127,8 @@ const ChangeCurrentUserEmail = () => {
                     name="newEmail"
                     disabled={!hasPermission}
                     value={newEmail}
-                    onChange={(event) => {
-                        setNewEmail(event.target.value);
-                        console.log("newEmail" + " " + newEmail)
-                        console.log(reduxStoreUserId)
-
-                    }}
+                    placeholder="Enter new email"
+                    onChange={(event) => {setNewEmail(event.target.value)}}
                     className="text-[#00537788] p-1 w-md indent-1"
                 />
                     {errors.newEmail && touched.newEmail ? (
@@ -118,26 +136,24 @@ const ChangeCurrentUserEmail = () => {
                     ) : null}
                 <div className="flex flex-row gap-8">
                     <button
-                        className="py-2 px-8 border border-[#00537788] rounded-md text-2xl fontbold destructiveAction"
+                        className="py-2 px-4 border border-[#00537788] rounded-md text-xl fontbold destructiveAction"
                         aria-label="No Cancel"
                         onClick={() => closeChangeEmailModalFn()}
                     >
                         Cancel
                     </button>
                     {
-                        !disableUploadBtn && (<button
-                            className="py-2 px-8 border border-[#00537788] rounded-md text-2xl fontbold "
+                            newEmail !== '' && (<button
+                            className="py-2 px-4 border border-[#00537788] rounded-md text-xl fontbold "
                             type="submit"
                             aria-label="Yes upload"
-                            onClick={() => changeUserEmail(reduxStoreUserId, newEmail)}
-                            disabled={newEmail == "" ? true : false}
-                            
-                        >
-                            Upload
+                            onClick={() => changeUserEmail(auth.currentUser.uid, newEmail)}
+                            disabled={newEmail == "" ? true : false}>
+                            Change
                         </button>)
                     }
                 </div>
-            </Form>
+            </div>
             </div>
             )}
         </Formik>

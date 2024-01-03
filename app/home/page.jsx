@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState , createContext , useContext } from 
 import User from "@/components/User";
 import MainHome from "@/components/MainHome";
 import Marketplace from "@/components/Marketplace";
-import BankList from "@/components/BankList";
+import BankList from "@/components/CartList";
 // import { gsap, Power3 } from 'gsap';
 import { array } from "yup";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,18 +26,16 @@ import ChangeCurrentUserEmail from "@/components/Settings/ChangeCurrentUserEmail
 import { auth, firestore } from '@/firebaseConfig'
 import { setupAuthObserver } from "@/firebaseAuth";
 import ChangeNinSlipPicture from "@/components/Settings/changeNinSlipPicture";
-
+import UnauthorizedAccess from "@/components/UnauthorizedAccess";
 
 const page = () => {
   const dispatch = useDispatch();
-  // const MyContext = createContext();
   const homePageNavIndex = useSelector((state) => state.user.homePageNavIndex);
   const userObject = useSelector((state) => state.user.userData);
   const currentUserData = useSelector((state) => state.user.currentUserData);
   const reduxStoreUserId = useSelector((state) => state.user.value);
   const [user, setUser] = useState(null)
-  // let mobileNav = useRef(null)
-  // let pages = useRef(null)
+  const [userAccountVerified, setUserAccountVerified] = useState(false)
   let mainHomeRef = useRef(null)
   let marketplaceRef = useRef(null)
   let bankListRef = useRef(null)
@@ -92,13 +90,15 @@ const page = () => {
   async function getUserData() {
     try {
       const response = await axios.get(`https://firestore.googleapis.com/v1/projects/afritech-b3227/databases/(default)/documents/Users/${userIdFromLocalStorage}`);
-      console.log(response.data.fields)
-      dispatch(setUserData(response.data.fields))
+      const userData = response.data.fields;
+      // console.log(userData); 
+      dispatch(setUserData(userData));
+      setUserAccountVerified(userData.accountVerified.booleanValue);  // Update the state
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.log('Error fetching data:', error, error.code, error.message);
     }
-
   }
+
   const list = [
   < MainHome className="MainHome" ref={el => (mainHomeRef = el)} />, 
   < Marketplace className="Marketplace" ref={el => (marketplaceRef = el)} />, 
@@ -106,9 +106,9 @@ const page = () => {
   < User className="User" ref={el => (userRef = el)} />
 ]
 useEffect(() => {
-  getUserData()
+   getUserData()
   const revalidationInterval = setInterval(() => {
-    getUserData();
+  getUserData();
   }, 60000);
   
   return () => clearInterval(revalidationInterval);
@@ -137,26 +137,38 @@ useEffect(() => {
     };
   }, []);
 
-  return (
-    <DataContext.Provider value={{ showImageModal, showLogoutModalFn, showResetPasswordModalFn, setShowUpdateProfilePictureModal, showProfilePictureUpdateModalFn, closeProfilePictureUpdateModalFn, reduxStoreUserId, showChangeEmailModalFn, closeChangeEmailModalFn, user, userObject, closeChangeEmailModalFn, showChangeNinSlipModalFn, closeChangeNinSlipModalFn }} >
 
-          <>
-        {showModal && <ImageModal url={`${userObject.profilePicture.stringValue}`} closeImageModal={closeImageModal} />}
-        {showLogoutModal && <LogoutModal closeLogoutModal={closeLogoutModal} />}
-        {showResetPasswordModal && <ChangePasswordModal closeResetPasswordModal={closeResetPasswordModal} />}
-        {showUpdateProfilePictureModal && <ChangeProfilePictureModal/>}
-        {showUpdateNinSlipPictureModal && <ChangeNinSlipPicture/>}
-        {showChangeCurrentUserEmailModal && <ChangeCurrentUserEmail />}
-            <div className="flex svh-minHeight  w-full flex-col items-center justify-center bg-[#005377] border py-4 px-5 border-1 border-red-800 gap-10">
-              <div id="display" className="w-full h-[75vh] flex rounded-2xl bg-red-700  relative  border border-red-700">
-                {
-                  list[homePageNavIndex]
-                }
+
+
+
+
+  // console.log("userObject" + JSON.stringify(userAccountVerified , null , 2))
+
+
+
+
+
+  return (
+    <>
+      {
+        userAccountVerified ? (<DataContext.Provider value={{ showImageModal, showLogoutModalFn, showResetPasswordModalFn, setShowUpdateProfilePictureModal, showProfilePictureUpdateModalFn, closeProfilePictureUpdateModalFn, reduxStoreUserId, showChangeEmailModalFn, closeChangeEmailModalFn, user, userObject, closeChangeEmailModalFn, showChangeNinSlipModalFn, closeChangeNinSlipModalFn }} >
+       
+              {showModal && <ImageModal url={`${userObject.profilePicture.stringValue}`} closeImageModal={closeImageModal} />}
+              {showLogoutModal && <LogoutModal closeLogoutModal={closeLogoutModal} />}
+              {showResetPasswordModal && <ChangePasswordModal closeResetPasswordModal={closeResetPasswordModal} />}
+              {showUpdateProfilePictureModal && <ChangeProfilePictureModal />}
+              {showUpdateNinSlipPictureModal && <ChangeNinSlipPicture />}
+              {showChangeCurrentUserEmailModal && <ChangeCurrentUserEmail />}
+              <div className="flex svh-minHeight  w-full flex-col items-center justify-center bg-[#005377] border py-4 px-5 border-1 border-red-800 gap-10">
+                <div id="display" className="w-full h-[75vh] flex rounded-2xl bg-red-700  relative  border border-red-700">
+                  {
+                    list[homePageNavIndex]
+                  }
+                </div>
+                <HomeNav pageIndex={homePageNavIndex} />
               </div>
-              <HomeNav pageIndex={homePageNavIndex} />
-            </div>
-          </>
-    </DataContext.Provider>
+        </DataContext.Provider>) : <UnauthorizedAccess />}
+    </>
   )
 };
 

@@ -376,3 +376,6 @@ animation: showModal 1s infinite alternate;
   border: 2px solid black;
   border-radius: 5px;
 }
+#imageModal  input{
+  width: 100%;
+}

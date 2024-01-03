@@ -85,9 +85,9 @@ const SigninPage = ({user}) => {
     console.log(JSON.stringify(docRef , null , 2))
     if (newData.agreeToTerms) {
       try {
-        const [image1Url, image2Url] = await Promise.all([uploadProfilePicture(newData.profilePicture), uploadNinImage(newData.image2)])
+        const [image1Url, image2Url] = await Promise.all([uploadProfilePicture(newData.profilePicture), uploadNinImage(newData.ninSlipPicture)])
         newData.profilePicture = image1Url,
-         newData.image2 = image2Url
+          newData.ninSlipPicture = image2Url
         updateDoc(docRef, newData)
         toast.success(`User SignUp complete ${userIdFromLocalStorage}`, {
           position: "top-right",
@@ -101,7 +101,7 @@ const SigninPage = ({user}) => {
           onOpen: () => {
             console.log('Toast opened redirecting to home page');
             // Perform actions after toast is displayed
-            // window.location.href = "/signin";
+            window.location.href = "/home";
             console.log(userFormEntries, userIdFromLocalStorage)
           },
         });

@@ -83,7 +83,7 @@ const ChangeNinSlipPicture = () => {
                 </h1>
                 <input
                     type="file"
-                    name="image2"
+                    name="ninSlipPicture"
                     accept="image/*"
                     disabled={!hasPermission}
                     value={null}
@@ -94,7 +94,7 @@ const ChangeNinSlipPicture = () => {
                         console.log(event.currentTarget.files[0])
 
                     }}
-                    className="text-[#00537788] p-2 border-none"
+                    className="text-[#00537788] border-none"
                 />
                 <div className="border border-red-700 ">
                     {newNinSlipPicture !== null && (
@@ -109,7 +109,7 @@ const ChangeNinSlipPicture = () => {
                 </div>
                 <div className="flex flex-row gap-8">
                     <button
-                        className="py-2 px-8 border border-[#00537788] rounded-md text-2xl fontbold destructiveAction"
+                        className="py-2 px-4 border border-[#00537788] rounded-md text-2xl fontbold destructiveAction"
                         aria-label="No Cancel"
                         onClick={() => closeChangeNinSlipModalFn()}
                     >
@@ -117,7 +117,7 @@ const ChangeNinSlipPicture = () => {
                     </button>
                     {
                         !disableUploadBtn && (<button
-                            className="py-2 px-8 border border-[#00537788] rounded-md text-2xl fontbold "
+                            className="py-2 px-4 border border-[#00537788] rounded-md text-2xl fontbold "
                             aria-label="Yes upload"
                             onClick={uploadNewNinSlip}
                             disabled={newNinSlipPicture == null ? true : false}

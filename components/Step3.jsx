@@ -115,23 +115,23 @@ const Step3 = ({ data, next, prev }) => {
 
                         <div id="image" className=" flex flex-col  mb-3">
                             <div className="flex flex-col">
-                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="image2">Image of your NIN slip : </label>
+                                <label className='font-bold capitalize block mb-[0.25rem] text-white' htmlFor="ninSlipPicture">Image of your NIN slip : </label>
                                     <Field
                                     type="file"
-                                    name="image2"
+                                    name="ninSlipPicture"
                                     accept="image/*"
                                     disabled={!hasPermission}
                                     value={null}
                                     onChange={(event) => {
                                         console.table(event.currentTarget.files[0])
-                                        setFieldValue('image2', event.currentTarget.files[0]);
+                                        setFieldValue('ninSlipPicture', event.currentTarget.files[0]);
                                         
                                     
                                     }}
                                     className="text-white"
                                 />
                             </div>
-                            {errors.image2 && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.image2}</span>}
+                            {errors.ninSlipPicture && <span className='text-[0.7rem] text-red-600 font-semibold'>{errors.ninSlipPicture}</span>}
                         </div>
                         <div id="image2" className=" flex flex-col mb-3">
                             <div>

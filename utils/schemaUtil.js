@@ -25,7 +25,7 @@ export const SigninSchema = Yup.object().shape({
 //     passportnumber: '',
 //     image: null,
 //     ninnumber: '',
-//     image2: null,
+//     ninSlipPicture: null,
 //     agreeToTerms: false
 // }
 // export const validationSchema = Yup.object().shape({
@@ -80,7 +80,7 @@ export const SigninSchema = Yup.object().shape({
 //         ninnumber: Yup.number()
 //             .required('Required')
 //             .test("length", "too long", (value) => value.toString().length === 6),
-//         image2: Yup.mixed()
+//         ninSlipPicture: Yup.mixed()
 //             .required('Image is required')
 //             .test('fileSize', 'Image must be less than 2MB', (value) => value && value.size <= 2 * 1024 * 1024)
 //             .test('fileType', 'Invalid file type. Only JPG and PNG are allowed.', (value) =>
@@ -169,7 +169,7 @@ export const step3ValidationSchema = Yup.object().shape({
     ninnumber: Yup.number()
         .required('Required')
         .test("length", "too long", (value) => value.toString().length === 6),
-    image2: Yup.mixed()
+    ninSlipPicture: Yup.mixed()
         .required('Image is required')
         .test('fileSize', 'Image must be less than 2MB', (value) => value && value.size <= 2 * 1024 * 1024)
         .test('fileType', 'Invalid file type. Only JPG and PNG are allowed.', (value) =>

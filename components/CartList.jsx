@@ -49,17 +49,14 @@ const BankList = () => {
   console.log(userData)
   return (
     <div className='w-full h-full overflow-y-auto  text-[#005377]  bg-white rounded-lg pt-5 relative border border-red-700 break-normal box-shadowBottom hide-scrollbar'>
-      <div className="text-xl font-bold text-right w-fit border border-red-700 ml-5 mb-4 md:ml-11">User BVN : {userData.bvnnumber.stringValue}</div>
+      <div className="text-xl font-bold text-right w-fit border border-red-700 ml-5 mb-4 md:ml-11">Items in cart : </div>
       <div className="flex  flex-col w-full  border gap-3 relative " ref={el => (banklistRef = el)}>
-        <Bank id={0} showBankDetails={showBankDetails}/>
-        <Bank id={1} showBankDetails={showBankDetails} />
-        <Bank id={2} showBankDetails={showBankDetails} />
-        <Bank id={3} showBankDetails={showBankDetails} />
-        <Bank id={4} showBankDetails={showBankDetails} />
-        <Bank id={5} showBankDetails={showBankDetails} />
-        <Bank id={6} showBankDetails={showBankDetails} />
-        <Bank id={7} showBankDetails={showBankDetails} />
-        <Bank id={8} showBankDetails={showBankDetails} />
+        <CartItem id={0} showBankDetails={showBankDetails}/>
+        <CartItem id={1} showBankDetails={showBankDetails} />
+        <CartItem id={2} showBankDetails={showBankDetails} />
+        <CartItem id={3} showBankDetails={showBankDetails} />
+        <CartItem id={4} showBankDetails={showBankDetails} />
+        <CartItem id={5} showBankDetails={showBankDetails} />
       </div>
     </div>
   )
@@ -68,7 +65,7 @@ const BankList = () => {
 export default BankList
 
 
-const Bank = ({id,  showBankDetails }) => {
+const CartItem = ({id,  showBankDetails }) => {
   return (
     <div className="flex items-center gap-3 max-w-[90%] w-full mx-auto p-2 border border-gray-600 bank rounded-xl relative" onClick={() => showBankDetails(id)}>
       <div id="left" className='w-fit '>

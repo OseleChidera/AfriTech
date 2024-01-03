@@ -38,10 +38,17 @@ const User = () => {
   return (
       <div className='w-full h-full flex flex-col text-[#005377]  bg-white rounded-lg p-3 pt-5 relative border border-red-700 break-normal overflow-y-auto'>
       
-      <div id="main-user" className='flex  border border-gray-700 items-center gap-5 mb-5 sticky top-0 cursor-pointer' onClick={()=>setSettingIndex(1)}>
-            
-        <div  className='w-[100px] h-[100px] border border-black' onClick={showImageModal}>
-          <Image src={`${userData.profilePicture.stringValue}`} alt='user-photo' width={100} height={100} className='block aspect-square'  loading="lazy"  />
+      <div id="main-user" className='flex  border border-gray-700 items-center gap-5 mb-5 sticky top-0 cursor-pointer' onClick={()=>{
+        if (settingIndex !== 0) {
+          return;
+        }
+        setSettingIndex(1)
+      }}>
+        <div id="left" className='w-fit' onClick={() => setSettingIndex(0)}>
+          {settingIndex !== 0 && (<Image src={arrowRight} alt='user-photo' width={35} className='aspect-square rotate-180' />)}
+        </div> 
+        <div  className='w-[100px] border border-black' onClick={showImageModal}>
+          <Image src={`${userData.profilePicture.stringValue}`} alt='user-photo' width={100} height={100} className=' '  loading="lazy"  />
         </div>
               <div id="right" className='flex-1'>
           <h2 className='font-extrabold text-xl capitalize'>

@@ -1,14 +1,22 @@
 import React from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
+import { auth } from '@/firebaseConfig';
 const ChangePasswordModal = ({ closeResetPasswordModal }) => {
     
-    function sendPasswordResetEmail(){
+    async function sendPasswordResetEmail(){
         const confirmationAlert = window.confirm("Are you really sure you want to reset your password?")
         if (confirmationAlert) {
-             localStorage.removeItem('afriTechUserID')
+            
             closeResetPasswordModal()
-            throwMessage("logout successful")
+            try {
+                await auth.signOut();
+                window.location.href = "/signin";
+                localStorage.removeItem('afriTechUserID')
+                throwMessage("logout successful")
+            } catch (error) {
+                console.error('Error during logout:', error.message);
+            }
         }
         else{
             throwMessage('logout failed')
@@ -22,8 +30,8 @@ const ChangePasswordModal = ({ closeResetPasswordModal }) => {
               <span className='text-xxl font-extrabold text-center'>A link to reset your password would be sent to the email linked to this account.</span>
               
               <div className="flex flex-row gap-8">
-                  <button className='py-2 px-8 border border-[#00537788] rounded-md text-2xl font0bols destructiveAction' onClick={sendPasswordResetEmail}>Yes</button>
-                  <button className='py-2 px-8 border border-[#00537788] rounded-md text-2xl font0bols ' onClick={closeResetPasswordModal}>No</button>
+                  <button className='py-2 px-4 border border-[#00537788] rounded-md text-2xl font0bols destructiveAction' onClick={sendPasswordResetEmail}>Yes</button>
+                  <button className='py-2 px-4 border border-[#00537788] rounded-md text-2xl font0bols ' onClick={closeResetPasswordModal}>No</button>
               </div>
           </div>
       </div >

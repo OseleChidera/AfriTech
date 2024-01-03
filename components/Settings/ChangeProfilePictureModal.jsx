@@ -77,13 +77,14 @@ const ChangeProfilePictureModal = () => {
       id="imageModal"
       className="flex flex-col justify-center items-center svh-minHeight  w-full   bg-[#00537788] border py-4 px-5 border-1 border-red-800 gap-10 z-20 pointer-events-auto absolute"
     >
-      <div className="flex flex-col items-center gap-5 w-4/5 h-4/5 p-8 bg-white text-[#00537788] rounded-lg">
-        <h1 className="text-4xl font-extrabold text-center">
+      <div className="flex flex-col items-center gap-5 w-4/5 max-w-[90%] mx-auto h-4/5 max-h-fit p-8 bg-white text-[#00537788] rounded-lg">
+        <h1 className="text-2xl font-extrabold text-center md:text-4xl">
           Select another image from your media files
         </h1>
         <input
+        
           type="file"
-          name="image2"
+          name="ninSlipPicture"
           accept="image/*"
           disabled={!hasPermission}
           value={null}
@@ -94,7 +95,7 @@ const ChangeProfilePictureModal = () => {
             console.log(event.currentTarget.files[0])
 
           }}
-          className="text-[#00537788] p-2 border-none"
+          className="text-[#00537788] border-none"
         />
         <div className="border border-red-700 ">
           {newProfilePicture !== null && (
@@ -109,7 +110,7 @@ const ChangeProfilePictureModal = () => {
         </div>
         <div className="flex flex-row gap-8">
           <button
-            className="py-2 px-8 border border-[#00537788] rounded-md text-2xl fontbold destructiveAction"
+            className="py-2 px-4 border border-[#00537788] rounded-md text-2xl fontbold destructiveAction"
             aria-label="No Cancel"
             onClick={() => closeProfilePictureUpdateModalFn()}
           >
@@ -117,7 +118,7 @@ const ChangeProfilePictureModal = () => {
           </button>
           {
             !disableUploadBtn && (<button
-              className="py-2 px-8 border border-[#00537788] rounded-md text-2xl fontbold "
+              className="py-2 px-4 border border-[#00537788] rounded-md text-2xl fontbold "
               aria-label="Yes upload"
               onClick={uploadProfilePicture}
               disabled={newProfilePicture == null ? true : false}

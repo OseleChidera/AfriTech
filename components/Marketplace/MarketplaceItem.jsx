@@ -8,13 +8,13 @@ const MarketplaceItem = ({id}) => {
   return (
       <Link href="/home/marketplace/item/[id]" as={`/home/marketplace/item/${id}`}>
           <div className="flex flex-col items-center justify-between gap-3 max-w-[90%] w-full mx-auto p-2 border border-gray-600 bank rounded-xl relative cursor-pointer group">
-              <div id="top" className="flex items-center justify-between gap-3  w-full border border-gray-600  rounded-xl relative ">
+              <div id="top" className="flex items-center justify-between gap-3  w-full  rounded-xl relative ">
                   <div id="left-center" className='flex gap-2 md:gap-2 border-black'>
                       <div id="left" className='w-fit'>
                           <Image src={phone} alt='item-photo' width={60} className='rounded-full aspect-square md:w-20 md:rounded-lg lg:w-30' />
                       </div>
                       <div id="center" className=''>
-                          <h2 className='font-semibold text-[0.9rem] md:text-lg lg:text-xl'>Samsung Galaxy S21 Ultra</h2>
+                          <h2 className='font-semibold text-[0.85rem] md:text-base lg:text-lg'>Samsung Galaxy S21 Ultra</h2>
                           <div className='flex justify-between items-center '>
                               <div id="center-left" className='flex flex-col'>
                                   <div className="flex gap-2 text-xs md:text-base lg:text-lg">

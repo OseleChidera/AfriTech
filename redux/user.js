@@ -12,8 +12,10 @@ const formEntries = {
     ninnumber: '',
     agreeToTerms: false,
     profilePicture: null,
-    image2: null,
+    ninSlipPicture: null,
     dateOfBirth: "",
+    reuploadNin: false,
+    accountVerified: false ,
 }
 
 const userSlice = createSlice({
@@ -53,7 +55,7 @@ const userSlice = createSlice({
             state.signupIndex = action.payload
         },
         incrementSignin: (state, action = false) => {
-            console.log("action.payload" + " " + action.payload)
+            // console.log("action.payload" + " " + action.payload)
             if (action.payload) {
                 return;
             }
@@ -79,14 +81,14 @@ const userSlice = createSlice({
         },
          setUserData: (state, action) => {
             // console.log("ACTION PAYLOAD:" + action.payload)
-             console.log("setUserData reducer function" + JSON.stringify(action.payload, null, 2))
+            //  console.log("setUserData reducer function" + JSON.stringify(action.payload, null, 2))
             state.userData = action.payload
         },
         removeUserData: (state, action) => {
             state.userData = action.payload
         },
         setCurrentUserData: (state, action) => {
-            console.log("ACTION PAYLOAD:" + action.payload)
+            // console.log("ACTION PAYLOAD:" + action.payload)
             state.currentUserData = action.payload
         },
     }

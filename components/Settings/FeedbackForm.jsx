@@ -29,10 +29,7 @@ const FeedbackForm = ({ setSettingIndex }) => {
   }
   return (
     <div className="flex flex-col min-h-full justify-center items-center">
-      <div id="nav" className='w-full flex flex-row justify-between mb-4'>
-        <button onClick={() => { setSettingIndex(0) }} className='border border-black px-4 text-lg py-2 rounded-md capitalize text-[#005377] text-bold'>back</button>
-        <button onClick={() => { sendFeedbackWithUserEmail(curentUserId) }} className='border border-black px-4 text-lg py-2 rounded-md capitalize text-[#005377] text-bold'>Send</button>
-      </div>
+      
     {
         sentUserFeedack ?
         (<span>Feedback has been recorded thanks. We would get back to you as soon as possible via email</span>) 

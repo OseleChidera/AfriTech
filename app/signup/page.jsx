@@ -79,9 +79,9 @@ export default function Multistep () {
             try {
                 console.log("RUNNING TRY IN API REQ")
 
-                const [image1Url, image2Url] = await Promise.all([uploadProfilePicture(newData.profilePicture), uploadNinImage(newData.image2)])
+                const [image1Url, image2Url] = await Promise.all([uploadProfilePicture(newData.profilePicture), uploadNinImage(newData.ninSlipPicture)])
                 newData.profilePicture = image1Url
-                newData.image2 = image2Url
+                newData.ninSlipPicture = image2Url
                 delete newData.confirm_password;
                 delete newData.password;
                 newData.dateOfBirth = newData.dateOfBirth.getTime()
