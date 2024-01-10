@@ -1,10 +1,17 @@
-import React, {useState} from 'react'
+import React, {useContext, useState , useEffect} from 'react'
 import MarketplaceItem from './Marketplace/MarketplaceItem'
 import Link from 'next/link'
 import { useSelector, useDispatch } from "react-redux";
-const Marketplace = () => {
+import { DataContext } from '@/utils/Context';
+const Marketplace = ({ }) => {
   const [showInput, setShowInput] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { user, marketplaceData, fetchMarketplaceData } = useContext(DataContext)
+  const [userID , setUserID] = useState(user.uid)
+  // const { marketplaceData } = useContext(DataContext)
+  // const [data, setData] = useState(dataList)
+  // console.log('marketplaceData ', marketplaceData)
+  // console.log('data ', data)
 
   const handleSearchClick = () => {
     setShowInput(true);
@@ -16,6 +23,17 @@ const Marketplace = () => {
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  useEffect(() => {
+    fetchMarketplaceData()
+    const revalidationInterval = setInterval(() => {
+      fetchMarketplaceData()
+    }, 60000);
+
+    return () => clearInterval(revalidationInterval);
+  }, [])
+
+
   const userObject = useSelector((state) => state.user.userData);
   return (
     <div className = 'w-full h-full overflow-y-auto  text-[#005377]  bg-white rounded-lg pt-5 relative border border-red-700 break-normal box-shadowBottom hide-scrollbar '>
@@ -27,9 +45,11 @@ const Marketplace = () => {
 
 
       <div className="flex overflow-y-auto flex-col w-full  border gap-3 relative hide-scrollbar">
-        <MarketplaceItem id={0} />
-        <MarketplaceItem id={1} />
-        <MarketplaceItem id={2} />
+        {
+          marketplaceData.map(e => <MarketplaceItem id={e.id} data={e} />)
+        }
+        {/* <MarketplaceItem id={1} />
+        <MarketplaceItem id={2} /> */}
       </div>
     </div>
   )

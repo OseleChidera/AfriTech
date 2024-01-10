@@ -1,6 +1,6 @@
 'use client'
 export const dynamicParams = false;
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,33 +12,69 @@ import { useRouter } from 'next/router';
 import { sethomePageNavIndex } from "@/redux/user";
 import { useSelector, useDispatch } from "react-redux";
 import { notFound } from 'next/navigation';
-
-// export async function generateStaticParams(){
-//     const res = await fetch('api url')
-//     const devices = await res.json();
-//     return devices.map((device)=>({
-//         id:device.id
-//     }))
-// }
-
-// async function fetchDeviceItem(){
-//     const res = await fetch("api url", { next: { revalidate: 60} })
-//     if(!res.ok){
-//         notFound()
-//     }
-//     return res.json()
-// }
-
+import { DataContext } from '@/utils/Context';
+import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
+import { database } from '@/firebaseConfig';
 
 
 const  page = ({ params }) => {
     const deviceID = params.id
-    // useEffect(()=>{
-    //  fetchDeviceItem(deviceID)
-    // }, [deviceID])
     const dispatch = useDispatch();
     const [deviceIndex, setDeviceIndex] = useState(0)
     const showArray = [<DeviceInfoSection />, <DeviceStoreInfoSection />]
+    console.log("deviceID ", deviceID)
+    const [deviceData, setDeviceData] = useState({})
+
+    async function fetchData(deviceID) {
+        const collectionRef = collection(database, 'Products');  // Replace 'yourCollection' with your actual collection name
+
+        try {
+            const docRef = doc(collectionRef, deviceID);
+            const docSnap = await getDoc(docRef);
+            console.log("data dynamic", docSnap.data())
+            setDeviceData(docSnap.data());
+           
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData(deviceID)
+
+    }, [deviceID]);
+    console.log("data dynamic in if", deviceData) 
+    function formatNumberWithCommas(value) {
+        // Convert the number to a string
+        let numberString = value.toString();
+
+        // Use a regular expression to add commas
+        numberString = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        return numberString;
+    }
+
+    function roundUpToNearestHundred(number) {
+        return Math.ceil(number / 100) * 100;
+    }
+
+    function calculateDateAfter30Days() {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Calculate the date 30 days from now
+        const futureDate = new Date();
+        futureDate.setDate(currentDate.getDate() + 30);
+
+        // Format the dates if needed
+        const formattedCurrentDate = currentDate.toDateString();
+        const formattedFutureDate = futureDate.toDateString();
+
+        return {
+            currentDate: formattedCurrentDate,
+            futureDate: formattedFutureDate,
+        };
+    }
     return (
         <div id="product_description" className='svh-minHeight flex flex-col w- gap-5  bg-[#005377]  py-4 px-5 border border-red-800 text-white'>
 
@@ -48,19 +84,19 @@ const  page = ({ params }) => {
                 </div>
                 <div id="center" className='text-sm'>
                     <span>
-                        <h2 className='font-semibold text-lg md:text-2xl lg:text-5xl mb-3 inline'>Samsung Galaxy S21 Ultra</h2>
+                        <h2 className='font-semibold text-lg md:text-2xl lg:text-5xl mb-3 inline'>{deviceData.name}</h2>
                         <h1>Item ID: {deviceID}</h1>
                     </span>
                     <div className='flex flex-col justify-between items-center md:flex-row'>
                         <div id="center-left" className='flex flex-col  md:mr-5'>
                             <div className="flex gap-2  md:text-2xl ">
                                 <span className='capitalize'>Price :</span>
-                                <span className='font-bold'>₦365,000</span>
+                                <span className='font-bold'>₦{formatNumberWithCommas(deviceData.price)}</span>
                             </div>
-                            <div className="flex flex-col gap-2 md:text-xl ">
-                                <span className='capitalize'>Price Spread over <span className='underline underline-offset-4 text-xl md:text-2xl font-bold'>8</span> Months : <span className=' font-bold'>₦45,625</span></span>
-                                <span className='capitalize text-xl'>Emeka & Son's LTD</span>
-                            </div>
+                            {/* <div className="flex flex-col gap-2 md:text-xl ">
+                                <span className='capitalize'>Price Spread over <span className='underline underline-offset-4 text-xl md:text-2xl font-bold'>{deviceData.retailerData.storeInstallmentPeriod}</span> Months : <span className=' font-bold'>₦{ formatNumberWithCommas(roundUpToNearestHundred(deviceData.price / deviceData.retailerData.storeInstallmentPeriod))}</span></span>
+                                <span className='capitalize text-xl'>{deviceData.retailerData.owners}</span>
+                            </div> */}
                         </div>
                         <Link href={`/home`} onClick={() => dispatch(sethomePageNavIndex(1))}>
                             <div className="flex justify-center items-center text-center rounded-full w-fit p-2 px-2 font-bold  text-sm border border-white  cursor-pointer home md:text-xl self-end" >

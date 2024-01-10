@@ -8,13 +8,37 @@ export default function UnauthorizedAccess() {
                 <p>You cannot access this page yet. Your profile is pending verification.</p>
                 <p>Await further instruction</p>
             </div>
-                <button type="button"
-                    onClick={window.open('/', '_blank')}
-                    className={`font-bold  bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg  `}>
-                    Return to Signin Page
-                </button>
+            <button type="button"
+                onClick={window.open('/', '_blank')}
+                className={`font-bold  bg-white text-xl text-[#005377] capitalize px-4 py-[0.55rem] rounded-lg  `}>
+                Return to Signin Page
+            </button>
         </div>
     );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const item = {
+    itemName: '....',
+    itemPrice: 10,
+
 }
 
 
@@ -60,6 +84,53 @@ export default function UnauthorizedAccess() {
 
 
 
+// const users = [
+//     {
+//         'userId': 'AAAAA12345',
+//         'Phone': '07957640902',
+//         'Username': 'John',
+//         'accountVerified': true,
+//         'address': '123, nowhereland.',
+//         'agreeToTerms': true,
+//         'bvnnumber': '123456',
+//         'dateOfBirth': '1025823600000',
+//         'email': 'johndoe8@gmail.com',
+//         'firstname': 'John ',
+//         'genderOptions': 'Male',
+//         'lastname': 'Doe',
+//         'ninSlipPicture': '...',
+//         'reuploadNin': false,
+//         'ninnumber': '111111',
+//         'profilePicture': '...',
+//         'cartItems': [{}],
+//         'currentlyFinancedItems': [{}],
+//         'previouslyFinancedItems': [{}],
+
+//     },
+//     {
+//         'userId': 'BBBBB12345',
+//         'Phone': '07957640901',
+//         'Username': 'Mary',
+//         'accountVerified': false,
+//         'address': '125, nowhereland.',
+//         'agreeToTerms': true,
+//         'bvnnumber': '133557',
+//         'dateOfBirth': '1025823300000',
+//         'email': 'marydoe8@gmail.com',
+//         'firstname': 'Mary ',
+//         'genderOptions': 'Female',
+//         'lastname': 'Doe',
+//         'ninSlipPicture': '...',
+//         'reuploadNin': false,
+//         'ninnumber': '121314',
+//         'profilePicture': '...',
+//         'sectorOption': 'Teacher',
+//         'cartItems': [{}],
+//         'currentlyFinancedItems': [{}],
+//         'previouslyFinancedItems': [{}],
+
+//     }
+// ]
 
 
 
@@ -77,25 +148,34 @@ export default function UnauthorizedAccess() {
 
 
 
-
-
-
-// [
-// 'Phone': '07957640902' ,
-// 'Username': 'Osele' ,
-// 'accountVerified': false ,
-// 'address': 'Chancellor Pl, London NW9 5JB' ,
-// 'agreeToTerms': true ,
-// 'bvnnumber': 'n111111111' ,
-// 'dateOfBirth': '1025823600000' ,
-// 'email': 'deraemma8@gmail.com' ,
-// 'firstname': 'Chidera ' ,
-// 'genderOptions': 'male' ,
-// 'image2': 'https://firebasestorage.googleapis.com/v0/b/afrite…=media&token=454377cf-9805-4fcc-bef6-e3c6b191a387' ,
-// 'lastname': 'Osele' ,
-// 'ninImage': 'https://firebasestorage.googleapis.com/v0/b/afrite…=media&token=6285fbc7-c403-4149-98b6-337c26f97557' ,
-// 'reuploadNin': false ,
-// 'ninnumber': '111111' , 
-// 'profilePicture': 'https://firebasestorage.googleapis.com/v0/b/afrite…=media&token=bbd5f6cd-72b7-43bc-a0b7-6e77e06c9f0e' ,
-//  'sectorOption': 'Engineering' 
+// const products = [
+//     {
+//         'productId': 'AAAAA13579',
+//         'name': '....',
+//         'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+//         'price': 100,
+//         'categoryId': 'AAAAA13579',
+//         'brandId': 'SMSNG',
+//         'createdAt': 'Timestamp indicating when the product was added',
+//         'productRetailers': {},
+//         'comprehensiveProductDescriptionLink': '...',
+//         'productImages': [],
+//         'reviews': [],
+//         'productQuantityInStock': 2
+//     },
+//     {
+//         'productId': 'BBBBB13579',
+//         'name': '....',
+//         'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+//         'price': 100,
+//         'categoryId': 'BBBBB13579',
+//         'brandId': 'TSHBA',
+//         'createdAt': 'Timestamp indicating when the product was added',
+//         'productRetailers': {},
+//         'comprehensiveProductDescriptionLink': '...',
+//         'productImages': [],
+//         'reviews': [],
+//         'productQuantityInStock': 5
+//     },
+    
 // ]

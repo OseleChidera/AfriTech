@@ -10,14 +10,14 @@ import BankList from "@/components/CartList";
 // import { gsap, Power3 } from 'gsap';
 import { array } from "yup";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, setUserIdData } from "@/redux/user";
+import { setUserData, setUserIdData, sethomePageNavIndex } from "@/redux/user";
 import HomeNav from "@/components/HomeNav";
 import axios from 'axios';
 import ImageModal from "@/components/ImageModal";
 import useSWR from 'swr';
 import GoToSignIn from "../goToSignIn/Page";
 import { checkIfEmailVerified } from "@/utils/emailVerificationUtil";
-import { Auth } from "@/firebaseConfig";
+import { Auth, database } from "@/firebaseConfig";
 import LogoutModal from "@/components/Settings/LogoutModal";
 import ChangePasswordModal from "@/components/Settings/ChangePasswordModal";
 import ChangeProfilePictureModal from "@/components/Settings/ChangeProfilePictureModal";
@@ -27,6 +27,10 @@ import { auth, firestore } from '@/firebaseConfig'
 import { setupAuthObserver } from "@/firebaseAuth";
 import ChangeNinSlipPicture from "@/components/Settings/changeNinSlipPicture";
 import UnauthorizedAccess from "@/components/UnauthorizedAccess";
+import { collection, getDocs, getDoc, getFirestore } from "firebase/firestore";
+
+
+
 
 const page = () => {
   const dispatch = useDispatch();
@@ -98,6 +102,56 @@ const page = () => {
       console.log('Error fetching data:', error, error.code, error.message);
     }
   }
+  const [marketplaceData, setMarketplaceData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // async function fetchMarketplaceData() { // Initialize Firebase Firestore
+  //   const dataCollection = collection(database, 'Products'); // Replace 'yourCollectionName' with the name of your collection
+
+  //   try {
+  //     const querySnapshot = await getDocs(dataCollection);
+  //     const fetchedData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  //     setMarketplaceData(fetchedData);
+  //     // console.log("marketplaceData ", marketplaceData)
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+
+
+
+  async function fetchMarketplaceData() {
+    const dataCollection = collection(database, 'Products');
+
+    try {
+      const querySnapshot = await getDocs(dataCollection);
+      const fetchedData = await Promise.all(querySnapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        console.log("data ", data)
+        const retailerDocRef = data.vendorsReference; // Assuming this contains the reference
+
+        // Fetch data from the 'Retailers' collection using the reference
+        const retailerDocSnapshot = await getDoc(retailerDocRef);
+        const retailerData = retailerDocSnapshot.data();
+
+        // Return the merged data
+        return { id: doc.id, ...data, retailerData };
+      }));
+
+      setMarketplaceData(fetchedData);
+      console.log(fetchedData)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  // useEffect(() => {
+  //   fetchMarketplaceData()
+  // }, [ ])
+
 
   const list = [
   < MainHome className="MainHome" ref={el => (mainHomeRef = el)} />, 
@@ -105,6 +159,8 @@ const page = () => {
   < BankList className="BankList" ref={el => (bankListRef = el)} />, 
   < User className="User" ref={el => (userRef = el)} />
 ]
+
+
 useEffect(() => {
    getUserData()
   const revalidationInterval = setInterval(() => {
@@ -151,7 +207,7 @@ useEffect(() => {
   return (
     <>
       {
-        userAccountVerified ? (<DataContext.Provider value={{ showImageModal, showLogoutModalFn, showResetPasswordModalFn, setShowUpdateProfilePictureModal, showProfilePictureUpdateModalFn, closeProfilePictureUpdateModalFn, reduxStoreUserId, showChangeEmailModalFn, closeChangeEmailModalFn, user, userObject, closeChangeEmailModalFn, showChangeNinSlipModalFn, closeChangeNinSlipModalFn }} >
+        userAccountVerified ? (<DataContext.Provider value={{ showImageModal, showLogoutModalFn, showResetPasswordModalFn, setShowUpdateProfilePictureModal, showProfilePictureUpdateModalFn, closeProfilePictureUpdateModalFn, reduxStoreUserId, showChangeEmailModalFn, closeChangeEmailModalFn, user, userObject, closeChangeEmailModalFn, showChangeNinSlipModalFn, closeChangeNinSlipModalFn, marketplaceData, fetchMarketplaceData }} >
        
               {showModal && <ImageModal url={`${userObject.profilePicture.stringValue}`} closeImageModal={closeImageModal} />}
               {showLogoutModal && <LogoutModal closeLogoutModal={closeLogoutModal} />}

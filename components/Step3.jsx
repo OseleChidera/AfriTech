@@ -33,6 +33,8 @@ const Step3 = ({ data, next, prev }) => {
         { value: 'prefer not to say', label: 'Prefer not to say' },
     ];
     const sectorOption = [
+        { value: 'Student', label: 'Student' },
+        { value: 'Service', label: 'Service' },
         { value: 'Engineering', label: 'Engineering' },
         { value: 'Business', label: 'Business' },
         { value: 'Management', label: 'Management' },

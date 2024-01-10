@@ -58,9 +58,7 @@ const [showPassword, setShowPassword] = useState(false);
           </div>
           <Formik
             initialValues={{
-            // email: "oselechidwerwedeerkka590@gmail.com",
-            // email: "oselechideratest1@gmail.com",
-            email: "deraemma8@gmail.com",
+              email: "deraemma8@gmail.com",
               password: !isDisabled ? "11111111" : "",
             }}
           validationSchema={SigninSchema}
