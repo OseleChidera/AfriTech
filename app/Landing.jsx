@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import illustration from '../public/images/Server-bro.svg'
 import phoneImg from '../public/images/pexels-vlad-chețan-3121979.jpg'
 import atmImg from '../public/images/pexels-luis-moya-14528919.jpg'
@@ -22,7 +22,7 @@ import { getAuth, updateEmail, reauthenticateWithCredential, EmailAuthProvider }
 const page = () => {
     const dispatch = useDispatch();
     const userObject = useSelector((state) => state.user.userData);
-    const userIdFromLocalStorage = localStorage.getItem('afriTechUserID') ? JSON.parse(localStorage.getItem('afriTechUserID')) : null;
+    const [userIdFromLocalStorage, setUserIdFromLocalStorage] = useState(localStorage.getItem('afriTechUserID') ? JSON.parse(localStorage.getItem('afriTechUserID')) : null)
 
     async function getUserData() {
         try {
@@ -48,6 +48,8 @@ function checkIfUserIsloggedIn(){
     // console.log('UserObjectTTTTTTTTTTT: ' + JSON.stringify(userObject, null, 2))
 
     useEffect(()=>{
+        // setUserIdFromLocalStorage(localStorage.getItem('afriTechUserID') ? JSON.parse(localStorage.getItem('afriTechUserID')) : null)
+
         getUserData()
     }, [userIdFromLocalStorage])
     return (

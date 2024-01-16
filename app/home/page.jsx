@@ -27,7 +27,8 @@ import { auth, firestore } from '@/firebaseConfig'
 import { setupAuthObserver } from "@/firebaseAuth";
 import ChangeNinSlipPicture from "@/components/Settings/changeNinSlipPicture";
 import UnauthorizedAccess from "@/components/UnauthorizedAccess";
-import { collection, getDocs, getDoc, getFirestore } from "firebase/firestore";
+import { collection, getDocs, getDoc, getFirestore, doc, onSnapshot } from "firebase/firestore";
+import ShowChosenImageModal from "@/components/Device Page/ShowChosenImageModal";
 
 
 
@@ -102,25 +103,11 @@ const page = () => {
       console.log('Error fetching data:', error, error.code, error.message);
     }
   }
+
+
+
   const [marketplaceData, setMarketplaceData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // async function fetchMarketplaceData() { // Initialize Firebase Firestore
-  //   const dataCollection = collection(database, 'Products'); // Replace 'yourCollectionName' with the name of your collection
-
-  //   try {
-  //     const querySnapshot = await getDocs(dataCollection);
-  //     const fetchedData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  //     setMarketplaceData(fetchedData);
-  //     // console.log("marketplaceData ", marketplaceData)
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-
 
   async function fetchMarketplaceData() {
     const dataCollection = collection(database, 'Products');
@@ -148,6 +135,13 @@ const page = () => {
       setLoading(false);
     }
   }
+
+
+
+
+
+
+  
   // useEffect(() => {
   //   fetchMarketplaceData()
   // }, [ ])
@@ -161,14 +155,16 @@ const page = () => {
 ]
 
 
-useEffect(() => {
-   getUserData()
-  const revalidationInterval = setInterval(() => {
-  getUserData();
-  }, 60000);
-  
-  return () => clearInterval(revalidationInterval);
-}, [])
+  useEffect(() => {
+    getUserData()
+    const revalidationInterval = setInterval(() => {
+      getUserData();
+    }, 60000);
+
+    return () => clearInterval(revalidationInterval);
+  }, [])
+
+
   useEffect(() => {
     const authCallback = (user) => {
       if (user) {
@@ -198,9 +194,6 @@ useEffect(() => {
 
 
 
-  // console.log("userObject" + JSON.stringify(userAccountVerified , null , 2))
-
-
 
 
 
@@ -215,6 +208,7 @@ useEffect(() => {
               {showUpdateProfilePictureModal && <ChangeProfilePictureModal />}
               {showUpdateNinSlipPictureModal && <ChangeNinSlipPicture />}
               {showChangeCurrentUserEmailModal && <ChangeCurrentUserEmail />}
+              {/* {showProductImageModal && <ShowChosenImageModal />} */}
               <div className="flex svh-minHeight  w-full flex-col items-center justify-center bg-[#005377] border py-4 px-5 border-1 border-red-800 gap-10">
                 <div id="display" className="w-full h-[75vh] flex rounded-2xl bg-red-700  relative  border border-red-700">
                   {

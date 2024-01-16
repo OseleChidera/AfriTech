@@ -372,7 +372,7 @@ animation: showModal 1s infinite alternate;
   border: 1px solid black;
 }
 
-#searchbar{
+#searchbar, #review-input{
   border: 2px solid black;
   border-radius: 5px;
 }

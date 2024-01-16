@@ -44,9 +44,9 @@ const User = () => {
         }
         setSettingIndex(1)
       }}>
-        <div id="left" className='w-fit' onClick={() => setSettingIndex(0)}>
-          {settingIndex !== 0 && (<Image src={arrowRight} alt='user-photo' width={35} className='aspect-square rotate-180' />)}
-        </div> 
+        {settingIndex !== 0 && (<div id="left" className='w-fit' onClick={() => setSettingIndex(0)}>
+         <Image src={arrowRight} alt='user-photo' width={45} className='aspect-square rotate-180' />
+        </div>)}
         <div  className='w-[100px] border border-black' onClick={showImageModal}>
           <Image src={`${userData.profilePicture.stringValue}`} alt='user-photo' width={100} height={100} className=' '  loading="lazy"  />
         </div>
@@ -65,7 +65,7 @@ const User = () => {
           <p className='text-[9px] underline underline-offset-1 font-light'>{user.uid}</p>
               </div>
               <div id="left" className='w-fit'>
-          {settingIndex == 0 &&  (<Image src={arrowRight} alt='user-photo' width={35} className='aspect-square' />)}
+          {settingIndex == 0 &&  (<Image src={arrowRight} alt='user-photo' width={45} className='aspect-square' />)}
               </div>
         </div>
 

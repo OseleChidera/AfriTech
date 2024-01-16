@@ -229,19 +229,32 @@ export const fetchData = async (docRef) => {
 
 
 
-// const calculateAge = (selectedDate) => {
-//     const today = new Date();
-//     const birthDate = new Date(selectedDate);
 
-//     let age = today.getFullYear() - birthDate.getFullYear();
-//     const monthDiff = today.getMonth() - birthDate.getMonth();
+export async function fetchCurrentUserRealtimeData(documentId) {
+    console.log("document id in utility ", documentId)
+    try {
+        const docRef = doc(database, 'Users', documentId);
 
-//     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-//         age--;
-//     }
+        // Set up a real-time listener for changes to the document
+        const unsubscribe = onSnapshot(docRef, (snapshot) => {
+            const data = snapshot.data();
+            console.log('Real-time data:', data);
+            return data;
+            // You can perform further processing or set the state with the data here
+        });
 
-//     console.log('User age:', age);
-// };
+        // Return the unsubscribe function, which can be used to stop listening
+        console.log('Real-time data unsubscribed:', unsubscribe);
+
+        return unsubscribe;
+    } catch (error) {
+        console.error('Error fetching real-time data:', error);
+    }
+}
+
+// Example usage:
+// const unsubscribe = fetchRealtimeData('yourDocumentId');
+// To stop listening, call unsubscribe() when needed.
 
 
 
