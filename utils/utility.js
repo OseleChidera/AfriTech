@@ -15,6 +15,7 @@ import { collection, addDoc, doc, setDoc, updateDoc, onSnapshot, getDoc } from "
 import { database, storage } from '@/firebaseConfig';
 
 
+
 export function throwMessage(errorcode) {
     console.log('utility error preview', errorcode)
     let errorCode;
@@ -130,7 +131,7 @@ export function throwMessage(errorcode) {
                 onOpen: () => {
                     // console.log('Toast opened redirecting to signup page');
                     // Perform actions after toast is displayed
-                    window.location.href = "/signin";
+                    // window.location.href = "/signin";
                 }
             });
             break;
@@ -162,7 +163,7 @@ export function throwMessage(errorcode) {
                 progress: undefined,
                 theme: "colored",
                 onOpen: () => {
-                    window.location.href = "/signin";
+                    // window.location.href = "/signin";
                     console.log('Toast opened redirecting to signin page')
                 }
             });

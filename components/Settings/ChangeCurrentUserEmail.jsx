@@ -14,6 +14,7 @@ import { auth, firestore } from '@/firebaseConfig'
 import { getAuth, updateEmail,  sendEmailVerification } from "firebase/auth";
 import { setupAuthObserver } from "@/firebaseAuth";
 import firebase from 'firebase/app';
+import { redirect } from "next/navigation";
 
 
 const ChangeCurrentUserEmail = () => {
@@ -53,13 +54,14 @@ const ChangeCurrentUserEmail = () => {
             });
              await sendEmailVerification(auth.currentUser);
             await auth.signOut();
-            window.location.href = "/signin";
+            redirect("/signin");
             localStorage.removeItem('afriTechUserID')
             throwMessage("logout successful")
         } catch (error) {
             console.log(error, error.message, error.code);
             await auth.signOut();
-            window.location.href = "/signin";
+            // window.location.href = "/signin";
+            redirect("/signin");
             localStorage.removeItem('afriTechUserID')
                 toast.info('An email containing a verification lnk was sent to your email. Verify and signin again.', {
                     position: 'top-right',

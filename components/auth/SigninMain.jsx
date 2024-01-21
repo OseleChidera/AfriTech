@@ -14,7 +14,7 @@ import { throwMessage } from "@/utils/utility";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserIdData, removeUserData, setLoading, fetchDataByUserId, setCurrentUserData, incrementSigninToStartMultistep, incrementSignin } from '../../redux/user'
 import axios from 'axios';
-
+import { redirect } from "next/navigation";
 
 
 const SigninMain = ({nextStep, isDisabled }) => {
@@ -41,7 +41,8 @@ const [showPassword, setShowPassword] = useState(false);
             progress: undefined,
             theme: "colored",
             onOpen: () => {
-           window.location.href = "/home";
+          //  window.location.href = "/home";
+              redirect("/home");
             }
           });
         }
@@ -84,7 +85,8 @@ const [showPassword, setShowPassword] = useState(false);
                     progress: undefined,
                     theme: "colored",
                     onOpen: () => {
-                       window.location.href = "/signup";
+                      //  window.location.href = "/signup";
+                      redirect("/signup");
                     }
                   });
                   console.log(error.code ,  error.message);

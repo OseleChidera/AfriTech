@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { incrementSignin, decrementSignin, incrementSigninByAmmount, setCurrentUserData } from "../../redux/user"
 import { onAuthStateChanged } from 'firebase/auth';
 import { setupAuthObserver } from "@/firebaseAuth";
-
+import { redirect } from "next/navigation";
 
 const SigninPage = ({user}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -101,7 +101,8 @@ const SigninPage = ({user}) => {
           onOpen: () => {
             console.log('Toast opened redirecting to home page');
             // Perform actions after toast is displayed
-            window.location.href = "/home";
+            // window.location.href = "/home";
+            redirect("/home");
             console.log(userFormEntries, userIdFromLocalStorage)
           },
         });

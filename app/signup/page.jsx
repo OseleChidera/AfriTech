@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLoading, incrementSignup, decrementSignup, incrementSignin, decrementSignin, updateUserFormEntries, fetchDataByUserId, userData, setUserData } from '../../redux/user'
 import {fetchData, throwMessage} from '../../utils/utility'
 import { setupAuthObserver } from "@/firebaseAuth";
-
+import { redirect } from "next/navigation";
 
 
 export default function Multistep () {
@@ -99,6 +99,7 @@ export default function Multistep () {
                         console.log("userDataVariable: " + JSON.stringify(userDataVariable, null, 2))
 
                         throwMessage('User SignUp complete')
+                        redirect("/signin");
                     } else {
                         console.log('No such document!');
                     }

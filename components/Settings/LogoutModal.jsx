@@ -2,6 +2,7 @@ import React from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
 import { getAuth, signOut } from "firebase/auth";
+import { redirect } from "next/navigation";
 const LogoutModal = ({ closeLogoutModal }) => {
     const auth = getAuth();
    async function logoutUser(){
@@ -15,7 +16,8 @@ const LogoutModal = ({ closeLogoutModal }) => {
                         localStorage.removeItem('afriTechUserID')
                         closeLogoutModal()
                         throwMessage("logout successful")
-                        window.location.href = "/signin";
+                        redirect("/signin");
+                        // window.location.href = "/signin";
                     })
                     .catch((error) => {
                         // An error happened.

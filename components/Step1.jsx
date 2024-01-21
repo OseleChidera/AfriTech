@@ -12,7 +12,7 @@ import { throwMessage } from '@/utils/utility';
 import { step1ValidationSchema } from "../utils/schemaUtil"
 import { useSelector, useDispatch } from "react-redux";
 import { setUserIdData, setCurrentUserData, setSignupIndex } from '../redux/user'
-
+import { redirect } from "next/navigation";
 const Step1 = ({ data, next }) => {
     const [showPassowrd1, setShowPassword1] = useState(false)
     const [showPassowrd2, setShowPassword2] = useState(false)
@@ -65,7 +65,8 @@ const Step1 = ({ data, next }) => {
                 onOpen: () => {
                     // console.log('Toast opened redirecting to signup page');
                     // Perform actions after toast is displayed
-                    window.location.href = "/signin";
+                    // window.location.href = "/signin";
+                    redirect("/signin");
                 }
             })
                 }

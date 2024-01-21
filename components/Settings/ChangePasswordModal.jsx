@@ -2,6 +2,7 @@ import React from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import { throwMessage } from '@/utils/utility';
 import { auth } from '@/firebaseConfig';
+import { redirect } from "next/navigation";
 const ChangePasswordModal = ({ closeResetPasswordModal }) => {
     
     async function sendPasswordResetEmail(){
@@ -11,9 +12,10 @@ const ChangePasswordModal = ({ closeResetPasswordModal }) => {
             closeResetPasswordModal()
             try {
                 await auth.signOut();
-                window.location.href = "/signin";
+                // window.location.href = "/signin";
                 localStorage.removeItem('afriTechUserID')
                 throwMessage("logout successful")
+                redirect("/signin");
             } catch (error) {
                 console.error('Error during logout:', error.message);
             }
